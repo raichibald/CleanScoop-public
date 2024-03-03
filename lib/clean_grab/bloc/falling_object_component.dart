@@ -29,7 +29,7 @@ class FallingObjectComponent extends SvgComponent
     required this.garbageObject,
   }) : super(anchor: Anchor.center);
 
-  static const objSize = 60.0;
+  static const objSize = 100.0;
 
   final _velocity = Vector2.zero();
   final _gravity = 200.0;

@@ -16,7 +16,6 @@ class TapGame extends FlameGame with HasCollisionDetection {
 
   TapGame({required CleanGrabBloc bloc}) : _bloc = bloc;
 
-
   @override
   Color backgroundColor() => const Color(0xFFA3EBDE);
 
@@ -47,18 +46,18 @@ class TapGame extends FlameGame with HasCollisionDetection {
               return FallingObjectComponent(
                   garbageObject: GarbageObject.randomObject);
             },
-            period: 1.75,
-            // area: Rectangle.fromLTWH(rand.nextInt(size.x.toInt()).toDouble(), size.y, FallingObjectComponent.objSize, 0),
-            area: Rectangle.fromLTWH(0 + FallingObjectComponent.objSize, size.y,
-                size.x - FallingObjectComponent.objSize, 0),
+            period: 0.75,
+            area: Rectangle.fromLTWH(
+              FallingObjectComponent.objSize / 2,
+              size.y,
+              size.x - FallingObjectComponent.objSize,
+              0,
+            ),
           ),
           // ...
         ],
       ),
     );
-
-
-
 
     // add(ScreenHitbox());
     // overlays.add('GameOverlay');
