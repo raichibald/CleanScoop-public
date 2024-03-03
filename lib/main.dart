@@ -21,8 +21,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static Widget withBloc() =>
-      BlocProvider(
+  static Widget withBloc() => BlocProvider(
         create: (context) => CleanGrabBloc(),
         child: const MyApp(),
       );
@@ -77,7 +76,12 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                             )
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
+                        ScaleTransition(
+                          scale: _animation,
+                          child: SvgPicture.asset(Assets.icons.icoMainMenu),
+                        ),
+                        const Spacer(),
                         ScaleTransition(
                           scale: _animation,
                           child: GestureDetector(
@@ -103,8 +107,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 6, horizontal: 56),
-                                child:
-                                SvgPicture.asset(Assets.icons.icoPlay),
+                                child: SvgPicture.asset(Assets.icons.icoPlay),
                               ),
                             ),
                           ),
@@ -134,7 +137,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                                                 width: 4,
                                                 color: Color(0xFF000000)),
                                             borderRadius:
-                                            const BorderRadius.all(
+                                                const BorderRadius.all(
                                               Radius.circular(50),
                                             ),
                                             boxShadow: const [
@@ -156,30 +159,33 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                                                     height: 0.7,
                                                     fontWeight: FontWeight.w400,
                                                     decoration:
-                                                    TextDecoration.none,
+                                                        TextDecoration.none,
                                                     decorationColor:
-                                                    Colors.transparent,
+                                                        Colors.transparent,
                                                     decorationThickness: 0.01,
                                                     fontFamily: FontFamily.oi,
                                                     foreground: Paint()
                                                       ..style =
                                                           PaintingStyle.stroke
                                                       ..strokeWidth = 6
-                                                      ..color = Color(0xFF000000),
+                                                      ..color =
+                                                          Color(0xFF000000),
                                                   ),
                                                 ),
                                               ),
                                               Center(
-                                                child: Text(state.score.toString(),
+                                                child: Text(
+                                                    state.score.toString(),
                                                     style: TextStyle(
                                                       fontSize: 24,
                                                       height: 0.7,
                                                       color: Color(0xFF0BB458),
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       decoration:
-                                                      TextDecoration.none,
+                                                          TextDecoration.none,
                                                       decorationColor:
-                                                      Colors.transparent,
+                                                          Colors.transparent,
                                                       decorationThickness: 0.01,
                                                       fontFamily: FontFamily.oi,
                                                     )),
@@ -191,21 +197,39 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                                     ],
                                   ),
                                   Positioned(
-                                      left: 16,
-                                      child: SvgPicture.asset(
-                                          Assets.icons.icoPause)),
+                                    left: 16,
+                                    child:
+                                        SvgPicture.asset(Assets.icons.icoPause),
+                                  ),
                                   Positioned(
                                     right: 16,
                                     child: Row(
                                       children: [
-                                        AnimatedHeart(isVisible: state.lives > 2),
-                                        AnimatedHeart(isVisible: state.lives > 1),
-                                        AnimatedHeart(isVisible: state.lives > 0),
-                                      ]
-
-                                      // List.generate(state.lives, (_) => SvgPicture.asset(Assets.icons.icoHeart),),
+                                        AnimatedHeart(
+                                            isVisible: state.lives > 2),
+                                        AnimatedHeart(
+                                            isVisible: state.lives > 1),
+                                        AnimatedHeart(
+                                            isVisible: state.lives > 0),
+                                      ],
                                     ),
                                   )
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    Assets.icons.icoApple,
+                                    height: 32,
+                                    width: 32,
+                                  ),
+                                  SvgPicture.asset(
+                                    Assets.icons.icoPaperBall,
+                                    height: 32,
+                                    width: 32,
+                                  ),
                                 ],
                               )
                             ],
@@ -307,4 +331,3 @@ class _AnimatedHeartState extends State<AnimatedHeart> {
     );
   }
 }
-

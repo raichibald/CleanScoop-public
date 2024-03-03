@@ -27,6 +27,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_logo.svg
   String get icoLogo => 'assets/icons/ico_logo.svg';
 
+  /// File path: assets/icons/ico_main_menu.svg
+  String get icoMainMenu => 'assets/icons/ico_main_menu.svg';
+
   /// File path: assets/icons/ico_mushroom.svg
   String get icoMushroom => 'assets/icons/ico_mushroom.svg';
 
@@ -49,6 +52,7 @@ class $AssetsIconsGen {
         icoGlassBottle,
         icoHeart,
         icoLogo,
+        icoMainMenu,
         icoMushroom,
         icoPaperBall,
         icoPause,
