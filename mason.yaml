@@ -1,0 +1,5 @@
+bricks:
+  feature:
+    git:
+      url: git@github.com:ChiliLabs/chili-flutter-bricks.git
+      path: bricks/feature
