@@ -1,8 +1,10 @@
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
+import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 import 'package:clean_scoop/design_system/src/assets/fonts.gen.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
+import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -88,6 +90,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                             onTap: () {
                               final gg = game as TapGame;
                               gg.overlays.add('GameOverlay');
+                              _bloc.add(UpdateGameStateEvent(GameState.active));
                               _controller.animateTo(0,
                                   duration: Duration(milliseconds: 500));
                             },
@@ -198,8 +201,16 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                                   ),
                                   Positioned(
                                     left: 16,
-                                    child:
-                                        SvgPicture.asset(Assets.icons.icoPause),
+                                    child: PlayPauseButton(
+                                      isPaused: state.isPaused,
+                                      onTap: () => _bloc.add(
+                                        UpdateGameStateEvent(
+                                          state.isPaused
+                                              ? GameState.active
+                                              : GameState.paused,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   Positioned(
                                     right: 16,
@@ -328,6 +339,29 @@ class _AnimatedHeartState extends State<AnimatedHeart> {
       opacity: widget.isVisible ? 1 : 0,
       duration: const Duration(seconds: 1),
       child: SvgPicture.asset(Assets.icons.icoHeart),
+    );
+  }
+}
+
+class PlayPauseButton extends StatelessWidget {
+  final bool isPaused;
+  final VoidCallback onTap;
+
+  const PlayPauseButton({
+    super.key,
+    required this.isPaused,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const icons = Assets.icons;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: SvgPicture.asset(
+        isPaused ? icons.icoResume : icons.icoPause,
+      ),
     );
   }
 }
