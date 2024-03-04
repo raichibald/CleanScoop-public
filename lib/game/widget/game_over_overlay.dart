@@ -1,21 +1,19 @@
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 import 'package:clean_scoop/design_system/src/widgets/cs_large_button.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
-import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class GamePausedOverlay extends StatefulWidget {
+class GameOverOverlay extends StatefulWidget {
   final TapGame game;
 
-  const GamePausedOverlay({super.key, required this.game});
+  const GameOverOverlay({super.key, required this.game});
 
   @override
-  State<GamePausedOverlay> createState() => _GamePausedOverlayState();
+  State<GameOverOverlay> createState() => _GameOverOverlayState();
 
   static Widget withBloc({
     required TapGame game,
@@ -23,11 +21,11 @@ class GamePausedOverlay extends StatefulWidget {
   }) =>
       BlocProvider.value(
         value: bloc,
-        child: GamePausedOverlay(game: game),
+        child: GameOverOverlay(game: game),
       );
 }
 
-class _GamePausedOverlayState extends State<GamePausedOverlay>
+class _GameOverOverlayState extends State<GameOverOverlay>
     with TickerProviderStateMixin {
   late final CleanGrabBloc _bloc;
 
@@ -68,7 +66,7 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
               children: [
                 ScaleTransition(
                   scale: _animation,
-                  child: SvgPicture.asset(icons.icoGamePausedLogo),
+                  child: SvgPicture.asset(icons.icoGameOverLogo),
                 )
               ],
             ),
@@ -76,19 +74,14 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
             const Spacer(),
             ScaleTransition(
               scale: _animation,
-              child: CSLargeButton(
-                icon: icons.icoPlay,
-                onTap: () async {
-                  await _controller.animateTo(
-                    0,
-                    duration: const Duration(milliseconds: 500),
-                  );
-
-                  _bloc.add(const UpdateGameStateEvent(GameState.active));
-                  widget.game.overlays.remove('GamePaused');
-                },
+              child: Column(
+                children: [
+                  CSLargeButton(icon: icons.icoRestart, onTap: () {}),
+                  const SizedBox(height: 24),
+                  CSLargeButton(icon: icons.icoHome, onTap: () {}),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game/widget/game_controls_overlay.dart';
+import 'package:clean_scoop/game/widget/game_over_overlay.dart';
 import 'package:clean_scoop/game/widget/game_paused_overlay.dart';
 import 'package:clean_scoop/game/widget/main_menu_overlay.dart';
 import 'package:flame/game.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                       game: game as TapGame,
                       bloc: _bloc,
                     ),
-                'GameOver': (context, game) => GamePausedOverlay.withBloc(
+                'GameOver': (context, game) => GameOverOverlay.withBloc(
                   game: game as TapGame,
                   bloc: _bloc,
                 ),

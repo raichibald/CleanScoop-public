@@ -109,6 +109,7 @@ class CleanScoopGameWrapperComponent extends PositionComponent
     if (state.lives == 0) {
       gameRef.stopSpawningComponents();
       bloc.add(const UpdateGameStateEvent(GameState.ended));
+      gameRef.overlays.add('GameOver');
     }
 
     if (state.isPaused) {

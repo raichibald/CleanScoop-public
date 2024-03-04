@@ -1,6 +1,7 @@
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_large_button.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +115,8 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
         const Spacer(),
         ScaleTransition(
           scale: _animation,
-          child: GestureDetector(
+          child: CSLargeButton(
+            icon: icons.icoPlay,
             onTap: () {
               widget.game.overlays.add('GameControls');
               _bloc.add(const UpdateGameStateEvent(GameState.active));
@@ -123,26 +125,6 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                 duration: const Duration(milliseconds: 500),
               );
             },
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFCCF3DD),
-                border: Border.all(
-                  width: 3,
-                  color: const Color(0xFF000000),
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                boxShadow: const [
-                  BoxShadow(color: Color(0xFF000000), offset: Offset(6, 6)),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 6,
-                  horizontal: 56,
-                ),
-                child: SvgPicture.asset(icons.icoPlay),
-              ),
-            ),
           ),
         )
       ],

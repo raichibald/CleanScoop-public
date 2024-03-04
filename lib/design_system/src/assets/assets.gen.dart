@@ -21,9 +21,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_background.svg
   String get icoBackground => 'assets/icons/ico_background.svg';
 
-  /// File path: assets/icons/ico_close.svg
-  String get icoClose => 'assets/icons/ico_close.svg';
-
   /// File path: assets/icons/ico_game_over_logo.svg
   String get icoGameOverLogo => 'assets/icons/ico_game_over_logo.svg';
 
@@ -38,6 +35,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/ico_heart.svg
   String get icoHeart => 'assets/icons/ico_heart.svg';
+
+  /// File path: assets/icons/ico_home.svg
+  String get icoHome => 'assets/icons/ico_home.svg';
 
   /// File path: assets/icons/ico_logo.svg
   String get icoLogo => 'assets/icons/ico_logo.svg';
@@ -67,6 +67,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_play.svg
   String get icoPlay => 'assets/icons/ico_play.svg';
 
+  /// File path: assets/icons/ico_restart.svg
+  String get icoRestart => 'assets/icons/ico_restart.svg';
+
   /// File path: assets/icons/ico_resume.svg
   String get icoResume => 'assets/icons/ico_resume.svg';
 
@@ -75,12 +78,12 @@ class $AssetsIconsGen {
         icoApple,
         icoAppleWeight,
         icoBackground,
-        icoClose,
         icoGameOverLogo,
         icoGamePausedLogo,
         icoGlassBottle,
         icoGlassBottleWeight,
         icoHeart,
+        icoHome,
         icoLogo,
         icoMainMenu,
         icoMushroom,
@@ -90,6 +93,7 @@ class $AssetsIconsGen {
         icoPlasticBottle,
         icoPlasticBottleWeight,
         icoPlay,
+        icoRestart,
         icoResume
       ];
 }
