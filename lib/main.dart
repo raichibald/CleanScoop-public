@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'game/widget/game_controls_overlay.dart';
+
 void main() {
   runApp(MyApp.withBloc());
 }
@@ -28,8 +30,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
-  late final AnimationController _gamePausedOverlayController =
-      AnimationController(
+  late final CleanGrabBloc _bloc;
+
+  late final AnimationController _gamePausedOverlayController = AnimationController(
     duration: const Duration(milliseconds: 800),
     vsync: this,
   );
@@ -39,18 +42,10 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     curve: Curves.bounceOut,
   );
 
-  late final CleanGrabBloc _bloc;
-
   @override
   void initState() {
     super.initState();
     _bloc = context.read<CleanGrabBloc>();
-  }
-
-  @override
-  void dispose() {
-    _gamePausedOverlayController.dispose();
-    super.dispose();
   }
 
   @override
@@ -67,152 +62,10 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                       padding: const EdgeInsets.only(top: 100, bottom: 64),
                       child: MainMenuOverlay(game: game as TapGame),
                     ),
-                'GameOverlay': (context, game) {
-                  return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
-                    builder: (context, state) {
-                      return SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Column(
-                            children: [
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: Color(0xFFCCF3DD),
-                                            border: Border.all(
-                                                width: 4,
-                                                color: Color(0xFF000000)),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(50),
-                                            ),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                  color: Color(0xFF000000),
-                                                  offset: Offset(6, 6)),
-                                            ]),
-                                        width: 112,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 24),
-                                          child: Stack(
-                                            children: [
-                                              Center(
-                                                child: Text(
-                                                  state.score.toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 24,
-                                                    height: 0.7,
-                                                    fontWeight: FontWeight.w400,
-                                                    decoration:
-                                                        TextDecoration.none,
-                                                    decorationColor:
-                                                        Colors.transparent,
-                                                    decorationThickness: 0.01,
-                                                    fontFamily: FontFamily.oi,
-                                                    foreground: Paint()
-                                                      ..style =
-                                                          PaintingStyle.stroke
-                                                      ..strokeWidth = 6
-                                                      ..color =
-                                                          Color(0xFF000000),
-                                                  ),
-                                                ),
-                                              ),
-                                              Center(
-                                                child: Text(
-                                                    state.score.toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 24,
-                                                      height: 0.7,
-                                                      color: Color(0xFF0BB458),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      decoration:
-                                                          TextDecoration.none,
-                                                      decorationColor:
-                                                          Colors.transparent,
-                                                      decorationThickness: 0.01,
-                                                      fontFamily: FontFamily.oi,
-                                                    )),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Positioned(
-                                    left: 16,
-                                    child: PlayPauseButton(
-                                      isPaused: state.isPaused,
-                                      onTap: () async {
-                                        final gg = game as TapGame;
-                                        gg.overlays.add('GamePaused');
-
-                                        // TODO: Check state updates. Reading this code is a bit unintuitive imo.
-                                        _bloc.add(
-                                          UpdateGameStateEvent(
-                                            state.isPaused
-                                                ? GameState.active
-                                                : GameState.paused,
-                                          ),
-                                        );
-
-                                        await _gamePausedOverlayController
-                                            .animateTo(state.isPaused ? 0 : 1,
-                                                duration: Duration(
-                                                    milliseconds: 500));
-
-                                        if (state.isPaused) {
-                                          gg.overlays.remove('GamePaused');
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 16,
-                                    child: Row(
-                                      children: [
-                                        AnimatedHeart(
-                                            isVisible: state.lives > 2),
-                                        AnimatedHeart(
-                                            isVisible: state.lives > 1),
-                                        AnimatedHeart(
-                                            isVisible: state.lives > 0),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    Assets.icons.icoApple,
-                                    height: 32,
-                                    width: 32,
-                                  ),
-                                  SvgPicture.asset(
-                                    Assets.icons.icoPaperBall,
-                                    height: 32,
-                                    width: 32,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                'GameOverlay': (context, game) => GameControlsOverlay.withBloc(
+                      game: game as TapGame,
+                      bloc: _bloc,
+                    ),
                 'GamePaused': (context, game) {
                   return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
                     builder: (context, state) {
@@ -296,50 +149,6 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AnimatedHeart extends StatefulWidget {
-  final bool isVisible;
-
-  const AnimatedHeart({super.key, required this.isVisible});
-
-  @override
-  State<AnimatedHeart> createState() => _AnimatedHeartState();
-}
-
-class _AnimatedHeartState extends State<AnimatedHeart> {
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      curve: Curves.bounceIn,
-      opacity: widget.isVisible ? 1 : 0,
-      duration: const Duration(seconds: 1),
-      child: SvgPicture.asset(Assets.icons.icoHeart),
-    );
-  }
-}
-
-class PlayPauseButton extends StatelessWidget {
-  final bool isPaused;
-  final VoidCallback onTap;
-
-  const PlayPauseButton({
-    super.key,
-    required this.isPaused,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    const icons = Assets.icons;
-
-    return GestureDetector(
-      onTap: onTap,
-      child: SvgPicture.asset(
-        isPaused ? icons.icoResume : icons.icoPause,
       ),
     );
   }
