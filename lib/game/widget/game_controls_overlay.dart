@@ -128,8 +128,7 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                       ),
                       Positioned(
                         left: 16,
-                        child: _PlayPauseButton(
-                          isPaused: state.isPaused,
+                        child: GestureDetector(
                           onTap: () async {
                             final gameRef = widget.game;
                             gameRef.overlays.add('GamePaused');
@@ -152,6 +151,7 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                               gameRef.overlays.remove('GamePaused');
                             }
                           },
+                          child: SvgPicture.asset(Assets.icons.icoPause),
                         ),
                       ),
                       Positioned(
@@ -207,26 +207,6 @@ class _AnimatedHeartState extends State<_AnimatedHeart> {
       opacity: widget.isVisible ? 1 : 0,
       duration: const Duration(seconds: 1),
       child: SvgPicture.asset(Assets.icons.icoHeart),
-    );
-  }
-}
-
-class _PlayPauseButton extends StatelessWidget {
-  final bool isPaused;
-  final VoidCallback onTap;
-
-  const _PlayPauseButton({
-    required this.isPaused,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    const icons = Assets.icons;
-
-    return GestureDetector(
-      onTap: onTap,
-      child: SvgPicture.asset(isPaused ? icons.icoResume : icons.icoPause),
     );
   }
 }
