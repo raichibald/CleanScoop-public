@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
+import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/falling_object_component.dart';
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
+import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
@@ -15,6 +17,10 @@ class TapGame extends FlameGame with HasCollisionDetection {
   final CleanGrabBloc _bloc;
 
   TapGame({required CleanGrabBloc bloc}) : _bloc = bloc;
+
+  late final SpawnComponent _wasteObjectSpawner;
+
+  late final FlameBlocProvider _blocProvider;
 
   @override
   Color backgroundColor() => const Color(0xFFA3EBDE);
@@ -35,51 +41,80 @@ class TapGame extends FlameGame with HasCollisionDetection {
 
   @override
   FutureOr<void> onLoad() async {
-    // Adding BLoC.
-    await add(
-      FlameBlocProvider<CleanGrabBloc, CleanGrabBlocState>(
-        create: () => _bloc,
-        children: [
-          ScreenHitbox(),
-          SpawnComponent(
-            factory: (index) {
-              return FallingObjectComponent(
-                  garbageObject: GarbageObject.randomObject);
-            },
-            period: 0.75,
-            area: Rectangle.fromLTWH(
-              FallingObjectComponent.objSize / 2,
-              size.y,
-              size.x - FallingObjectComponent.objSize,
-              0,
-            ),
-          ),
-          // ...
-        ],
+    _blocProvider = FlameBlocProvider<CleanGrabBloc, CleanGrabBlocState>.value(
+      value: _bloc,
+      children: [
+        ScreenHitbox(),
+        CleanScoopGameWrapperComponent(),
+      ],
+    );
+
+    add(_blocProvider);
+
+    _wasteObjectSpawner = SpawnComponent.periodRange(
+      factory: (index) {
+        return FallingObjectComponent(
+            garbageObject: GarbageObject.randomObject);
+      },
+      minPeriod: 0.55,
+      maxPeriod: 2,
+      autoStart: false,
+      area: Rectangle.fromLTWH(
+        FallingObjectComponent.objSize / 2,
+        size.y,
+        size.x - FallingObjectComponent.objSize,
+        0,
       ),
     );
+
+    _blocProvider.add(_wasteObjectSpawner);
+
+    // add(_wasteObjectSpawner);
 
     // add(ScreenHitbox());
     // overlays.add('GameOverlay');
     overlays.add('MainMenu');
 
-    // add(
-    //   SpawnComponent(
-    //     factory: (index) {
-    //       return FallingObjectComponent(
-    //           garbageObject: GarbageObject.randomObject);
-    //     },
-    //     period: 0.75,
-    //     // area: Rectangle.fromLTWH(rand.nextInt(size.x.toInt()).toDouble(), size.y, FallingObjectComponent.objSize, 0),
-    //     area: Rectangle.fromLTWH(0 + FallingObjectComponent.objSize, size.y,
-    //         size.x - FallingObjectComponent.objSize, 0),
-    //   ),
-    // );
-
     return super.onLoad();
+  }
+
+  void startSpawningComponents() {
+    _wasteObjectSpawner.timer.start();
+  }
+
+  void stopSpawningComponents() {
+    _wasteObjectSpawner.timer.stop();
   }
 
   @override
   bool containsLocalPoint(Vector2 point) =>
       size.toRect().contains(point.toOffset());
+}
+
+class CleanScoopGameWrapperComponent extends PositionComponent
+    with
+        FlameBlocListenable<CleanGrabBloc, CleanGrabBlocState>,
+        HasGameRef<TapGame> {
+  var _hasSpawned = false;
+
+  @override
+  void onNewState(CleanGrabBlocState state) {
+    super.onNewState(state);
+
+    if (!state.isPaused && !_hasSpawned) {
+      _hasSpawned = true;
+      gameRef.startSpawningComponents();
+    }
+
+    if (state.lives == 0) {
+      gameRef.stopSpawningComponents();
+      bloc.add(const UpdateGameStateEvent(GameState.ended));
+    }
+
+    if (state.isPaused) {
+      gameRef.pauseEngine();
+    } else {
+      gameRef.resumeEngine();
+    }
+  }
 }

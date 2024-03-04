@@ -104,6 +104,9 @@ class FallingObjectComponent extends SvgComponent
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
+
+    if (gameRef.paused) return;
+
     bloc.add(const UpdateScoreEvent());
 
     removeFromParent();
@@ -113,9 +116,6 @@ class FallingObjectComponent extends SvgComponent
   void onCollisionEnd(PositionComponent other) {
     super.onCollisionEnd(other);
     if (other is ScreenHitbox && _hasStartedMovement) {
-      // print("??????? out of reach");
-      print("?????????????? isMounted $isMounted");
-      // TODO: The problem is with components that actually are touching screen on the sides.
       bloc.add(const UpdateLivesEvent());
       removeFromParent();
     }
