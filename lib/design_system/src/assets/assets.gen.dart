@@ -15,8 +15,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_apple.svg
   String get icoApple => 'assets/icons/ico_apple.svg';
 
+  /// File path: assets/icons/ico_apple_weight.svg
+  String get icoAppleWeight => 'assets/icons/ico_apple_weight.svg';
+
   /// File path: assets/icons/ico_background.svg
   String get icoBackground => 'assets/icons/ico_background.svg';
+
+  /// File path: assets/icons/ico_close.svg
+  String get icoClose => 'assets/icons/ico_close.svg';
 
   /// File path: assets/icons/ico_game_over_logo.svg
   String get icoGameOverLogo => 'assets/icons/ico_game_over_logo.svg';
@@ -26,6 +32,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/ico_glass_bottle.svg
   String get icoGlassBottle => 'assets/icons/ico_glass_bottle.svg';
+
+  /// File path: assets/icons/ico_glass_bottle_weight.svg
+  String get icoGlassBottleWeight => 'assets/icons/ico_glass_bottle_weight.svg';
 
   /// File path: assets/icons/ico_heart.svg
   String get icoHeart => 'assets/icons/ico_heart.svg';
@@ -42,11 +51,18 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_paper_ball.svg
   String get icoPaperBall => 'assets/icons/ico_paper_ball.svg';
 
+  /// File path: assets/icons/ico_paper_ball_weight.svg
+  String get icoPaperBallWeight => 'assets/icons/ico_paper_ball_weight.svg';
+
   /// File path: assets/icons/ico_pause.svg
   String get icoPause => 'assets/icons/ico_pause.svg';
 
   /// File path: assets/icons/ico_plastic_bottle.svg
   String get icoPlasticBottle => 'assets/icons/ico_plastic_bottle.svg';
+
+  /// File path: assets/icons/ico_plastic_bottle_weight.svg
+  String get icoPlasticBottleWeight =>
+      'assets/icons/ico_plastic_bottle_weight.svg';
 
   /// File path: assets/icons/ico_play.svg
   String get icoPlay => 'assets/icons/ico_play.svg';
@@ -57,17 +73,22 @@ class $AssetsIconsGen {
   /// List of all assets
   List<String> get values => [
         icoApple,
+        icoAppleWeight,
         icoBackground,
+        icoClose,
         icoGameOverLogo,
         icoGamePausedLogo,
         icoGlassBottle,
+        icoGlassBottleWeight,
         icoHeart,
         icoLogo,
         icoMainMenu,
         icoMushroom,
         icoPaperBall,
+        icoPaperBallWeight,
         icoPause,
         icoPlasticBottle,
+        icoPlasticBottleWeight,
         icoPlay,
         icoResume
       ];

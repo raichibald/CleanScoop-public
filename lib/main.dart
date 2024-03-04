@@ -5,11 +5,9 @@ import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 import 'package:clean_scoop/design_system/src/assets/fonts.gen.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
+import 'package:clean_scoop/game/widget/main_menu_overlay.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,17 +28,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
-  late final AnimationController _mainMenuOverlayController =
-      AnimationController(
-    duration: const Duration(milliseconds: 800),
-    vsync: this,
-  );
-
-  late final Animation<double> _mainMenuAnimation = CurvedAnimation(
-    parent: _mainMenuOverlayController,
-    curve: Curves.bounceOut,
-  );
-
   late final AnimationController _gamePausedOverlayController =
       AnimationController(
     duration: const Duration(milliseconds: 800),
@@ -58,12 +45,10 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _bloc = context.read<CleanGrabBloc>();
-    _mainMenuOverlayController.forward();
   }
 
   @override
   void dispose() {
-    _mainMenuOverlayController.dispose();
     _gamePausedOverlayController.dispose();
     super.dispose();
   }
@@ -78,61 +63,10 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             GameWidget(
               game: TapGame(bloc: _bloc),
               overlayBuilderMap: {
-                'MainMenu': (context, game) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 100),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ScaleTransition(
-                              scale: _mainMenuAnimation,
-                              child: SvgPicture.asset(Assets.icons.icoLogo),
-                            )
-                          ],
-                        ),
-                        const Spacer(),
-                        ScaleTransition(
-                          scale: _mainMenuAnimation,
-                          child: SvgPicture.asset(Assets.icons.icoMainMenu),
-                        ),
-                        const Spacer(),
-                        ScaleTransition(
-                          scale: _mainMenuAnimation,
-                          child: GestureDetector(
-                            onTap: () {
-                              final gg = game as TapGame;
-                              gg.overlays.add('GameOverlay');
-                              _bloc.add(UpdateGameStateEvent(GameState.active));
-                              _mainMenuOverlayController.animateTo(0,
-                                  duration: Duration(milliseconds: 500));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFCCF3DD),
-                                  border: Border.all(
-                                      width: 3, color: Color(0xFF000000)),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(16),
-                                  ),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Color(0xFF000000),
-                                        offset: Offset(6, 6)),
-                                  ]),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 6, horizontal: 56),
-                                child: SvgPicture.asset(Assets.icons.icoPlay),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                'MainMenu': (context, game) => Padding(
+                      padding: const EdgeInsets.only(top: 100, bottom: 64),
+                      child: MainMenuOverlay(game: game as TapGame),
                     ),
-                  );
-                },
                 'GameOverlay': (context, game) {
                   return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
                     builder: (context, state) {
