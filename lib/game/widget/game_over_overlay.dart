@@ -57,6 +57,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
   @override
   Widget build(BuildContext context) {
     const icons = Assets.icons;
+    final gameRef = widget.game;
 
     return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
       builder: (context, state) => Padding(
@@ -78,13 +79,25 @@ class _GameOverOverlayState extends State<GameOverOverlay>
               scale: _animation,
               child: Column(
                 children: [
-                  CSLargeButton(icon: icons.icoRestart, onTap: () {}),
+                  CSLargeButton(
+                    icon: icons.icoRestart,
+                    onTap: () async {
+                      await _controller.animateTo(
+                        0,
+                        duration: const Duration(milliseconds: 500),
+                      );
+
+                      gameRef.overlays.remove('GameOver');
+                      gameRef.overlays.add('GameControls');
+                      _bloc.add(const RestartGameStateEvent());
+                      gameRef.overlays.remove('MainMenu');
+                    },
+                  ),
                   const SizedBox(height: 24),
                   CSLargeButton(
                     icon: icons.icoHome,
                     onTap: () {
                       // TODO: Check if need to add animation.
-                      final gameRef = widget.game;
                       gameRef.overlays.remove('GameOver');
                       gameRef.overlays.add('MainMenu');
                       _bloc.add(const ResetGameStateEvent());

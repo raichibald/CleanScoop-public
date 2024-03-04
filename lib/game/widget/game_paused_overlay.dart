@@ -58,6 +58,8 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
   Widget build(BuildContext context) {
     const icons = Assets.icons;
 
+    final gameRef = widget.game;
+
     return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
       builder: (context, state) => Padding(
         padding: const EdgeInsets.only(top: 100, bottom: 64),
@@ -76,17 +78,31 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
             const Spacer(),
             ScaleTransition(
               scale: _animation,
-              child: CSLargeButton(
-                icon: icons.icoPlay,
-                onTap: () async {
-                  await _controller.animateTo(
-                    0,
-                    duration: const Duration(milliseconds: 500),
-                  );
+              child: Column(
+                children: [
+                  CSLargeButton(
+                    icon: icons.icoPlay,
+                    onTap: () async {
+                      await _controller.animateTo(
+                        0,
+                        duration: const Duration(milliseconds: 500),
+                      );
 
-                  _bloc.add(const UpdateGameStateEvent(GameState.active));
-                  widget.game.overlays.remove('GamePaused');
-                },
+                      _bloc.add(const UpdateGameStateEvent(GameState.active));
+                      gameRef.overlays.remove('GamePaused');
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  CSLargeButton(
+                    icon: icons.icoHome,
+                    onTap: () {
+                      // TODO: Check if need to add animation.
+                      gameRef.overlays.remove('GamePaused');
+                      gameRef.overlays.add('MainMenu');
+                      _bloc.add(const ResetGameStateEvent());
+                    },
+                  ),
+                ],
               ),
             )
           ],

@@ -106,6 +106,11 @@ class CleanScoopGameWrapperComponent extends PositionComponent
       gameRef.startSpawningComponents();
     }
 
+    if (state.gameState == GameState.idle) {
+      _hasSpawned = false;
+      gameRef.stopSpawningComponents();
+    }
+
     if (state.lives == 0) {
       gameRef.stopSpawningComponents();
       bloc.add(const UpdateGameStateEvent(GameState.ended));

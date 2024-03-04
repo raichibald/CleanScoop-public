@@ -32,3 +32,8 @@ final class UpdateCollectableWasteObjectsEvent extends CleanGrabBlocEvent {
 final class ResetGameStateEvent extends CleanGrabBlocEvent {
   const ResetGameStateEvent();
 }
+
+final class RestartGameStateEvent extends CleanGrabBlocEvent {
+  const RestartGameStateEvent();
+}
+

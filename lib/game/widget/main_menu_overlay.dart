@@ -117,18 +117,23 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
           const Spacer(),
           ScaleTransition(
             scale: _animation,
-            child: CSLargeButton(
-              icon: icons.icoPlay,
-              onTap: () async {
-                await _controller.animateTo(
-                  0,
-                  duration: const Duration(milliseconds: 500),
-                );
+            child: Column(
+              children: [
+                CSLargeButton(
+                  icon: icons.icoPlay,
+                  onTap: () async {
+                    await _controller.animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 500),
+                    );
 
-                widget.game.overlays.add('GameControls');
-                _bloc.add(const UpdateGameStateEvent(GameState.active));
-                widget.game.overlays.remove('MainMenu');
-              },
+                    final gameRef = widget.game;
+                    gameRef.overlays.add('GameControls');
+                    _bloc.add(const UpdateGameStateEvent(GameState.active));
+                    gameRef.overlays.remove('MainMenu');
+                  },
+                ),
+              ],
             ),
           )
         ],

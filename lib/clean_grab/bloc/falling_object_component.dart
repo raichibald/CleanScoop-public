@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
+import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -59,15 +59,6 @@ class FallingObjectComponent extends SvgComponent
   }
 
   @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-
-    // TODO: Maybe makes sense to move to GarbageObject.
-    // final paint = Paint()..color = garbageObject.color;
-    // canvas.drawCircle(Vector2.all(radius).toOffset(), radius, paint);
-  }
-
-  @override
   void update(double dt) {
     super.update(dt);
 
@@ -117,6 +108,16 @@ class FallingObjectComponent extends SvgComponent
     super.onCollisionEnd(other);
     if (other is ScreenHitbox && _hasStartedMovement) {
       bloc.add(const UpdateLivesEvent());
+      removeFromParent();
+    }
+  }
+
+  @override
+  void onNewState(CleanGrabBlocState state) {
+    super.onNewState(state);
+
+    if (state.gameState == GameState.idle) {
+      gameRef.resumeEngine();
       removeFromParent();
     }
   }
