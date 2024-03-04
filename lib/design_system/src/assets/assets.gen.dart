@@ -18,6 +18,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_background.svg
   String get icoBackground => 'assets/icons/ico_background.svg';
 
+  /// File path: assets/icons/ico_game_over_logo.svg
+  String get icoGameOverLogo => 'assets/icons/ico_game_over_logo.svg';
+
+  /// File path: assets/icons/ico_game_paused_logo.svg
+  String get icoGamePausedLogo => 'assets/icons/ico_game_paused_logo.svg';
+
   /// File path: assets/icons/ico_glass_bottle.svg
   String get icoGlassBottle => 'assets/icons/ico_glass_bottle.svg';
 
@@ -52,6 +58,8 @@ class $AssetsIconsGen {
   List<String> get values => [
         icoApple,
         icoBackground,
+        icoGameOverLogo,
+        icoGamePausedLogo,
         icoGlassBottle,
         icoHeart,
         icoLogo,

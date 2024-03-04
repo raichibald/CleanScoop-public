@@ -30,12 +30,25 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
+  late final AnimationController _mainMenuOverlayController =
+      AnimationController(
     duration: const Duration(milliseconds: 800),
     vsync: this,
   );
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _controller,
+
+  late final Animation<double> _mainMenuAnimation = CurvedAnimation(
+    parent: _mainMenuOverlayController,
+    curve: Curves.bounceOut,
+  );
+
+  late final AnimationController _gamePausedOverlayController =
+      AnimationController(
+    duration: const Duration(milliseconds: 800),
+    vsync: this,
+  );
+
+  late final Animation<double> _gamePausedAnimation = CurvedAnimation(
+    parent: _gamePausedOverlayController,
     curve: Curves.bounceOut,
   );
 
@@ -45,12 +58,13 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _bloc = context.read<CleanGrabBloc>();
-    _controller.forward();
+    _mainMenuOverlayController.forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _mainMenuOverlayController.dispose();
+    _gamePausedOverlayController.dispose();
     super.dispose();
   }
 
@@ -73,25 +87,25 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ScaleTransition(
-                              scale: _animation,
+                              scale: _mainMenuAnimation,
                               child: SvgPicture.asset(Assets.icons.icoLogo),
                             )
                           ],
                         ),
                         const Spacer(),
                         ScaleTransition(
-                          scale: _animation,
+                          scale: _mainMenuAnimation,
                           child: SvgPicture.asset(Assets.icons.icoMainMenu),
                         ),
                         const Spacer(),
                         ScaleTransition(
-                          scale: _animation,
+                          scale: _mainMenuAnimation,
                           child: GestureDetector(
                             onTap: () {
                               final gg = game as TapGame;
                               gg.overlays.add('GameOverlay');
                               _bloc.add(UpdateGameStateEvent(GameState.active));
-                              _controller.animateTo(0,
+                              _mainMenuOverlayController.animateTo(0,
                                   duration: Duration(milliseconds: 500));
                             },
                             child: Container(
@@ -203,13 +217,28 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                                     left: 16,
                                     child: PlayPauseButton(
                                       isPaused: state.isPaused,
-                                      onTap: () => _bloc.add(
-                                        UpdateGameStateEvent(
-                                          state.isPaused
-                                              ? GameState.active
-                                              : GameState.paused,
-                                        ),
-                                      ),
+                                      onTap: () async {
+                                        final gg = game as TapGame;
+                                        gg.overlays.add('GamePaused');
+
+                                        // TODO: Check state updates. Reading this code is a bit unintuitive imo.
+                                        _bloc.add(
+                                          UpdateGameStateEvent(
+                                            state.isPaused
+                                                ? GameState.active
+                                                : GameState.paused,
+                                          ),
+                                        );
+
+                                        await _gamePausedOverlayController
+                                            .animateTo(state.isPaused ? 0 : 1,
+                                                duration: Duration(
+                                                    milliseconds: 500));
+
+                                        if (state.isPaused) {
+                                          gg.overlays.remove('GamePaused');
+                                        }
+                                      },
                                     ),
                                   ),
                                   Positioned(
@@ -249,6 +278,70 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                       );
                     },
                   );
+                },
+                'GamePaused': (context, game) {
+                  return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
+                    builder: (context, state) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 100),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ScaleTransition(
+                                  scale: _gamePausedAnimation,
+                                  child: SvgPicture.asset(
+                                      Assets.icons.icoGamePausedLogo),
+                                )
+                              ],
+                            ),
+                            const Spacer(),
+                            const Spacer(),
+                            ScaleTransition(
+                              scale: _gamePausedAnimation,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  final gg = game as TapGame;
+
+                                  _bloc.add(
+                                      UpdateGameStateEvent(GameState.active));
+                                  await _gamePausedOverlayController.animateTo(
+                                      0,
+                                      duration: Duration(milliseconds: 500));
+
+                                  gg.overlays.remove('GamePaused');
+
+                                  _bloc.add(
+                                      UpdateGameStateEvent(GameState.active));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFCCF3DD),
+                                      border: Border.all(
+                                          width: 3, color: Color(0xFF000000)),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(16),
+                                      ),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Color(0xFF000000),
+                                            offset: Offset(6, 6)),
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 6, horizontal: 56),
+                                    child:
+                                        SvgPicture.asset(Assets.icons.icoPlay),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 }
               },
               backgroundBuilder: (context) {
@@ -267,54 +360,6 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                 );
               },
             ),
-            // SafeArea(
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(horizontal: 16),
-            //     child: unwrappedGame != null
-            //         ? Row(
-            //             children: [
-            //               Text(
-            //                 "Score: 24",
-            //                 style: TextStyle(
-            //                     fontWeight: FontWeight.bold, fontSize: 30),
-            //               ),
-            //               const Spacer(),
-            //               Container(
-            //                 color: Colors.green,
-            //                 height: 20,
-            //                 width: 20,
-            //               ),
-            //               SizedBox(
-            //                 width: 8,
-            //               ),
-            //               Container(
-            //                 color: Colors.green,
-            //                 height: 20,
-            //                 width: 20,
-            //               ),
-            //               SizedBox(
-            //                 width: 8,
-            //               ),
-            //               Container(
-            //                 color: Colors.green,
-            //                 height: 20,
-            //                 width: 20,
-            //               ),
-            //             ],
-            //           )
-            //         : SizedBox(),
-            //   ),
-            // ),
-            // if (unwrappedGame == null)
-            //   Center(
-            //     child: CupertinoButton(
-            //         child: Text('PLAY'),
-            //         onPressed: () {
-            //           setState(() {
-            //             _game = TapGame();
-            //           });
-            //         }),
-            //   ),
           ],
         ),
       ),
