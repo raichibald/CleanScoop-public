@@ -49,10 +49,9 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
-      builder: (context, state) {
-        return SafeArea(
+  Widget build(BuildContext context) =>
+      BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
+        builder: (context, state) => SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Column(
@@ -181,10 +180,8 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
               ],
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }
 
 class _AnimatedHeart extends StatefulWidget {
