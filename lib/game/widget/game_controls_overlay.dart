@@ -31,15 +31,17 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
     with TickerProviderStateMixin {
   late final CleanGrabBloc _bloc;
 
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 800),
-    vsync: this,
-  );
+  late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
     _bloc = context.read<CleanGrabBloc>();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
   }
 
   @override
@@ -55,8 +57,8 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
           child: Padding(
             padding: const EdgeInsets.only(top: 8),
             child: AnimatedOpacity(
-              opacity: state.hasEnded ? 0 : 1,
-              duration: const Duration(milliseconds: 200),
+              opacity: state.hasEnded || state.isPaused ? 0 : 1,
+              duration: const Duration(milliseconds: 150),
               child: Column(
                 children: [
                   Stack(

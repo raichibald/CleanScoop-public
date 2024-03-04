@@ -48,86 +48,91 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
   Widget build(BuildContext context) {
     const icons = Assets.icons;
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ScaleTransition(
-              scale: _animation,
-              child: SvgPicture.asset(icons.icoLogo),
-            )
-          ],
-        ),
-        const Spacer(),
-        SizedBox(
-          width: 268,
-          height: 297,
-          child: Stack(
+    return Padding(
+      padding: const EdgeInsets.only(top: 100, bottom: 64),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                child: ScaleTransition(
-                  scale: _animation,
-                  child: _MainMenuWasteObject(
-                    icon: icons.icoPlasticBottleWeight,
-                    onTap: () {},
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 60,
-                right: 0,
-                child: ScaleTransition(
-                  scale: _animation,
-                  child: _MainMenuWasteObject(
-                    icon: icons.icoPaperBallWeight,
-                    onTap: () {},
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 122,
-                left: 44,
-                child: ScaleTransition(
-                  scale: _animation,
-                  child: _MainMenuWasteObject(
-                    icon: icons.icoAppleWeight,
-                    onTap: () {},
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 200,
-                right: 0,
-                child: ScaleTransition(
-                  scale: _animation,
-                  child: _MainMenuWasteObject(
-                    icon: icons.icoGlassBottleWeight,
-                    onTap: () {},
-                  ),
-                ),
-              ),
+              ScaleTransition(
+                scale: _animation,
+                child: SvgPicture.asset(icons.icoLogo),
+              )
             ],
           ),
-        ),
-        const Spacer(),
-        ScaleTransition(
-          scale: _animation,
-          child: CSLargeButton(
-            icon: icons.icoPlay,
-            onTap: () {
-              widget.game.overlays.add('GameControls');
-              _bloc.add(const UpdateGameStateEvent(GameState.active));
-              _controller.animateTo(
-                0,
-                duration: const Duration(milliseconds: 500),
-              );
-            },
+          const Spacer(),
+          SizedBox(
+            width: 268,
+            height: 297,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: ScaleTransition(
+                    scale: _animation,
+                    child: _MainMenuWasteObject(
+                      icon: icons.icoPlasticBottleWeight,
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 60,
+                  right: 0,
+                  child: ScaleTransition(
+                    scale: _animation,
+                    child: _MainMenuWasteObject(
+                      icon: icons.icoPaperBallWeight,
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 122,
+                  left: 44,
+                  child: ScaleTransition(
+                    scale: _animation,
+                    child: _MainMenuWasteObject(
+                      icon: icons.icoAppleWeight,
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 200,
+                  right: 0,
+                  child: ScaleTransition(
+                    scale: _animation,
+                    child: _MainMenuWasteObject(
+                      icon: icons.icoGlassBottleWeight,
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        )
-      ],
+          const Spacer(),
+          ScaleTransition(
+            scale: _animation,
+            child: CSLargeButton(
+              icon: icons.icoPlay,
+              onTap: () async {
+                await _controller.animateTo(
+                  0,
+                  duration: const Duration(milliseconds: 500),
+                );
+
+                widget.game.overlays.add('GameControls');
+                _bloc.add(const UpdateGameStateEvent(GameState.active));
+                widget.game.overlays.remove('MainMenu');
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

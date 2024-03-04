@@ -24,3 +24,11 @@ final class UpdateGameStateEvent extends CleanGrabBlocEvent {
   @override
   List<Object?> get props => [state];
 }
+
+final class UpdateCollectableWasteObjectsEvent extends CleanGrabBlocEvent {
+  const UpdateCollectableWasteObjectsEvent();
+}
+
+final class ResetGameStateEvent extends CleanGrabBlocEvent {
+  const ResetGameStateEvent();
+}

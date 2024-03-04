@@ -43,9 +43,8 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             GameWidget(
               game: TapGame(bloc: _bloc),
               overlayBuilderMap: {
-                'MainMenu': (context, game) => Padding(
-                      padding: const EdgeInsets.only(top: 100, bottom: 64),
-                      child: MainMenuOverlay(game: game as TapGame),
+                'MainMenu': (context, game) => MainMenuOverlay(
+                      game: game as TapGame,
                     ),
                 'GameControls': (context, game) => GameControlsOverlay.withBloc(
                       game: game as TapGame,
@@ -56,9 +55,9 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                       bloc: _bloc,
                     ),
                 'GameOver': (context, game) => GameOverOverlay.withBloc(
-                  game: game as TapGame,
-                  bloc: _bloc,
-                ),
+                      game: game as TapGame,
+                      bloc: _bloc,
+                    ),
               },
               backgroundBuilder: (context) {
                 return Stack(

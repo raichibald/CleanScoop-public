@@ -11,11 +11,16 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
             score: 0,
             lives: 3,
             gameState: GameState.idle,
+            collectableWasteObjects: [],
           ),
         ) {
     on<UpdateScoreEvent>(_onUpdateScoreEvent);
     on<UpdateLivesEvent>(_onUpdateLivesEvent);
     on<UpdateGameStateEvent>(_onUpdateGameStateEvent);
+    on<UpdateCollectableWasteObjectsEvent>(
+      _onUpdateCollectableWasteObjectsEvent,
+    );
+    on<ResetGameStateEvent>(_onResetGameStateEvent);
   }
 
   void _onUpdateScoreEvent(UpdateScoreEvent event, Emitter emit) {
@@ -34,4 +39,20 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
   void _onUpdateGameStateEvent(UpdateGameStateEvent event, Emitter emit) {
     emit(state.copyWith(gameState: event.state));
   }
+
+  void _onUpdateCollectableWasteObjectsEvent(
+    UpdateCollectableWasteObjectsEvent event,
+    Emitter emit,
+  ) {
+    emit(state.copyWith());
+  }
+
+  void _onResetGameStateEvent(ResetGameStateEvent event, Emitter emit) => emit(
+        state.copyWith(
+          score: 0,
+          lives: 3,
+          gameState: GameState.idle,
+          collectableWasteObjects: [],
+        ),
+      );
 }

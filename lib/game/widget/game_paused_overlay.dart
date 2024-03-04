@@ -60,7 +60,7 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
 
     return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
       builder: (context, state) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 100),
+        padding: const EdgeInsets.only(top: 100, bottom: 64),
         child: Column(
           children: [
             Row(

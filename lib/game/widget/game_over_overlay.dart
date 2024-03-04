@@ -1,8 +1,10 @@
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
+import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 import 'package:clean_scoop/design_system/src/widgets/cs_large_button.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
+import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -58,7 +60,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
 
     return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
       builder: (context, state) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 100),
+        padding: const EdgeInsets.only(top: 100, bottom: 64),
         child: Column(
           children: [
             Row(
@@ -78,7 +80,16 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                 children: [
                   CSLargeButton(icon: icons.icoRestart, onTap: () {}),
                   const SizedBox(height: 24),
-                  CSLargeButton(icon: icons.icoHome, onTap: () {}),
+                  CSLargeButton(
+                    icon: icons.icoHome,
+                    onTap: () {
+                      // TODO: Check if need to add animation.
+                      final gameRef = widget.game;
+                      gameRef.overlays.remove('GameOver');
+                      gameRef.overlays.add('MainMenu');
+                      _bloc.add(const ResetGameStateEvent());
+                    },
+                  ),
                 ],
               ),
             ),
