@@ -116,7 +116,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
           scale: _animation,
           child: GestureDetector(
             onTap: () {
-              widget.game.overlays.add('GameOverlay');
+              widget.game.overlays.add('GameControls');
               _bloc.add(const UpdateGameStateEvent(GameState.active));
               _controller.animateTo(
                 0,
