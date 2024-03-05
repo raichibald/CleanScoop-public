@@ -31,6 +31,16 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
     curve: Curves.bounceOut,
   );
 
+  late final AnimationController _alertController = AnimationController(
+    duration: const Duration(milliseconds: 800),
+    vsync: this,
+  );
+
+  late final Animation<double> _alertAnimation = CurvedAnimation(
+    parent: _alertController,
+    curve: Curves.bounceOut,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -50,93 +60,190 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
 
     return Padding(
       padding: const EdgeInsets.only(top: 100, bottom: 64),
-      child: Column(
+      child: Stack(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ScaleTransition(
+                    scale: _animation,
+                    child: SvgPicture.asset(icons.icoLogo),
+                  )
+                ],
+              ),
+              const Spacer(),
+              SizedBox(
+                width: 268,
+                height: 297,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: ScaleTransition(
+                        scale: _animation,
+                        child: _MainMenuWasteObject(
+                          icon: icons.icoPlasticBottleWeight,
+                          onTap: () {
+                            _alertController.forward();
+                          },
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 60,
+                      right: 0,
+                      child: ScaleTransition(
+                        scale: _animation,
+                        child: _MainMenuWasteObject(
+                          icon: icons.icoPaperBallWeight,
+                          onTap: () {
+                            _alertController.forward();
+                          },
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 122,
+                      left: 44,
+                      child: ScaleTransition(
+                        scale: _animation,
+                        child: _MainMenuWasteObject(
+                          icon: icons.icoAppleWeight,
+                          onTap: () {
+                            _alertController.forward();
+                          },
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 200,
+                      right: 0,
+                      child: ScaleTransition(
+                        scale: _animation,
+                        child: _MainMenuWasteObject(
+                          icon: icons.icoGlassBottleWeight,
+                          onTap: () {
+                            _alertController.forward();
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
               ScaleTransition(
                 scale: _animation,
-                child: SvgPicture.asset(icons.icoLogo),
+                child: Column(
+                  children: [
+                    CSLargeButton(
+                      icon: icons.icoPlay,
+                      onTap: () async {
+                        await _controller.animateTo(
+                          0,
+                          duration: const Duration(milliseconds: 500),
+                        );
+
+                        final gameRef = widget.game;
+                        gameRef.overlays.add('GameControls');
+                        _bloc.add(const UpdateGameStateEvent(GameState.active));
+                        _bloc.add(const UpdateCollectableWasteObjectsEvent());
+                        gameRef.overlays.remove('MainMenu');
+                      },
+                    ),
+                  ],
+                ),
               )
             ],
           ),
-          const Spacer(),
-          SizedBox(
-            width: 268,
-            height: 297,
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: ScaleTransition(
-                    scale: _animation,
-                    child: _MainMenuWasteObject(
-                      icon: icons.icoPlasticBottleWeight,
-                      onTap: () {},
+          ScaleTransition(
+            scale: _alertAnimation,
+            child: Center(
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 24,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFCCF3DD),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(40),
+                        ),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 4,
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0xFF000000),
+                            offset: Offset(6, 6),
+                          ),
+                        ],
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 24,
+                          horizontal: 8,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Did you know?',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20,
+                                height: 0.7,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w800,
+                                decoration: TextDecoration.none,
+                                decorationColor: Colors.transparent,
+                                decorationThickness: 0.01,
+                                // fontFamily: FontFamily.oi,
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            Text(
+                              "Recycling just one 12-gram plastic bottle saves enough energy to power a 60-watt light bulb for over 6 hours. Plastic bottles can take up to 450 years to decompose in a landfill, so by recycling a single bottle, you're not only saving energy but also preventing long-term pollution",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                height: 1.2,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.none,
+                                decorationColor: Colors.transparent,
+                                decorationThickness: 0.01,
+                                // fontFamily: FontFamily.oi,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: 60,
-                  right: 0,
-                  child: ScaleTransition(
-                    scale: _animation,
-                    child: _MainMenuWasteObject(
-                      icon: icons.icoPaperBallWeight,
-                      onTap: () {},
+                  Positioned(
+                    top: 0,
+                    right: 24,
+                    child: _AlertCloseButton(
+                      onTap: () {
+                        _alertController.animateTo(
+                          0,
+                          duration: const Duration(milliseconds: 400),
+                        );
+                      },
                     ),
                   ),
-                ),
-                Positioned(
-                  top: 122,
-                  left: 44,
-                  child: ScaleTransition(
-                    scale: _animation,
-                    child: _MainMenuWasteObject(
-                      icon: icons.icoAppleWeight,
-                      onTap: () {},
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 200,
-                  right: 0,
-                  child: ScaleTransition(
-                    scale: _animation,
-                    child: _MainMenuWasteObject(
-                      icon: icons.icoGlassBottleWeight,
-                      onTap: () {},
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          const Spacer(),
-          ScaleTransition(
-            scale: _animation,
-            child: Column(
-              children: [
-                CSLargeButton(
-                  icon: icons.icoPlay,
-                  onTap: () async {
-                    await _controller.animateTo(
-                      0,
-                      duration: const Duration(milliseconds: 500),
-                    );
-
-                    final gameRef = widget.game;
-                    gameRef.overlays.add('GameControls');
-                    _bloc.add(const UpdateGameStateEvent(GameState.active));
-                    _bloc.add(const UpdateCollectableWasteObjectsEvent());
-                    gameRef.overlays.remove('MainMenu');
-                  },
-                ),
-              ],
-            ),
-          )
         ],
       ),
     );
@@ -163,9 +270,76 @@ class _MainMenuWasteObjectState extends State<_MainMenuWasteObject> {
       duration: const Duration(milliseconds: 150),
       child: GestureDetector(
         onTapDown: (_) => setState(() => _isPressed = true),
-        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapUp: (_) {
+          setState(() => _isPressed = false);
+          widget.onTap();
+        },
         onTapCancel: () => setState(() => _isPressed = false),
         child: SvgPicture.asset(widget.icon),
+      ),
+    );
+  }
+}
+
+class _AlertCloseButton extends StatefulWidget {
+  final VoidCallback onTap;
+
+  const _AlertCloseButton({required this.onTap});
+
+  @override
+  State<_AlertCloseButton> createState() => _AlertCloseButtonState();
+}
+
+class _AlertCloseButtonState extends State<_AlertCloseButton> {
+  var _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) {
+        setState(() => _isPressed = false);
+        widget.onTap();
+      },
+      onTapCancel: () => setState(() => _isPressed = false),
+      child: AnimatedScale(
+        scale: _isPressed ? 0.8 : 1,
+        duration: const Duration(milliseconds: 150),
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFCCF3DD),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(16),
+            ),
+            border: Border.all(
+              color: Colors.black,
+              width: 3,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0xFF000000),
+                offset: Offset(4, 4),
+              ),
+            ],
+          ),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            child: Text(
+              'X',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                height: 0.7,
+                color: Colors.black,
+                fontWeight: FontWeight.w800,
+                decoration: TextDecoration.none,
+                decorationColor: Colors.transparent,
+                decorationThickness: 0.01,
+                // fontFamily: FontFamily.oi,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
