@@ -1,3 +1,4 @@
+import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,11 +10,21 @@ sealed class CleanGrabBlocEvent extends Equatable {
 }
 
 final class UpdateScoreEvent extends CleanGrabBlocEvent {
-  const UpdateScoreEvent();
+  final GarbageObject object;
+
+  const UpdateScoreEvent(this.object);
+
+  @override
+  List<Object?> get props => [object];
 }
 
 final class UpdateLivesEvent extends CleanGrabBlocEvent {
-  const UpdateLivesEvent();
+  final GarbageObject object;
+
+  const UpdateLivesEvent(this.object);
+
+  @override
+  List<Object?> get props => [object];
 }
 
 final class UpdateGameStateEvent extends CleanGrabBlocEvent {

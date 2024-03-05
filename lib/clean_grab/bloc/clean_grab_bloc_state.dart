@@ -7,12 +7,14 @@ class CleanGrabBlocState extends Equatable {
   final int lives;
   final GameState gameState;
   final List<GarbageObject> collectableWasteObjects;
+  final List<GarbageObject> unpickedWasteObjects;
 
   const CleanGrabBlocState({
     required this.score,
     required this.lives,
     required this.gameState,
     required this.collectableWasteObjects,
+    required this.unpickedWasteObjects,
   });
 
   bool get isPaused =>
@@ -25,6 +27,7 @@ class CleanGrabBlocState extends Equatable {
     int? lives,
     GameState? gameState,
     List<GarbageObject>? collectableWasteObjects,
+    List<GarbageObject>? unpickedWasteObjects,
   }) =>
       CleanGrabBlocState(
         score: score ?? this.score,
@@ -32,6 +35,7 @@ class CleanGrabBlocState extends Equatable {
         gameState: gameState ?? this.gameState,
         collectableWasteObjects:
             collectableWasteObjects ?? this.collectableWasteObjects,
+        unpickedWasteObjects: unpickedWasteObjects ?? this.unpickedWasteObjects,
       );
 
   @override
@@ -40,5 +44,6 @@ class CleanGrabBlocState extends Equatable {
         lives,
         gameState,
         collectableWasteObjects,
+        unpickedWasteObjects,
       ];
 }

@@ -130,6 +130,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                     final gameRef = widget.game;
                     gameRef.overlays.add('GameControls');
                     _bloc.add(const UpdateGameStateEvent(GameState.active));
+                    _bloc.add(const UpdateCollectableWasteObjectsEvent());
                     gameRef.overlays.remove('MainMenu');
                   },
                 ),

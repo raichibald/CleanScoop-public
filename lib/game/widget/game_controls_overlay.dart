@@ -130,26 +130,18 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                         left: 16,
                         child: GestureDetector(
                           onTap: () async {
+                            if (state.isPaused) return;
+
                             final gameRef = widget.game;
                             gameRef.overlays.add('GamePaused');
-
-                            // TODO: Check state updates. Reading this code is a bit unintuitive imo.
                             _bloc.add(
-                              UpdateGameStateEvent(
-                                state.isPaused
-                                    ? GameState.active
-                                    : GameState.paused,
-                              ),
+                              const UpdateGameStateEvent(GameState.paused),
                             );
 
                             await _controller.animateTo(
-                              state.isPaused ? 0 : 1,
+                              0,
                               duration: const Duration(milliseconds: 500),
                             );
-
-                            if (state.isPaused) {
-                              gameRef.overlays.remove('GamePaused');
-                            }
                           },
                           child: SvgPicture.asset(Assets.icons.icoPause),
                         ),
@@ -169,18 +161,15 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        Assets.icons.icoApple,
-                        height: 32,
-                        width: 32,
-                      ),
-                      SvgPicture.asset(
-                        Assets.icons.icoPaperBall,
-                        height: 32,
-                        width: 32,
-                      ),
-                    ],
+                    children: state.collectableWasteObjects
+                        .map(
+                          (item) => SvgPicture.asset(
+                            item.icon,
+                            height: 32,
+                            width: 32,
+                          ),
+                        )
+                        .toList(),
                   )
                 ],
               ),

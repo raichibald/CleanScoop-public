@@ -98,7 +98,7 @@ class FallingObjectComponent extends SvgComponent
 
     if (gameRef.paused) return;
 
-    bloc.add(const UpdateScoreEvent());
+    bloc.add(UpdateScoreEvent(garbageObject));
 
     removeFromParent();
   }
@@ -106,8 +106,9 @@ class FallingObjectComponent extends SvgComponent
   @override
   void onCollisionEnd(PositionComponent other) {
     super.onCollisionEnd(other);
+    if (!isMounted) return;
     if (other is ScreenHitbox && _hasStartedMovement) {
-      bloc.add(const UpdateLivesEvent());
+      bloc.add(UpdateLivesEvent(garbageObject));
       removeFromParent();
     }
   }
