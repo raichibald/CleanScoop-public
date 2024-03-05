@@ -2,7 +2,7 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
-import 'package:clean_scoop/design_system/src/assets/fonts.gen.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flutter/material.dart';
@@ -85,42 +85,10 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                             width: 112,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 24),
-                              child: Stack(
-                                children: [
-                                  Center(
-                                    child: Text(
-                                      state.score.toString(),
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        height: 0.7,
-                                        fontWeight: FontWeight.w400,
-                                        decoration: TextDecoration.none,
-                                        decorationColor: Colors.transparent,
-                                        decorationThickness: 0.01,
-                                        fontFamily: FontFamily.oi,
-                                        foreground: Paint()
-                                          ..style = PaintingStyle.stroke
-                                          ..strokeWidth = 6
-                                          ..color = const Color(0xFF000000),
-                                      ),
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      state.score.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 24,
-                                        height: 0.7,
-                                        color: Color(0xFF0BB458),
-                                        fontWeight: FontWeight.w400,
-                                        decoration: TextDecoration.none,
-                                        decorationColor: Colors.transparent,
-                                        decorationThickness: 0.01,
-                                        fontFamily: FontFamily.oi,
-                                      ),
-                                    ),
-                                  )
-                                ],
+                              child: CSScoreText(
+                                text: state.score.toString(),
+                                fontSize: 24,
+                                strokeWidth: 6,
                               ),
                             ),
                           ),
