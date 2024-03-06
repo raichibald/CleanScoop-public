@@ -74,6 +74,8 @@ class TapGame extends FlameGame with HasCollisionDetection {
     // add(ScreenHitbox());
     // overlays.add('GameOverlay');
     overlays.add('MainMenu');
+    // overlays.add('LevelUp');
+    // overlays.add('GameControls');
 
     return super.onLoad();
   }
@@ -98,10 +100,11 @@ class CleanScoopGameWrapperComponent extends PositionComponent
   var _hasSpawned = false;
 
   @override
-  void onNewState(CleanGrabBlocState state) {
+  void onNewState(CleanGrabBlocState state) async {
     super.onNewState(state);
 
-    if (!state.isPaused && !_hasSpawned) {
+    print("??????????????? ${state.gameState}");
+    if (state.isActive && !_hasSpawned) {
       _hasSpawned = true;
       gameRef.startSpawningComponents();
     }
@@ -123,6 +126,14 @@ class CleanScoopGameWrapperComponent extends PositionComponent
       gameRef.pauseEngine();
     } else {
       gameRef.resumeEngine();
+    }
+
+    if (state.gameState == GameState.levelUp) {
+      print("???????????? leveled up");
+      _hasSpawned = false;
+      gameRef.stopSpawningComponents();
+      await Future.delayed(Duration(seconds: 3)).then((value) => bloc.add(UpdateGameStateEvent(GameState.active)));
+      // gameRef.overlays.add('LevelUp');
     }
   }
 }

@@ -32,7 +32,8 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     if (lives < 1) return;
 
     final isObjective = state.collectableWasteObjects.contains(event.object);
-    final updatedLives = isObjective ? lives : lives - 1;
+    final isLevelingUp = state.hasLeveledUp;
+    final updatedLives = isObjective || isLevelingUp ? lives : lives - 1;
 
     var currentCollectibles = state.collectableWasteObjects.toList();
     // Removing initial waste object from unpicked list.
@@ -46,6 +47,8 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     final previousScore = state.score;
     final updatedScore = isObjective ? previousScore + 1 : previousScore;
 
+    var gameState = state.gameState;
+
     // We only want max 3 out of 4 objects to be collectible so that player needs to think :).
     if (updatedScore % 5 == 0 &&
         previousScore != updatedScore &&
@@ -56,6 +59,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
 
       currentCollectibles.add(randomWasteObject);
       unpickedCollectibles.remove(randomWasteObject);
+      gameState = GameState.levelUp;
     }
 
     emit(
@@ -64,12 +68,13 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
         lives: updatedLives,
         collectableWasteObjects: currentCollectibles,
         unpickedWasteObjects: unpickedCollectibles,
+        gameState: gameState,
       ),
     );
   }
 
   void _onUpdateLivesEvent(UpdateLivesEvent event, Emitter emit) {
-    if (!state.collectableWasteObjects.contains(event.object)) return;
+    if (!state.collectableWasteObjects.contains(event.object) || state.hasLeveledUp) return;
 
     final lives = state.lives;
     if (lives < 1) return;
@@ -77,8 +82,16 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     emit(state.copyWith(lives: lives - 1));
   }
 
-  void _onUpdateGameStateEvent(UpdateGameStateEvent event, Emitter emit) {
-    emit(state.copyWith(gameState: event.state));
+  Future<void> _onUpdateGameStateEvent(UpdateGameStateEvent event, Emitter emit) async {
+    final gameState = event.state;
+    if (gameState == GameState.started) {
+      await Future.delayed(const Duration(milliseconds: 200));
+      emit(state.copyWith(gameState: gameState));
+      await Future.delayed(const Duration(seconds: 2));
+      emit(state.copyWith(gameState: GameState.active));
+    } else {
+      emit(state.copyWith(gameState: gameState));
+    }
   }
 
   void _onUpdateCollectableWasteObjectsEvent(
@@ -98,14 +111,17 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
         ),
       );
 
-  void _onRestartGameStateEvent(RestartGameStateEvent event, Emitter emit) =>
-      emit(
+  void _onRestartGameStateEvent(RestartGameStateEvent event, Emitter emit) {
+    emit(
         state.copyWith(
           score: 0,
           lives: 3,
-          gameState: GameState.active,
+          // gameState: GameState.started,
           collectableWasteObjects: [GarbageObject.randomObject],
           unpickedWasteObjects: GarbageObject.values,
         ),
       );
+
+    add(const UpdateGameStateEvent(GameState.started));
+  }
 }

@@ -116,6 +116,8 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
                       text: state.score.toString(),
                       fontSize: 64,
                       strokeWidth: 8,
+                      strokeColor: Colors.black,
+                      textColor: const Color(0xFFFFCB0C),
                     ),
                   ),
                   const Spacer(),

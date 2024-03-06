@@ -74,7 +74,6 @@ class _GameOverOverlayState extends State<GameOverOverlay>
               ],
             ),
             const Spacer(),
-            const Spacer(),
             ScaleTransition(
               scale: _animation,
               child: Column(
