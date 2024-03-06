@@ -137,7 +137,7 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                     );
                                   },
                                   child: AnimatedScale(
-                                    scale: state.hasStarted || state.isPaused
+                                    scale: state.hasStarted || state.isPaused || state.hasLeveledUp
                                         ? 0
                                         : 1,
                                     duration: const Duration(milliseconds: 150),
