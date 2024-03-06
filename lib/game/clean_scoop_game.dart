@@ -56,8 +56,8 @@ class TapGame extends FlameGame with HasCollisionDetection {
         return FallingObjectComponent(
             garbageObject: GarbageObject.randomObject);
       },
-      minPeriod: 0.55,
-      maxPeriod: 1,
+      minPeriod: 0.45,
+      maxPeriod: 0.9,
       autoStart: false,
       area: Rectangle.fromLTWH(
         FallingObjectComponent.objSize / 2,
@@ -72,7 +72,7 @@ class TapGame extends FlameGame with HasCollisionDetection {
     // add(_wasteObjectSpawner);
 
     // add(ScreenHitbox());
-    // overlays.add('GameOverlay');
+    // overlays.add('GameOver');
     overlays.add('MainMenu');
     // overlays.add('LevelUp');
     // overlays.add('GameControls');

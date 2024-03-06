@@ -3,8 +3,8 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 import 'package:clean_scoop/design_system/src/widgets/cs_large_button.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
-import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -72,6 +72,90 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                   child: SvgPicture.asset(icons.icoGameOverLogo),
                 )
               ],
+            ),
+            const Spacer(),
+            ScaleTransition(
+              scale: _animation,
+              child: Transform.rotate(
+                angle: -0.1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(icons.icoDashedLine),
+                      Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Row(
+                          children: [
+                            CSScoreText(
+                              text: state.score.toString(),
+                              fontSize: 48,
+                              strokeWidth: 8,
+                              strokeColor: Colors.black,
+                              textColor: const Color(0xFFFFCB0C),
+                            ),
+                            const Spacer(),
+                            const CSScoreText(
+                              text: 'score',
+                              fontSize: 20,
+                              strokeWidth: 0,
+                              strokeColor: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SvgPicture.asset(icons.icoDashedLine),
+                      const Padding(
+                        padding: EdgeInsets.all(24),
+                        child: Row(
+                          children: [
+                            CSScoreText(
+                              text: '4',
+                              fontSize: 48,
+                              strokeWidth: 8,
+                              strokeColor: Colors.black,
+                              textColor: Color(0xFFFF7D75),
+                            ),
+                            Spacer(),
+                            CSScoreText(
+                              text: 'earth impact',
+                              fontSize: 20,
+                              strokeWidth: 0,
+                              strokeColor: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SvgPicture.asset(icons.icoDashedLine),
+                      Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Row(
+                          children: [
+                            Row(
+                              children: state.collectableWasteObjects
+                                  .map(
+                                    (item) => SvgPicture.asset(
+                                      item.icon,
+                                      height: 32,
+                                      width: 32,
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                            const Spacer(),
+                            const CSScoreText(
+                              text: '300g',
+                              fontSize: 20,
+                              strokeWidth: 0,
+                              strokeColor: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             const Spacer(),
             ScaleTransition(

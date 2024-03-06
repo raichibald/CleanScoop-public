@@ -57,14 +57,15 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
       BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
         builder: (context, state) => Stack(
           children: [
-            IgnorePointer(
-              ignoring: !state.hasLeveledUp,
-              child: AnimatedOpacity(
-                opacity: state.hasStarted || state.hasLeveledUp ? 1 : 0,
-                duration: const Duration(milliseconds: 150),
-                child: Container(color: Colors.white.withOpacity(0.5)),
-              ),
-            ),
+            // TODO: Leaving for now, just in case I change my mind. :)
+            // IgnorePointer(
+            //   ignoring: !state.hasLeveledUp,
+            //   child: AnimatedOpacity(
+            //     opacity: state.hasStarted || state.hasLeveledUp ? 1 : 0,
+            //     duration: const Duration(milliseconds: 150),
+            //     child: Container(color: Colors.white.withOpacity(0.5)),
+            //   ),
+            // ),
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.only(top: 8),

@@ -21,6 +21,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_background.svg
   String get icoBackground => 'assets/icons/ico_background.svg';
 
+  /// File path: assets/icons/ico_dashed_line.svg
+  String get icoDashedLine => 'assets/icons/ico_dashed_line.svg';
+
   /// File path: assets/icons/ico_game_over_logo.svg
   String get icoGameOverLogo => 'assets/icons/ico_game_over_logo.svg';
 
@@ -78,6 +81,7 @@ class $AssetsIconsGen {
         icoApple,
         icoAppleWeight,
         icoBackground,
+        icoDashedLine,
         icoGameOverLogo,
         icoGamePausedLogo,
         icoGlassBottle,

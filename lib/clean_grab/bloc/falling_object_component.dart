@@ -121,5 +121,9 @@ class FallingObjectComponent extends SvgComponent
       gameRef.resumeEngine();
       removeFromParent();
     }
+
+    if (state.gameState == GameState.ended) {
+      removeFromParent();
+    }
   }
 }
