@@ -99,7 +99,6 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                               text: 'score',
                               fontSize: 20,
                               strokeWidth: 0,
-                              strokeColor: Colors.black,
                             ),
                           ],
                         ),
@@ -121,7 +120,6 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                               text: 'earth impact',
                               fontSize: 20,
                               strokeWidth: 0,
-                              strokeColor: Colors.black,
                             ),
                           ],
                         ),
@@ -136,8 +134,8 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                                   .map(
                                     (item) => SvgPicture.asset(
                                       item.icon,
-                                      height: 32,
-                                      width: 32,
+                                      height: 40,
+                                      width: 40,
                                     ),
                                   )
                                   .toList(),
@@ -147,7 +145,6 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                               text: '300g',
                               fontSize: 20,
                               strokeWidth: 0,
-                              strokeColor: Colors.black,
                             ),
                           ],
                         ),

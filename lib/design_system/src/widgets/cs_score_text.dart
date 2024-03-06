@@ -18,7 +18,16 @@ class CSScoreText extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget build(BuildContext context) {
+    final textForeground = Paint()
+      ..style = PaintingStyle.stroke;
+
+    if (strokeWidth > 0) {
+      textForeground.strokeWidth = strokeWidth;
+      textForeground.color = strokeColor;
+    }
+
+    return Stack(
         children: [
           Center(
             child: Text(
@@ -55,4 +64,5 @@ class CSScoreText extends StatelessWidget {
           ),
         ],
       );
+  }
 }

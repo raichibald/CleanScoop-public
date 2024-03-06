@@ -13,6 +13,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_svg/flame_svg.dart';
+import 'package:flutter/services.dart';
 
 class FallingObjectComponent extends SvgComponent
     with
@@ -63,6 +64,7 @@ class FallingObjectComponent extends SvgComponent
     super.update(dt);
 
     final screenHeight = gameRef.size.y;
+    final screenWidth = gameRef.size.x;
 
     // print("??????? ${position.y} -- ${screenHeight}");
     // Increase the initial push upwards more significantly.
@@ -73,6 +75,11 @@ class FallingObjectComponent extends SvgComponent
     if (position.y == screenHeight) {
       _velocity.y = -_gravity * velocityRatio -
           randomPos; // Adjust this value to find the right balance.
+    }
+
+    // Not letting object fall outside of the horizontal screen bounds.
+    if (position.x < 50 || position.x > screenWidth - 50) {
+      position.x = position.x.clamp(25, screenWidth - 25);
     }
 
     // Simplify or adjust the gravity effect
@@ -88,8 +95,27 @@ class FallingObjectComponent extends SvgComponent
     }
 
     if (!_hasStartedMovement && position.y + objSize < screenHeight) {
+      _velocity.x = randomXPosInt / screenHeight * _velocity.y.abs();
       _hasStartedMovement = true;
     }
+  }
+
+  int get randomXPosInt {
+    var rand = Random();
+    int randomNumber;
+
+    // Decide which range to use: 50% chance for each
+    if (rand.nextBool()) {
+      // Generate a number from -40 to -20
+      randomNumber = rand.nextInt(61) -
+          80; // Generates a number from 0 to 20, then shifts it to -40 to -20
+    } else {
+      // Generate a number from 20 to 40
+      randomNumber = rand.nextInt(61) +
+          80; // Generates a number from 0 to 20, then shifts it to 20 to 40
+    }
+
+    return randomNumber;
   }
 
   @override
@@ -97,7 +123,11 @@ class FallingObjectComponent extends SvgComponent
     super.onTapDown(event);
 
     if (gameRef.paused) return;
-
+    if (bloc.state.collectableWasteObjects.contains(garbageObject)) {
+      HapticFeedback.heavyImpact();
+    } else {
+      HapticFeedback.vibrate();
+    }
     bloc.add(UpdateScoreEvent(garbageObject));
 
     removeFromParent();
@@ -108,6 +138,10 @@ class FallingObjectComponent extends SvgComponent
     super.onCollisionEnd(other);
     if (!isMounted) return;
     if (other is ScreenHitbox && _hasStartedMovement) {
+      if (bloc.state.collectableWasteObjects.contains(garbageObject)) {
+        HapticFeedback.vibrate();
+      }
+
       bloc.add(UpdateLivesEvent(garbageObject));
       removeFromParent();
     }
@@ -117,12 +151,12 @@ class FallingObjectComponent extends SvgComponent
   void onNewState(CleanGrabBlocState state) {
     super.onNewState(state);
 
-    if (state.gameState == GameState.idle) {
+    if (state.isIdle) {
       gameRef.resumeEngine();
       removeFromParent();
     }
 
-    if (state.gameState == GameState.ended) {
+    if (state.hasEnded || state.hasLeveledUp) {
       removeFromParent();
     }
   }

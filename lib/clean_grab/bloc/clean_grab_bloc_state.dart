@@ -28,6 +28,8 @@ class CleanGrabBlocState extends Equatable {
 
   bool get hasStarted => gameState == GameState.started;
 
+  bool get isIdle => gameState == GameState.idle;
+
   CleanGrabBlocState copyWith({
     int? score,
     int? lives,
