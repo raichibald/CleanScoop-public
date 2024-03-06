@@ -177,10 +177,11 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                 scale: state.hasStarted ? 1 : 0,
                                 duration: const Duration(milliseconds: 300),
                                 child: const CSScoreText(
-                                  text: 'recycle',
+                                  text: 'tap to\nrecycle',
                                   fontSize: 11,
                                   strokeWidth: 4,
                                   strokeColor: Colors.white,
+                                  textHeight: 1.4,
                                 ),
                               ),
                               AnimatedScale(

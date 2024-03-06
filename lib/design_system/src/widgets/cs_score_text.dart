@@ -7,6 +7,7 @@ class CSScoreText extends StatelessWidget {
   final double strokeWidth;
   final Color strokeColor;
   final Color textColor;
+  final double textHeight;
 
   const CSScoreText({
     super.key,
@@ -15,6 +16,7 @@ class CSScoreText extends StatelessWidget {
     required this.strokeWidth,
     this.textColor = Colors.black,
     this.strokeColor = Colors.white,
+    this.textHeight = 0.7,
   });
 
   @override
@@ -32,9 +34,10 @@ class CSScoreText extends StatelessWidget {
           Center(
             child: Text(
               text,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: fontSize,
-                height: 0.7,
+                height: textHeight,
                 fontWeight: FontWeight.w400,
                 decoration: TextDecoration.none,
                 decorationColor: Colors.transparent,
@@ -50,9 +53,10 @@ class CSScoreText extends StatelessWidget {
           Center(
             child: Text(
               text,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: fontSize,
-                height: 0.7,
+                height: textHeight,
                 color: textColor,
                 fontWeight: FontWeight.w400,
                 decoration: TextDecoration.none,
