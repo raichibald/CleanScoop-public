@@ -137,7 +137,9 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                     );
                                   },
                                   child: AnimatedScale(
-                                    scale: state.hasStarted || state.isPaused || state.hasLeveledUp
+                                    scale: state.hasStarted ||
+                                            state.isPaused ||
+                                            state.hasLeveledUp
                                         ? 0
                                         : 1,
                                     duration: const Duration(milliseconds: 150),
@@ -177,11 +179,10 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                 scale: state.hasStarted ? 1 : 0,
                                 duration: const Duration(milliseconds: 300),
                                 child: const CSScoreText(
-                                  text: 'tap to\nrecycle',
+                                  text: 'tap',
                                   fontSize: 11,
-                                  strokeWidth: 4,
+                                  strokeWidth: 2,
                                   strokeColor: Colors.white,
-                                  textHeight: 1.4,
                                 ),
                               ),
                               AnimatedScale(
@@ -190,14 +191,15 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                 child: const CSScoreText(
                                   text: 'level up',
                                   fontSize: 11,
-                                  strokeWidth: 3,
+                                  strokeWidth: 2,
                                   strokeColor: Colors.white,
                                 ),
                               ),
                               SizedBox(
-                                  height: state.hasLeveledUp || state.hasStarted
-                                      ? 8
-                                      : 0),
+                                height: state.hasLeveledUp || state.hasStarted
+                                    ? 8
+                                    : 0,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: state.collectableWasteObjects
@@ -209,6 +211,21 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                       ),
                                     )
                                     .toList(),
+                              ),
+                              SizedBox(
+                                height: state.hasLeveledUp || state.hasStarted
+                                    ? 16
+                                    : 0,
+                              ),
+                              AnimatedScale(
+                                scale: state.hasStarted ? 1 : 0,
+                                duration: const Duration(milliseconds: 300),
+                                child: const CSScoreText(
+                                  text: 'to recycle',
+                                  fontSize: 11,
+                                  strokeWidth: 2,
+                                  strokeColor: Colors.white,
+                                ),
                               ),
                             ],
                           ),
