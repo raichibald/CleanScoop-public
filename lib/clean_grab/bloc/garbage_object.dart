@@ -24,6 +24,14 @@ enum GarbageObject {
 
     return GarbageObject.fromRawValue(randomInt);
   }
+
+  static List<GarbageObject> get threeRandomObjects {
+    var objects = GarbageObject.values.toList();
+    objects.shuffle();
+
+    return objects.take(3).toList();
+  }
+
   //
   // int get velocityRatio {
   //   final random = Random();

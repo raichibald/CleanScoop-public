@@ -50,16 +50,23 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     var gameState = state.gameState;
 
     // We only want max 3 out of 4 objects to be collectible so that player needs to think :).
-    if (updatedScore % 5 == 0 &&
-        previousScore != updatedScore &&
-        currentCollectibles.length < GarbageObject.values.length - 1) {
-      final random = Random();
-      final randomInt = random.nextInt(unpickedCollectibles.length);
-      final randomWasteObject = unpickedCollectibles[randomInt];
+    // TODO: Looks OK, but maybe revisit.
+    final division = updatedScore <= 7 ? 7 : updatedScore <= 20 ? 20 : updatedScore <= 45 ? 35 : 25;
 
-      currentCollectibles.add(randomWasteObject);
-      unpickedCollectibles.remove(randomWasteObject);
-      gameState = GameState.levelUp;
+    if (updatedScore % division == 0 &&
+        previousScore != updatedScore) {
+      emit(state.copyWith(gameState: GameState.levelUp));
+
+      if (currentCollectibles.length == 3) {
+        currentCollectibles = GarbageObject.threeRandomObjects;
+      } else {
+        final random = Random();
+        final randomInt = random.nextInt(unpickedCollectibles.length);
+        final randomWasteObject = unpickedCollectibles[randomInt];
+
+        currentCollectibles.add(randomWasteObject);
+        unpickedCollectibles.remove(randomWasteObject);
+      }
     }
 
     emit(
@@ -68,7 +75,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
         lives: updatedLives,
         collectableWasteObjects: currentCollectibles,
         unpickedWasteObjects: unpickedCollectibles,
-        gameState: gameState,
+        // gameState: gameState,
       ),
     );
   }
