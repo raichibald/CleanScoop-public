@@ -26,7 +26,13 @@ enum GarbageObject {
     return GarbageObject.fromRawValue(randomInt);
   }
 
-  static List<GarbageObject> get wasteObjects => GarbageObject.values.take(4).toList();
+  static List<GarbageObject> get wasteObjects {
+    final resolvedObjects = GarbageObject.values.where(
+      (item) => item != GarbageObject.poison,
+    );
+
+    return resolvedObjects.toList();
+  }
 
   static List<GarbageObject> get threeRandomObjects {
     var objects = wasteObjects.toList();

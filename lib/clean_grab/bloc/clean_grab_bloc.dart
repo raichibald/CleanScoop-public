@@ -14,7 +14,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
             lives: 3,
             gameState: GameState.idle,
             collectableWasteObjects: [GarbageObject.randomObject],
-            unpickedWasteObjects: GarbageObject.values,
+            unpickedWasteObjects: GarbageObject.wasteObjects,
           ),
         ) {
     on<UpdateScoreEvent>(_onUpdateScoreEvent);
