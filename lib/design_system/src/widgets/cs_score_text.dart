@@ -8,6 +8,7 @@ class CSScoreText extends StatelessWidget {
   final Color strokeColor;
   final Color textColor;
   final double textHeight;
+  final List<BoxShadow>? shadows;
 
   const CSScoreText({
     super.key,
@@ -17,6 +18,7 @@ class CSScoreText extends StatelessWidget {
     this.textColor = Colors.black,
     this.strokeColor = Colors.white,
     this.textHeight = 0.7,
+    this.shadows,
   });
 
   @override
@@ -43,6 +45,7 @@ class CSScoreText extends StatelessWidget {
                 decorationColor: Colors.transparent,
                 decorationThickness: 0.01,
                 fontFamily: FontFamily.oi,
+                shadows: shadows,
                 foreground: Paint()
                   ..style = PaintingStyle.stroke
                   ..strokeWidth = strokeWidth

@@ -76,6 +76,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_resume.svg
   String get icoResume => 'assets/icons/ico_resume.svg';
 
+  /// File path: assets/icons/ico_star.svg
+  String get icoStar => 'assets/icons/ico_star.svg';
+
   /// List of all assets
   List<String> get values => [
         icoApple,
@@ -98,7 +101,8 @@ class $AssetsIconsGen {
         icoPlasticBottleWeight,
         icoPlay,
         icoRestart,
-        icoResume
+        icoResume,
+        icoStar
       ];
 }
 

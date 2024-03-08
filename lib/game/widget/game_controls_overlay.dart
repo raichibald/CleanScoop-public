@@ -5,9 +5,7 @@ import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -82,38 +80,89 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                           Stack(
                             alignment: Alignment.center,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              Stack(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFCCF3DD),
-                                      border: Border.all(
-                                        width: 4,
-                                        color: const Color(0xFF000000),
-                                      ),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(50),
-                                      ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            color: Color(0xFF000000),
-                                            offset: Offset(6, 6)),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 24),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFCCF3DD),
+                                            border: Border.all(
+                                              width: 4,
+                                              color: const Color(0xFF000000),
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(50),
+                                            ),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                  color: Color(0xFF000000),
+                                                  offset: Offset(6, 6)),
+                                            ],
+                                          ),
+                                          width: 112,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 24),
+                                            child: CSScoreText(
+                                              text: state.score.toString(),
+                                              fontSize: 24,
+                                              strokeWidth: 6,
+                                              strokeColor: Colors.black,
+                                              textColor:
+                                                  const Color(0xFF0BB458),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                    width: 112,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 24),
-                                      child: CSScoreText(
-                                        text: state.score.toString(),
-                                        fontSize: 24,
-                                        strokeWidth: 6,
-                                        strokeColor: Colors.black,
-                                        textColor: const Color(0xFF0BB458),
-                                      ),
-                                    ),
                                   ),
+                                  Positioned(
+                                      left: 0,
+                                      top: 68,
+                                      right: 0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            Assets.icons.icoStar,
+                                            width: 16,
+                                            height: 16,
+                                          ),
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          const CSScoreText(
+                                            text: '420',
+                                            fontSize: 24,
+                                            strokeWidth: 4,
+                                            strokeColor: Colors.black,
+                                            textColor: Color(0xFFFFCB0C),
+                                            shadows: [
+                                              BoxShadow(
+                                                color: Color(0xFF000000),
+                                                offset: Offset(4, 4),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          SvgPicture.asset(
+                                            Assets.icons.icoStar,
+                                            width: 16,
+                                            height: 16,
+                                          ),
+                                        ],
+                                      )),
                                 ],
                               ),
                               Positioned(
@@ -158,7 +207,7 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                     _AnimatedHeart(isVisible: state.lives > 0),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ],
