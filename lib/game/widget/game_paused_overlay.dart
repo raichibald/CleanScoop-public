@@ -131,6 +131,7 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
                             await _controller.animateTo(
                               0,
                               duration: const Duration(milliseconds: 500),
+                              curve: Curves.fastLinearToSlowEaseIn,
                             );
 
                             await _backdropController.animateTo(

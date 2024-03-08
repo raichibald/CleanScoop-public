@@ -145,6 +145,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                         await _controller.animateTo(
                           0,
                           duration: const Duration(milliseconds: 500),
+                          curve: Curves.fastLinearToSlowEaseIn,
                         );
 
                         final gameRef = widget.game;
@@ -235,7 +236,8 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                       onTap: () {
                         _alertController.animateTo(
                           0,
-                          duration: const Duration(milliseconds: 400),
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.fastLinearToSlowEaseIn,
                         );
                       },
                     ),
