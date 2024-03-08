@@ -28,6 +28,17 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
   }
 
   void _onUpdateScoreEvent(UpdateScoreEvent event, Emitter emit) {
+    if (event.object == GarbageObject.poison) {
+      emit(
+        state.copyWith(
+          lives: 0,
+          gameState: GameState.ended,
+        ),
+      );
+
+      return;
+    }
+
     final lives = state.lives;
     if (lives < 1) return;
 

@@ -19,6 +19,7 @@ class TapGame extends FlameGame with HasCollisionDetection {
   TapGame({required CleanGrabBloc bloc}) : _bloc = bloc;
 
   late final SpawnComponent _wasteObjectSpawner;
+  late final SpawnComponent _poisonObjectSpawner;
 
   late final FlameBlocProvider _blocProvider;
 
@@ -67,6 +68,23 @@ class TapGame extends FlameGame with HasCollisionDetection {
       ),
     );
 
+    _poisonObjectSpawner = SpawnComponent.periodRange(
+      factory: (index) {
+        return FallingObjectComponent(
+            garbageObject: GarbageObject.poison);
+      },
+      minPeriod: 10,
+      maxPeriod: 20,
+      autoStart: false,
+      area: Rectangle.fromLTWH(
+        FallingObjectComponent.objSize / 2,
+        size.y,
+        size.x - FallingObjectComponent.objSize,
+        0,
+      ),
+    );
+
+    _blocProvider.add(_poisonObjectSpawner);
     _blocProvider.add(_wasteObjectSpawner);
 
     // add(_wasteObjectSpawner);
@@ -82,10 +100,12 @@ class TapGame extends FlameGame with HasCollisionDetection {
 
   void startSpawningComponents() {
     _wasteObjectSpawner.timer.start();
+    _poisonObjectSpawner.timer.start();
   }
 
   void stopSpawningComponents() {
     _wasteObjectSpawner.timer.stop();
+    _poisonObjectSpawner.timer.stop();
   }
 
   @override

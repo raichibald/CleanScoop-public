@@ -6,7 +6,8 @@ enum GarbageObject {
   paper(1),
   plasticBottle(2),
   glassBottle(3),
-  fruit(4);
+  fruit(4),
+  poison(5);
 
   final int value;
 
@@ -25,8 +26,10 @@ enum GarbageObject {
     return GarbageObject.fromRawValue(randomInt);
   }
 
+  static List<GarbageObject> get wasteObjects => GarbageObject.values.take(4).toList();
+
   static List<GarbageObject> get threeRandomObjects {
-    var objects = GarbageObject.values.toList();
+    var objects = wasteObjects.toList();
     objects.shuffle();
 
     return objects.take(3).toList();
@@ -61,6 +64,8 @@ enum GarbageObject {
         return icons.icoGlassBottle;
       case GarbageObject.fruit:
         return icons.icoApple;
+      case GarbageObject.poison:
+        return icons.icoMushroom;
     }
   }
 
@@ -70,6 +75,7 @@ enum GarbageObject {
         return 1;
       case GarbageObject.plasticBottle:
       case GarbageObject.glassBottle:
+      case GarbageObject.poison:
         return 2;
       case GarbageObject.fruit:
         return 3;
