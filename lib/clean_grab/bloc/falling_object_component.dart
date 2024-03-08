@@ -122,11 +122,11 @@ class FallingObjectComponent extends SvgComponent
     if (rand.nextBool()) {
       // Generate a number from -40 to -20
       randomNumber = rand.nextInt(61) -
-          80; // Generates a number from 0 to 20, then shifts it to -40 to -20
+          100; // Generates a number from 0 to 20, then shifts it to -40 to -20
     } else {
       // Generate a number from 20 to 40
       randomNumber = rand.nextInt(61) +
-          80; // Generates a number from 0 to 20, then shifts it to 20 to 40
+          100; // Generates a number from 0 to 20, then shifts it to 20 to 40
     }
 
     return randomNumber;
