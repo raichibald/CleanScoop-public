@@ -1,18 +1,21 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
-import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
+import 'package:flame/particles.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_svg/flame_svg.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class FallingObjectComponent extends SvgComponent
@@ -38,6 +41,16 @@ class FallingObjectComponent extends SvgComponent
   final rand = Random();
 
   bool _hasStartedMovement = false;
+
+  late final _particlePaint = Paint()..color = const Color(0xFFCCF3DD);
+
+  static final _random = Random();
+
+  static Vector2 _randomVector(double scale) {
+    return Vector2(2 * _random.nextDouble() - 1, 2 * _random.nextDouble() - 1)
+      ..normalize()
+      ..scale(scale);
+  }
 
   @override
   void onMount() {
@@ -131,6 +144,8 @@ class FallingObjectComponent extends SvgComponent
     bloc.add(UpdateScoreEvent(garbageObject));
 
     removeFromParent();
+
+    _displayParticleEffect();
   }
 
   @override
@@ -159,5 +174,38 @@ class FallingObjectComponent extends SvgComponent
     if (state.hasEnded || state.hasLeveledUp) {
       removeFromParent();
     }
+  }
+
+  void _displayParticleEffect() {
+    addAll([
+      OpacityEffect.fadeOut(
+        LinearEffectController(0.1),
+        onComplete: removeFromParent,
+      ),
+      ScaleEffect.by(
+        Vector2.all(1.2),
+        LinearEffectController(0.1),
+      ),
+    ]);
+
+    parent?.add(
+      ParticleSystemComponent(
+        position: position,
+        particle: Particle.generate(
+          count: 30,
+          lifespan: 1,
+          generator: (index) => MovingParticle(
+            to: _randomVector(16),
+            child: ScalingParticle(
+              to: 0,
+              child: CircleParticle(
+                radius: 2 + rand.nextDouble() * 3,
+                paint: _particlePaint,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
