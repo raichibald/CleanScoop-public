@@ -91,7 +91,8 @@ class FallingObjectComponent extends SvgComponent
     }
 
     // Not letting object fall outside of the horizontal screen bounds.
-    if (position.x < 50 || position.x > screenWidth - 50) {
+    if (position.x < 35 || position.x > screenWidth - 35) {
+      _velocity.x *= -1;
       position.x = position.x.clamp(25, screenWidth - 25);
     }
 
