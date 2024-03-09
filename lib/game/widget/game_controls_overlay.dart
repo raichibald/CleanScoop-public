@@ -235,16 +235,6 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                     strokeColor: Colors.white,
                                   ),
                                 ),
-                                AnimatedScale(
-                                  scale: state.hasLeveledUp ? 1 : 0,
-                                  duration: const Duration(milliseconds: 300),
-                                  child: const CSScoreText(
-                                    text: 'level up',
-                                    fontSize: 11,
-                                    strokeWidth: 2,
-                                    strokeColor: Colors.white,
-                                  ),
-                                ),
                                 SizedBox(
                                   height: state.hasLeveledUp || state.hasStarted
                                       ? 8
