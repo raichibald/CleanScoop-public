@@ -53,240 +53,260 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
-        builder: (context, state) => Stack(
-          children: [
-            // TODO: Leaving for now, just in case I change my mind. :)
-            // IgnorePointer(
-            //   ignoring: !state.hasLeveledUp,
-            //   child: AnimatedOpacity(
-            //     opacity: state.hasStarted || state.hasLeveledUp ? 1 : 0,
-            //     duration: const Duration(milliseconds: 150),
-            //     child: Container(color: Colors.white.withOpacity(0.5)),
-            //   ),
-            // ),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: AnimatedOpacity(
-                  opacity:
-                      state.hasStarted || state.isActive || state.hasLeveledUp
-                          ? 1
-                          : 0,
-                  duration: const Duration(milliseconds: 150),
-                  child: Stack(
-                    children: [
-                      Column(
-                        children: [
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 24),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFFCCF3DD),
-                                            border: Border.all(
-                                              width: 4,
-                                              color: const Color(0xFF000000),
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(50),
-                                            ),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                  color: Color(0xFF000000),
-                                                  offset: Offset(6, 6)),
-                                            ],
-                                          ),
-                                          width: 112,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 24),
-                                            child: CSScoreText(
-                                              text: state.score.toString(),
-                                              fontSize: 24,
-                                              strokeWidth: 6,
-                                              strokeColor: Colors.black,
-                                              textColor:
-                                                  const Color(0xFF0BB458),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                      left: 0,
-                                      top: 68,
-                                      right: 0,
+        builder: (context, state) {
+          final score = state.score.toString();
+
+          return Stack(
+            children: [
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: AnimatedOpacity(
+                    opacity:
+                        state.hasStarted || state.isActive || state.hasLeveledUp
+                            ? 1
+                            : 0,
+                    duration: const Duration(milliseconds: 150),
+                    child: Stack(
+                      children: [
+                        Column(
+                          children: [
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Stack(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 24),
                                       child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          SvgPicture.asset(
-                                            Assets.icons.icoStar,
-                                            width: 16,
-                                            height: 16,
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          const CSScoreText(
-                                            text: '420',
-                                            fontSize: 24,
-                                            strokeWidth: 4,
-                                            strokeColor: Colors.black,
-                                            textColor: Color(0xFFFFCB0C),
-                                            shadows: [
-                                              BoxShadow(
-                                                color: Color(0xFF000000),
-                                                offset: Offset(4, 4),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFCCF3DD),
+                                              border: Border.all(
+                                                width: 4,
+                                                color: const Color(0xFF000000),
                                               ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          SvgPicture.asset(
-                                            Assets.icons.icoStar,
-                                            width: 16,
-                                            height: 16,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(50),
+                                              ),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                    color: Color(0xFF000000),
+                                                    offset: Offset(6, 6)),
+                                              ],
+                                            ),
+                                            width: 112,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 24),
+                                              child: AnimatedSwitcher(
+                                                duration: const Duration(
+                                                    milliseconds: 200),
+                                                transitionBuilder:
+                                                    (child, animation) {
+                                                  return ScaleTransition(
+                                                    scale: Tween<double>(
+                                                      begin: 0,
+                                                      end: 1,
+                                                    ).animate(animation),
+                                                    child: child,
+                                                  );
+                                                },
+                                                child: CSScoreText(
+                                                  key: ValueKey<String>(
+                                                    score,
+                                                  ),
+                                                  text: score,
+                                                  fontSize: 24,
+                                                  strokeWidth: 6,
+                                                  strokeColor: Colors.black,
+                                                  textColor: const Color(
+                                                    0xFF0BB458,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ],
-                                      )),
-                                ],
-                              ),
-                              Positioned(
-                                left: 16,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    if (state.isPaused) return;
-
-                                    final gameRef = widget.game;
-                                    gameRef.overlays.add('GamePaused');
-                                    _bloc.add(
-                                      const UpdateGameStateEvent(
-                                        GameState.paused,
                                       ),
-                                    );
+                                    ),
+                                    Positioned(
+                                        left: 0,
+                                        top: 68,
+                                        right: 0,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              Assets.icons.icoStar,
+                                              width: 16,
+                                              height: 16,
+                                            ),
+                                            const SizedBox(
+                                              width: 4,
+                                            ),
+                                            const CSScoreText(
+                                              text: '420',
+                                              fontSize: 24,
+                                              strokeWidth: 4,
+                                              strokeColor: Colors.black,
+                                              textColor: Color(0xFFFFCB0C),
+                                              shadows: [
+                                                BoxShadow(
+                                                  color: Color(0xFF000000),
+                                                  offset: Offset(4, 4),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              width: 4,
+                                            ),
+                                            SvgPicture.asset(
+                                              Assets.icons.icoStar,
+                                              width: 16,
+                                              height: 16,
+                                            ),
+                                          ],
+                                        )),
+                                  ],
+                                ),
+                                Positioned(
+                                  left: 16,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      if (state.isPaused) return;
 
-                                    await _controller.animateTo(
-                                      0,
+                                      final gameRef = widget.game;
+                                      gameRef.overlays.add('GamePaused');
+                                      _bloc.add(
+                                        const UpdateGameStateEvent(
+                                          GameState.paused,
+                                        ),
+                                      );
+
+                                      await _controller.animateTo(
+                                        0,
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                      );
+                                    },
+                                    child: AnimatedScale(
+                                      scale: state.hasStarted ||
+                                              state.isPaused ||
+                                              state.hasLeveledUp
+                                          ? 0
+                                          : 1,
                                       duration:
-                                          const Duration(milliseconds: 500),
-                                    );
-                                  },
-                                  child: AnimatedScale(
-                                    scale: state.hasStarted ||
-                                            state.isPaused ||
-                                            state.hasLeveledUp
-                                        ? 0
-                                        : 1,
-                                    duration: const Duration(milliseconds: 150),
-                                    child: SvgPicture.asset(
-                                      Assets.icons.icoPause,
+                                          const Duration(milliseconds: 150),
+                                      child: SvgPicture.asset(
+                                        Assets.icons.icoPause,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                right: 16,
-                                child: Row(
-                                  children: [
-                                    _AnimatedHeart(isVisible: state.lives > 2),
-                                    _AnimatedHeart(isVisible: state.lives > 1),
-                                    _AnimatedHeart(isVisible: state.lives > 0),
-                                  ],
+                                Positioned(
+                                  right: 16,
+                                  child: Row(
+                                    children: [
+                                      _AnimatedHeart(
+                                          isVisible: state.lives > 2),
+                                      _AnimatedHeart(
+                                          isVisible: state.lives > 1),
+                                      _AnimatedHeart(
+                                          isVisible: state.lives > 0),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      AnimatedPositioned(
-                        left: 0,
-                        top: state.hasLeveledUp || state.hasStarted
-                            ? MediaQuery.sizeOf(context).height / 2 - 128
-                            : 90,
-                        right: 0,
-                        duration: const Duration(milliseconds: 500),
-                        child: AnimatedScale(
-                          scale: state.hasLeveledUp || state.hasStarted ? 3 : 1,
+                              ],
+                            ),
+                          ],
+                        ),
+                        AnimatedPositioned(
+                          left: 0,
+                          top: state.hasLeveledUp || state.hasStarted
+                              ? MediaQuery.sizeOf(context).height / 2 - 128
+                              : 90,
+                          right: 0,
                           duration: const Duration(milliseconds: 500),
-                          child: Column(
-                            children: [
-                              AnimatedScale(
-                                scale: state.hasStarted ? 1 : 0,
-                                duration: const Duration(milliseconds: 300),
-                                child: const CSScoreText(
-                                  text: 'tap',
-                                  fontSize: 11,
-                                  strokeWidth: 2,
-                                  strokeColor: Colors.white,
+                          child: AnimatedScale(
+                            scale:
+                                state.hasLeveledUp || state.hasStarted ? 3 : 1,
+                            duration: const Duration(milliseconds: 500),
+                            child: Column(
+                              children: [
+                                AnimatedScale(
+                                  scale: state.hasStarted ? 1 : 0,
+                                  duration: const Duration(milliseconds: 300),
+                                  child: const CSScoreText(
+                                    text: 'tap',
+                                    fontSize: 11,
+                                    strokeWidth: 2,
+                                    strokeColor: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              AnimatedScale(
-                                scale: state.hasLeveledUp ? 1 : 0,
-                                duration: const Duration(milliseconds: 300),
-                                child: const CSScoreText(
-                                  text: 'level up',
-                                  fontSize: 11,
-                                  strokeWidth: 2,
-                                  strokeColor: Colors.white,
+                                AnimatedScale(
+                                  scale: state.hasLeveledUp ? 1 : 0,
+                                  duration: const Duration(milliseconds: 300),
+                                  child: const CSScoreText(
+                                    text: 'level up',
+                                    fontSize: 11,
+                                    strokeWidth: 2,
+                                    strokeColor: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: state.hasLeveledUp || state.hasStarted
-                                    ? 8
-                                    : 0,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: state.collectableWasteObjects
-                                    .map(
-                                      (item) => SvgPicture.asset(
-                                        item.icon,
-                                        height: 32,
-                                        width: 32,
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                              SizedBox(
-                                height: state.hasLeveledUp || state.hasStarted
-                                    ? 16
-                                    : 0,
-                              ),
-                              AnimatedScale(
-                                scale: state.hasStarted ? 1 : 0,
-                                duration: const Duration(milliseconds: 300),
-                                child: const CSScoreText(
-                                  text: 'to recycle',
-                                  fontSize: 11,
-                                  strokeWidth: 2,
-                                  strokeColor: Colors.white,
+                                SizedBox(
+                                  height: state.hasLeveledUp || state.hasStarted
+                                      ? 8
+                                      : 0,
                                 ),
-                              ),
-                            ],
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: state.collectableWasteObjects
+                                      .map(
+                                        (item) => SvgPicture.asset(
+                                          item.icon,
+                                          height: 32,
+                                          width: 32,
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                                SizedBox(
+                                  height: state.hasLeveledUp || state.hasStarted
+                                      ? 16
+                                      : 0,
+                                ),
+                                AnimatedScale(
+                                  scale: state.hasStarted ? 1 : 0,
+                                  duration: const Duration(milliseconds: 300),
+                                  child: const CSScoreText(
+                                    text: 'to recycle',
+                                    fontSize: 11,
+                                    strokeWidth: 2,
+                                    strokeColor: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       );
 }
 
