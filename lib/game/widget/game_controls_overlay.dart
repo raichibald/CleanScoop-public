@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
@@ -204,16 +206,7 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                 ),
                                 Positioned(
                                   right: 16,
-                                  child: Row(
-                                    children: [
-                                      _AnimatedHeart(
-                                          isVisible: state.lives > 2),
-                                      _AnimatedHeart(
-                                          isVisible: state.lives > 1),
-                                      _AnimatedHeart(
-                                          isVisible: state.lives > 0),
-                                    ],
-                                  ),
+                                  child: _PlayerLivesBlock(lives: state.lives),
                                 ),
                               ],
                             ),
@@ -327,23 +320,107 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
   }
 }
 
-class _AnimatedHeart extends StatefulWidget {
+class _PlayerLivesBlock extends StatefulWidget {
+  final int lives;
+
+  const _PlayerLivesBlock({required this.lives});
+
+  @override
+  State<_PlayerLivesBlock> createState() => _PlayerLivesBlockState();
+}
+
+class _PlayerLivesBlockState extends State<_PlayerLivesBlock>
+    with TickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 250),
+      vsync: this,
+    );
+    _animation = Tween(
+      begin: 0.0,
+      end: 6.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const _ShakeCurve(count: 3),
+      ),
+    );
+
+    _controller.addListener(_animationListener);
+  }
+
+  @override
+  void didUpdateWidget(covariant _PlayerLivesBlock oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final completedAnimation = !_controller.isAnimating;
+    final shouldShake = completedAnimation && widget.lives > 0 && widget.lives < oldWidget.lives;
+
+    if (!shouldShake) return;
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final lives = widget.lives;
+
+    return AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Transform.translate(
+            offset: Offset(_animation.value, 0),
+            child: Row(
+              children: [
+                _AnimatedHeart(isVisible: lives > 2),
+                _AnimatedHeart(isVisible: lives > 1),
+                _AnimatedHeart(isVisible: lives > 0),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _animationListener() {
+    if (!_controller.isCompleted) return;
+
+    _controller.reset();
+  }
+}
+
+class _AnimatedHeart extends StatelessWidget {
   final bool isVisible;
 
   const _AnimatedHeart({required this.isVisible});
 
   @override
-  State<_AnimatedHeart> createState() => _AnimatedHeartState();
-}
-
-class _AnimatedHeartState extends State<_AnimatedHeart> {
-  @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
       curve: Curves.bounceIn,
-      opacity: widget.isVisible ? 1 : 0,
+      opacity: isVisible ? 1 : 0,
       duration: const Duration(seconds: 1),
       child: SvgPicture.asset(Assets.icons.icoHeart),
     );
   }
+}
+
+class _ShakeCurve extends Curve {
+  final int count;
+
+  const _ShakeCurve({required this.count});
+
+  @override
+  double transform(double t) => sin(count * pi * t);
 }
