@@ -5,6 +5,7 @@ import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
+import 'package:clean_scoop/utils/widget_state/app_lifecycle_observer_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,7 +29,7 @@ class GameControlsOverlay extends StatefulWidget {
 }
 
 class _GameControlsOverlayState extends State<GameControlsOverlay>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AppLifecycleObserverMixin {
   late final CleanGrabBloc _bloc;
 
   late final AnimationController _controller;
@@ -55,6 +56,7 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
       BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
         builder: (context, state) {
           final score = state.score.toString();
+          final highScore = state.highScore;
 
           return Stack(
             children: [
@@ -138,7 +140,8 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                         ],
                                       ),
                                     ),
-                                    Positioned(
+                                    if (highScore > 0)
+                                      Positioned(
                                         left: 0,
                                         top: 68,
                                         right: 0,
@@ -154,13 +157,14 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                             const SizedBox(
                                               width: 4,
                                             ),
-                                            const CSScoreText(
-                                              text: '420',
+                                            CSScoreText(
+                                              text: highScore.toString(),
                                               fontSize: 24,
                                               strokeWidth: 4,
                                               strokeColor: Colors.black,
-                                              textColor: Color(0xFFFFCB0C),
-                                              shadows: [
+                                              textColor:
+                                                  const Color(0xFFFFCB0C),
+                                              shadows: const [
                                                 BoxShadow(
                                                   color: Color(0xFF000000),
                                                   offset: Offset(4, 4),
@@ -176,29 +180,14 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
                                               height: 16,
                                             ),
                                           ],
-                                        )),
+                                        ),
+                                      ),
                                   ],
                                 ),
                                 Positioned(
                                   left: 16,
                                   child: GestureDetector(
-                                    onTap: () async {
-                                      if (state.isPaused) return;
-
-                                      final gameRef = widget.game;
-                                      gameRef.overlays.add('GamePaused');
-                                      _bloc.add(
-                                        const UpdateGameStateEvent(
-                                          GameState.paused,
-                                        ),
-                                      );
-
-                                      await _controller.animateTo(
-                                        0,
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                      );
-                                    },
+                                    onTap: () => _onPauseGame(state.isPaused),
                                     child: AnimatedScale(
                                       scale: state.hasStarted ||
                                               state.isPaused ||
@@ -308,6 +297,34 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
           );
         },
       );
+
+  @override
+  void onPausedAppState() {
+    // TODO: For now, pausing only when state is `GameState.active`.
+    _onPauseGame(_bloc.state.gameState == GameState.started);
+  }
+
+  @override
+  void onResumedAppState() {
+    // Do nothing, as we want user to manually resume the game.
+  }
+
+  void _onPauseGame(bool isPaused) async {
+    if (isPaused) return;
+
+    final gameRef = widget.game;
+    gameRef.overlays.add('GamePaused');
+    _bloc.add(
+      const UpdateGameStateEvent(
+        GameState.paused,
+      ),
+    );
+
+    await _controller.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+    );
+  }
 }
 
 class _AnimatedHeart extends StatefulWidget {

@@ -123,7 +123,6 @@ class CleanScoopGameWrapperComponent extends PositionComponent
   void onNewState(CleanGrabBlocState state) async {
     super.onNewState(state);
 
-    // print("??????????????? ${state.gameState}");
     if (state.isActive && !_hasSpawned) {
       _hasSpawned = true;
       gameRef.startSpawningComponents();
@@ -149,11 +148,13 @@ class CleanScoopGameWrapperComponent extends PositionComponent
     }
 
     if (state.gameState == GameState.levelUp) {
-      // print("???????????? leveled up");
       _hasSpawned = false;
       gameRef.stopSpawningComponents();
-      await Future.delayed(Duration(seconds: 3)).then((value) => bloc.add(UpdateGameStateEvent(GameState.active)));
-      // gameRef.overlays.add('LevelUp');
+      await Future.delayed(const Duration(seconds: 3)).then(
+        (value) => bloc.add(
+          const UpdateGameStateEvent(GameState.active),
+        ),
+      );
     }
   }
 }

@@ -142,6 +142,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                     CSLargeButton(
                       icon: icons.icoPlay,
                       onTap: () async {
+                        _bloc.add(const LoadHighScoreEvent());
                         await _controller.animateTo(
                           0,
                           duration: const Duration(milliseconds: 500),

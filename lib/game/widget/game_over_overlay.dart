@@ -162,6 +162,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                   CSLargeButton(
                     icon: icons.icoRestart,
                     onTap: () async {
+                      _bloc.add(const LoadHighScoreEvent());
                       await _controller.animateTo(
                         0,
                         duration: const Duration(milliseconds: 500),

@@ -9,6 +9,10 @@ sealed class CleanGrabBlocEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+final class LoadHighScoreEvent extends CleanGrabBlocEvent {
+  const LoadHighScoreEvent();
+}
+
 final class UpdateScoreEvent extends CleanGrabBlocEvent {
   final GarbageObject object;
 

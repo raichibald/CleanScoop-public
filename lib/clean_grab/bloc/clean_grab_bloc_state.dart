@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 
 class CleanGrabBlocState extends Equatable {
   final int score;
+  final int highScore;
   final int lives;
   final GameState gameState;
   final List<GarbageObject> collectableWasteObjects;
@@ -11,6 +12,7 @@ class CleanGrabBlocState extends Equatable {
 
   const CleanGrabBlocState({
     required this.score,
+    required this.highScore,
     required this.lives,
     required this.gameState,
     required this.collectableWasteObjects,
@@ -32,6 +34,7 @@ class CleanGrabBlocState extends Equatable {
 
   CleanGrabBlocState copyWith({
     int? score,
+    int? highScore,
     int? lives,
     GameState? gameState,
     List<GarbageObject>? collectableWasteObjects,
@@ -39,6 +42,7 @@ class CleanGrabBlocState extends Equatable {
   }) =>
       CleanGrabBlocState(
         score: score ?? this.score,
+        highScore: highScore ?? this.highScore,
         lives: lives ?? this.lives,
         gameState: gameState ?? this.gameState,
         collectableWasteObjects:
@@ -49,6 +53,7 @@ class CleanGrabBlocState extends Equatable {
   @override
   List<Object?> get props => [
         score,
+        highScore,
         lives,
         gameState,
         collectableWasteObjects,
