@@ -239,7 +239,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               vertical: 24,
-                              horizontal: 8,
+                              horizontal: 12,
                             ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
