@@ -285,7 +285,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                           onTap: () async {
                             await _alertController.animateTo(
                               0,
-                              duration: const Duration(milliseconds: 500),
+                              duration: const Duration(milliseconds: 300),
                               curve: Curves.fastLinearToSlowEaseIn,
                             );
 
