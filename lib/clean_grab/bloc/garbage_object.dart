@@ -41,23 +41,6 @@ enum GarbageObject {
     return objects.take(3).toList();
   }
 
-  //
-  // int get velocityRatio {
-  //   final random = Random();
-  //   return random.nextInt(2) + 1;
-  // }
-
-  // double get objectSize {
-  //   switch (this) {
-  //     case GarbageObject.paper:
-  //       return 50;
-  //     case GarbageObject.plasticBottle:
-  //       return 80;
-  //     case GarbageObject.fruit:
-  //       return 100;
-  //   }
-  // }
-
   String get icon {
     const icons = Assets.icons;
 
