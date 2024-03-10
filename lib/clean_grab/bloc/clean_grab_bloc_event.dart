@@ -1,4 +1,5 @@
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
+import 'package:clean_scoop/game/models/environment_fact.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:equatable/equatable.dart';
 
@@ -52,3 +53,11 @@ final class RestartGameStateEvent extends CleanGrabBlocEvent {
   const RestartGameStateEvent();
 }
 
+final class SetSelectedEnvironmentFactEvent extends CleanGrabBlocEvent {
+  final EnvironmentFact fact;
+
+  const SetSelectedEnvironmentFactEvent(this.fact);
+
+  @override
+  List<Object?> get props => [fact];
+}

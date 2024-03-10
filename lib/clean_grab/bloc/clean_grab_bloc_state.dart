@@ -1,4 +1,5 @@
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
+import 'package:clean_scoop/game/models/environment_fact.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,6 +10,7 @@ class CleanGrabBlocState extends Equatable {
   final GameState gameState;
   final List<GarbageObject> collectableWasteObjects;
   final List<GarbageObject> unpickedWasteObjects;
+  final EnvironmentFact selectedEnvironmentFact;
 
   const CleanGrabBlocState({
     required this.score,
@@ -17,6 +19,7 @@ class CleanGrabBlocState extends Equatable {
     required this.gameState,
     required this.collectableWasteObjects,
     required this.unpickedWasteObjects,
+    required this.selectedEnvironmentFact,
   });
 
   bool get isPaused =>
@@ -32,6 +35,9 @@ class CleanGrabBlocState extends Equatable {
 
   bool get isIdle => gameState == GameState.idle;
 
+  bool get isEnvironmentFactDisplayed =>
+      selectedEnvironmentFact != EnvironmentFact.none;
+
   CleanGrabBlocState copyWith({
     int? score,
     int? highScore,
@@ -39,6 +45,7 @@ class CleanGrabBlocState extends Equatable {
     GameState? gameState,
     List<GarbageObject>? collectableWasteObjects,
     List<GarbageObject>? unpickedWasteObjects,
+    EnvironmentFact? selectedEnvironmentFact,
   }) =>
       CleanGrabBlocState(
         score: score ?? this.score,
@@ -48,6 +55,8 @@ class CleanGrabBlocState extends Equatable {
         collectableWasteObjects:
             collectableWasteObjects ?? this.collectableWasteObjects,
         unpickedWasteObjects: unpickedWasteObjects ?? this.unpickedWasteObjects,
+        selectedEnvironmentFact:
+            selectedEnvironmentFact ?? this.selectedEnvironmentFact,
       );
 
   @override
@@ -58,5 +67,6 @@ class CleanGrabBlocState extends Equatable {
         gameState,
         collectableWasteObjects,
         unpickedWasteObjects,
+        selectedEnvironmentFact,
       ];
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
+import 'package:clean_scoop/game/models/environment_fact.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:clean_scoop/score/score_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
             gameState: GameState.idle,
             collectableWasteObjects: [GarbageObject.randomObject],
             unpickedWasteObjects: GarbageObject.wasteObjects,
+            selectedEnvironmentFact: EnvironmentFact.none,
           ),
         ) {
     on<LoadHighScoreEvent>(_onLoadHighScoreEvent);
@@ -31,6 +33,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     );
     on<ResetGameStateEvent>(_onResetGameStateEvent);
     on<RestartGameStateEvent>(_onRestartGameStateEvent);
+    on<SetSelectedEnvironmentFactEvent>(_onSetSelectedEnvironmentFactEvent);
   }
 
   Future<void> _onLoadHighScoreEvent(
@@ -178,4 +181,14 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
 
     add(const UpdateGameStateEvent(GameState.started));
   }
+
+  void _onSetSelectedEnvironmentFactEvent(
+    SetSelectedEnvironmentFactEvent event,
+    Emitter emit,
+  ) =>
+      emit(
+        state.copyWith(
+          selectedEnvironmentFact: event.fact,
+        ),
+      );
 }
