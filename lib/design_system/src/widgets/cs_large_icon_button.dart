@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CSLargeButton extends StatefulWidget {
+class CSLargeIconButton extends StatefulWidget {
   final String icon;
   final VoidCallback onTap;
 
-  const CSLargeButton({super.key, required this.icon, required this.onTap});
+  const CSLargeIconButton({super.key, required this.icon, required this.onTap});
 
   @override
-  State<CSLargeButton> createState() => _CSLargeButtonState();
+  State<CSLargeIconButton> createState() => _CSLargeIconButtonState();
 }
 
-class _CSLargeButtonState extends State<CSLargeButton> {
+class _CSLargeIconButtonState extends State<CSLargeIconButton> {
   var _isPressed = false;
 
   @override

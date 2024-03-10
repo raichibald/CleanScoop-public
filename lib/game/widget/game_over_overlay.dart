@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
-import 'package:clean_scoop/design_system/src/widgets/cs_large_button.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_custom_dialog.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_large_icon_button.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_large_text_button.dart';
 import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +45,16 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     curve: Curves.bounceOut,
   );
 
+  late final AnimationController _alertController = AnimationController(
+    duration: const Duration(milliseconds: 800),
+    vsync: this,
+  );
+
+  late final Animation<double> _alertAnimation = CurvedAnimation(
+    parent: _alertController,
+    curve: Curves.bounceOut,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -62,135 +76,182 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
       builder: (context, state) => Padding(
         padding: const EdgeInsets.only(top: 100, bottom: 64),
-        child: Column(
+        child: Stack(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ScaleTransition(
+                      scale: _animation,
+                      child: SvgPicture.asset(icons.icoGameOverLogo),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 48),
                 ScaleTransition(
                   scale: _animation,
-                  child: SvgPicture.asset(icons.icoGameOverLogo),
-                )
-              ],
-            ),
-            const Spacer(),
-            ScaleTransition(
-              scale: _animation,
-              child: Transform.rotate(
-                angle: -0.1,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Transform.rotate(
+                    angle: -0.1,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: [
+                          SvgPicture.asset(icons.icoDashedLine),
+                          Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Row(
+                              children: [
+                                CSScoreText(
+                                  text: state.score.toString(),
+                                  fontSize: 48,
+                                  strokeWidth: 8,
+                                  strokeColor: Colors.black,
+                                  textColor: const Color(0xFFFFCB0C),
+                                ),
+                                const Spacer(),
+                                const CSScoreText(
+                                  text: 'score',
+                                  fontSize: 20,
+                                  strokeWidth: 0,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SvgPicture.asset(icons.icoDashedLine),
+                          Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Row(
+                              children: [
+                                Row(
+                                  children: state.collectableWasteObjects
+                                      .map(
+                                        (item) => SvgPicture.asset(
+                                          item.icon,
+                                          height: 40,
+                                          width: 40,
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                                const Spacer(),
+                                const CSScoreText(
+                                  text: '300g',
+                                  fontSize: 20,
+                                  strokeWidth: 0,
+                                ),
+                              ],
+                            ),
+                          ),
+                          CSLargeTextButton(
+                            title: 'SEE YOUR IMPACT',
+                            onTap: () => _alertController.forward(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                ScaleTransition(
+                  scale: _animation,
                   child: Column(
                     children: [
-                      SvgPicture.asset(icons.icoDashedLine),
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Row(
-                          children: [
-                            CSScoreText(
-                              text: state.score.toString(),
-                              fontSize: 48,
-                              strokeWidth: 8,
-                              strokeColor: Colors.black,
-                              textColor: const Color(0xFFFFCB0C),
-                            ),
-                            const Spacer(),
-                            const CSScoreText(
-                              text: 'score',
-                              fontSize: 20,
-                              strokeWidth: 0,
-                            ),
-                          ],
-                        ),
+                      CSLargeIconButton(
+                        icon: icons.icoRestart,
+                        onTap: () async {
+                          await _alertController.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                          );
+                          _bloc.add(const LoadHighScoreEvent());
+                          await _controller.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                          );
+
+                          gameRef.overlays.remove('GameOver');
+                          gameRef.overlays.add('GameControls');
+                          _bloc.add(const RestartGameStateEvent());
+                          gameRef.overlays.remove('MainMenu');
+                        },
                       ),
-                      SvgPicture.asset(icons.icoDashedLine),
-                      const Padding(
-                        padding: EdgeInsets.all(24),
-                        child: Row(
-                          children: [
-                            CSScoreText(
-                              text: '4',
-                              fontSize: 48,
-                              strokeWidth: 8,
-                              strokeColor: Colors.black,
-                              textColor: Color(0xFFFF7D75),
-                            ),
-                            Spacer(),
-                            CSScoreText(
-                              text: 'earth impact',
-                              fontSize: 20,
-                              strokeWidth: 0,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SvgPicture.asset(icons.icoDashedLine),
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Row(
-                          children: [
-                            Row(
-                              children: state.collectableWasteObjects
-                                  .map(
-                                    (item) => SvgPicture.asset(
-                                      item.icon,
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                            const Spacer(),
-                            const CSScoreText(
-                              text: '300g',
-                              fontSize: 20,
-                              strokeWidth: 0,
-                            ),
-                          ],
-                        ),
+                      const SizedBox(height: 24),
+                      CSLargeIconButton(
+                        icon: icons.icoHome,
+                        onTap: () async {
+                          // TODO: Check if need to add animation.
+                          await _alertController.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                          );
+                          gameRef.overlays.remove('GameOver');
+                          gameRef.overlays.add('MainMenu');
+                          _bloc.add(const ResetGameStateEvent());
+                        },
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            const Spacer(),
-            ScaleTransition(
-              scale: _animation,
-              child: Column(
-                children: [
-                  CSLargeButton(
-                    icon: icons.icoRestart,
-                    onTap: () async {
-                      _bloc.add(const LoadHighScoreEvent());
-                      await _controller.animateTo(
-                        0,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                      );
-
-                      gameRef.overlays.remove('GameOver');
-                      gameRef.overlays.add('GameControls');
-                      _bloc.add(const RestartGameStateEvent());
-                      gameRef.overlays.remove('MainMenu');
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  CSLargeButton(
-                    icon: icons.icoHome,
-                    onTap: () {
-                      // TODO: Check if need to add animation.
-                      gameRef.overlays.remove('GameOver');
-                      gameRef.overlays.add('MainMenu');
-                      _bloc.add(const ResetGameStateEvent());
-                    },
-                  ),
-                ],
-              ),
-            ),
+            CSCustomDialog(
+                animation: _alertAnimation,
+                title: 'Environmental impact',
+                content: EnvironmentalImpact.randomEnvironmentalMessage,
+                onCloseTap: () {
+                  _alertController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                  );
+                }),
           ],
         ),
       ),
     );
   }
 }
+
+// TODO: Temporary. Don't like this.
+class EnvironmentalImpact {
+  static get randomEnvironmentalMessage {
+    final random = Random();
+    final randomInt = random.nextInt(10) + 1;
+
+    return '\n ${environmentalImpact[randomInt]} \n\n ${recyclingTips[randomInt]}';
+  }
+
+  static const Map<int, String> environmentalImpact = {
+    1: "Equivalent Trees Planted: Planting {X} trees can absorb approximately {Y} kg of CO2 annually.",
+    2: "Water Saved by Recycling Paper: Recycling {X} kg of paper saves approximately {Y} liters of water.",
+    3: "Energy Conserved by Recycling: Recycling {X} kg of plastic saves {Y} kWh of energy.",
+    4: "Wildlife Protected by Reducing Plastic Waste: By collecting {X} plastic items, you've potentially saved {Y} marine animals from harm.",
+    5: "Landfill Space Saved: You've saved {X} cubic meters of landfill space.",
+    6: "Pollution Reduction from Recycling Metals: Recycling {X} kg of metal reduces air pollution by {Y} kg.",
+    7: "Energy Saved by Recycling Glass: Recycling {X} kg of glass saves {Y} kWh of energy.",
+    8: "Greenhouse Gas Emissions Avoided: You've avoided {Y} kg of greenhouse gas emissions by recycling {X} kg of waste.",
+    9: "Energy Saved by Recycling Aluminum: Recycling {X} aluminum cans saves {Y} kWh of energy.",
+    10: "Reduced Need for Raw Materials: Recycling {X} kg of materials reduces the need for {Y} kg of raw materials."
+  };
+
+  static const Map<int, String> recyclingTips = {
+    1: "Start a recycling station at home: Set up separate bins for paper, plastics, metals, and glass to make recycling easier and more efficient.",
+    2: "Familiarize yourself with local recycling rules to ensure you're recycling correctly and not contaminating the recycling stream.",
+    3: "Try to reduce waste and reuse items before recycling. It's the most effective way to minimize environmental impact.",
+    4: "Find local e-waste recycling programs for your old electronics. They contain valuable materials that can be reused.",
+    5: "Start composting at home to recycle kitchen scraps and yard waste, turning them into valuable fertilizer for your garden.",
+    6: "Share your knowledge and encourage friends and family to start recycling. Collective effort makes a big difference.",
+    7: "oin or organize local events to clean up neighborhoods, parks, and beaches, recycling what you collect.",
+    8: "Support the recycling industry and encourage the market for recycled goods by choosing them whenever possible.",
+    9: "Opt for reusable alternatives to single-use plastic items, which are often difficult to recycle and harmful to the environment.",
+    10: "Batteries, paint, and chemicals should never go in regular recycling. Look for special disposal options to handle them safely."
+  };
+}
+
+
+

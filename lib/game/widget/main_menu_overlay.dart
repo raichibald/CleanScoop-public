@@ -2,7 +2,8 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
-import 'package:clean_scoop/design_system/src/widgets/cs_large_button.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_custom_dialog.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_large_icon_button.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game/models/environment_fact.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
@@ -173,7 +174,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                     scale: _animation,
                     child: Column(
                       children: [
-                        CSLargeButton(
+                        CSLargeIconButton(
                           icon: icons.icoPlay,
                           onTap: () async {
                             await _alertController.animateTo(
@@ -196,8 +197,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
 
                             final gameRef = widget.game;
                             gameRef.overlays.add('GameControls');
-                            _bloc
-                                .add(
+                            _bloc.add(
                                 const UpdateGameStateEvent(GameState.started));
                             _bloc.add(
                                 const UpdateCollectableWasteObjectsEvent());
@@ -209,97 +209,23 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
                   )
                 ],
               ),
-              ScaleTransition(
-                scale: _alertAnimation,
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 40,
-                          vertical: 24,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFCCF3DD),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(40),
-                            ),
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 4,
-                            ),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0xFF000000),
-                                offset: Offset(6, 6),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 24,
-                              horizontal: 12,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text(
-                                  'Did you know?',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    height: 0.7,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800,
-                                    decoration: TextDecoration.none,
-                                    decorationColor: Colors.transparent,
-                                    decorationThickness: 0.01,
-                                    // fontFamily: FontFamily.oi,
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  state.selectedEnvironmentFact.description,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    height: 1.2,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.none,
-                                    decorationColor: Colors.transparent,
-                                    decorationThickness: 0.01,
-                                    // fontFamily: FontFamily.oi,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 24,
-                        child: _AlertCloseButton(
-                          onTap: () async {
-                            await _alertController.animateTo(
-                              0,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                            );
+              CSCustomDialog(
+                animation: _alertAnimation,
+                title: 'Did you know?',
+                content: state.selectedEnvironmentFact.description,
+                onCloseTap: () async {
+                  await _alertController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                  );
 
-                            _bloc.add(
-                              const SetSelectedEnvironmentFactEvent(
-                                EnvironmentFact.none,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                  _bloc.add(
+                    const SetSelectedEnvironmentFactEvent(
+                      EnvironmentFact.none,
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -335,70 +261,6 @@ class _MainMenuWasteObjectState extends State<_MainMenuWasteObject> {
         },
         onTapCancel: () => setState(() => _isPressed = false),
         child: SvgPicture.asset(widget.icon),
-      ),
-    );
-  }
-}
-
-class _AlertCloseButton extends StatefulWidget {
-  final VoidCallback onTap;
-
-  const _AlertCloseButton({required this.onTap});
-
-  @override
-  State<_AlertCloseButton> createState() => _AlertCloseButtonState();
-}
-
-class _AlertCloseButtonState extends State<_AlertCloseButton> {
-  var _isPressed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) {
-        setState(() => _isPressed = false);
-        widget.onTap();
-      },
-      onTapCancel: () => setState(() => _isPressed = false),
-      child: AnimatedScale(
-        scale: _isPressed ? 0.8 : 1,
-        duration: const Duration(milliseconds: 150),
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFFCCF3DD),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(16),
-            ),
-            border: Border.all(
-              color: Colors.black,
-              width: 3,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0xFF000000),
-                offset: Offset(4, 4),
-              ),
-            ],
-          ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            child: Text(
-              'X',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                height: 0.7,
-                color: Colors.black,
-                fontWeight: FontWeight.w800,
-                decoration: TextDecoration.none,
-                decorationColor: Colors.transparent,
-                decorationThickness: 0.01,
-                // fontFamily: FontFamily.oi,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

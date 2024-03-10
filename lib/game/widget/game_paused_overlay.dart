@@ -2,7 +2,7 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
-import 'package:clean_scoop/design_system/src/widgets/cs_large_button.dart';
+import 'package:clean_scoop/design_system/src/widgets/cs_large_icon_button.dart';
 import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
@@ -125,7 +125,7 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
                     scale: _animation,
                     child: Column(
                       children: [
-                        CSLargeButton(
+                        CSLargeIconButton(
                           icon: icons.icoPlay,
                           onTap: () async {
                             await _controller.animateTo(
@@ -145,7 +145,7 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
                           },
                         ),
                         const SizedBox(height: 24),
-                        CSLargeButton(
+                        CSLargeIconButton(
                           icon: icons.icoHome,
                           onTap: () async {
                             // TODO: Check if need to add animation.
