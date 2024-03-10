@@ -20,6 +20,7 @@ class TapGame extends FlameGame with HasCollisionDetection {
 
   late final SpawnComponent _wasteObjectSpawner;
   late final SpawnComponent _poisonObjectSpawner;
+  late final SpawnComponent _lifeObjectSpawner;
 
   late final FlameBlocProvider _blocProvider;
 
@@ -55,7 +56,8 @@ class TapGame extends FlameGame with HasCollisionDetection {
     _wasteObjectSpawner = SpawnComponent.periodRange(
       factory: (index) {
         return FallingObjectComponent(
-            garbageObject: GarbageObject.randomObject);
+          garbageObject: GarbageObject.randomObject,
+        );
       },
       minPeriod: 0.45,
       maxPeriod: 0.9,
@@ -71,7 +73,8 @@ class TapGame extends FlameGame with HasCollisionDetection {
     _poisonObjectSpawner = SpawnComponent.periodRange(
       factory: (index) {
         return FallingObjectComponent(
-            garbageObject: GarbageObject.poison);
+          garbageObject: GarbageObject.poison,
+        );
       },
       minPeriod: 10,
       maxPeriod: 20,
@@ -84,8 +87,26 @@ class TapGame extends FlameGame with HasCollisionDetection {
       ),
     );
 
+    _lifeObjectSpawner = SpawnComponent.periodRange(
+      factory: (index) {
+        return FallingObjectComponent(
+          garbageObject: GarbageObject.heart,
+        );
+      },
+      minPeriod: 5,
+      maxPeriod: 10,
+      autoStart: false,
+      area: Rectangle.fromLTWH(
+        FallingObjectComponent.objSize / 2,
+        size.y,
+        size.x - FallingObjectComponent.objSize,
+        0,
+      ),
+    );
+
     _blocProvider.add(_poisonObjectSpawner);
     _blocProvider.add(_wasteObjectSpawner);
+    _blocProvider.add(_lifeObjectSpawner);
 
     // add(_wasteObjectSpawner);
 
@@ -108,6 +129,14 @@ class TapGame extends FlameGame with HasCollisionDetection {
     _poisonObjectSpawner.timer.stop();
   }
 
+  void startSpawningLives() {
+    _lifeObjectSpawner.timer.start();
+  }
+
+  void stopSpawningLives() {
+    _lifeObjectSpawner.timer.stop();
+  }
+
   @override
   bool containsLocalPoint(Vector2 point) =>
       size.toRect().contains(point.toOffset());
@@ -118,6 +147,7 @@ class CleanScoopGameWrapperComponent extends PositionComponent
         FlameBlocListenable<CleanGrabBloc, CleanGrabBlocState>,
         HasGameRef<TapGame> {
   var _hasSpawned = false;
+  var _hasSpawnedLives = false;
 
   @override
   void onNewState(CleanGrabBlocState state) async {
@@ -130,15 +160,30 @@ class CleanScoopGameWrapperComponent extends PositionComponent
 
     if (state.gameState == GameState.idle) {
       _hasSpawned = false;
+      _hasSpawnedLives = false;
+
       gameRef.stopSpawningComponents();
+      gameRef.stopSpawningLives();
+    }
+
+    if (state.isActive && !_hasSpawnedLives && state.canSpawnLives) {
+      _hasSpawnedLives = true;
+      gameRef.startSpawningLives();
+    }
+
+    if (!state.canSpawnLives) {
+      gameRef.stopSpawningLives();
     }
 
     if (state.lives == 0) {
       gameRef.stopSpawningComponents();
+      gameRef.stopSpawningLives();
+
       bloc.add(const UpdateGameStateEvent(GameState.ended));
       gameRef.overlays.add('GameOver');
       gameRef.overlays.remove('GameControls');
       _hasSpawned = false;
+      _hasSpawnedLives = false;
     }
 
     if (state.isPaused) {
@@ -149,7 +194,11 @@ class CleanScoopGameWrapperComponent extends PositionComponent
 
     if (state.gameState == GameState.levelUp) {
       _hasSpawned = false;
+      _hasSpawnedLives = false;
+
       gameRef.stopSpawningComponents();
+      gameRef.stopSpawningLives();
+
       await Future.delayed(const Duration(seconds: 3)).then(
         (value) => bloc.add(
           const UpdateGameStateEvent(GameState.active),

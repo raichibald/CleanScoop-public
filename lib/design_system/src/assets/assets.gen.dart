@@ -21,6 +21,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_background.svg
   String get icoBackground => 'assets/icons/ico_background.svg';
 
+  /// File path: assets/icons/ico_cup.svg
+  String get icoCup => 'assets/icons/ico_cup.svg';
+
   /// File path: assets/icons/ico_dashed_line.svg
   String get icoDashedLine => 'assets/icons/ico_dashed_line.svg';
 
@@ -38,6 +41,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/ico_heart.svg
   String get icoHeart => 'assets/icons/ico_heart.svg';
+
+  /// File path: assets/icons/ico_heart_large.svg
+  String get icoHeartLarge => 'assets/icons/ico_heart_large.svg';
 
   /// File path: assets/icons/ico_home.svg
   String get icoHome => 'assets/icons/ico_home.svg';
@@ -84,12 +90,14 @@ class $AssetsIconsGen {
         icoApple,
         icoAppleWeight,
         icoBackground,
+        icoCup,
         icoDashedLine,
         icoGameOverLogo,
         icoGamePausedLogo,
         icoGlassBottle,
         icoGlassBottleWeight,
         icoHeart,
+        icoHeartLarge,
         icoHome,
         icoLogo,
         icoMainMenu,

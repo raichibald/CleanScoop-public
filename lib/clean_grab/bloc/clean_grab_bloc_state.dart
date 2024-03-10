@@ -7,6 +7,7 @@ class CleanGrabBlocState extends Equatable {
   final int score;
   final int highScore;
   final int lives;
+  final int collectedLives;
   final GameState gameState;
   final List<GarbageObject> collectableWasteObjects;
   final List<GarbageObject> unpickedWasteObjects;
@@ -16,6 +17,7 @@ class CleanGrabBlocState extends Equatable {
     required this.score,
     required this.highScore,
     required this.lives,
+    required this.collectedLives,
     required this.gameState,
     required this.collectableWasteObjects,
     required this.unpickedWasteObjects,
@@ -38,10 +40,13 @@ class CleanGrabBlocState extends Equatable {
   bool get isEnvironmentFactDisplayed =>
       selectedEnvironmentFact != EnvironmentFact.none;
 
+  bool get canSpawnLives => lives < 3 && collectedLives < 3;
+
   CleanGrabBlocState copyWith({
     int? score,
     int? highScore,
     int? lives,
+    int? collectedLives,
     GameState? gameState,
     List<GarbageObject>? collectableWasteObjects,
     List<GarbageObject>? unpickedWasteObjects,
@@ -51,6 +56,7 @@ class CleanGrabBlocState extends Equatable {
         score: score ?? this.score,
         highScore: highScore ?? this.highScore,
         lives: lives ?? this.lives,
+        collectedLives: collectedLives ?? this.collectedLives,
         gameState: gameState ?? this.gameState,
         collectableWasteObjects:
             collectableWasteObjects ?? this.collectableWasteObjects,
@@ -64,6 +70,7 @@ class CleanGrabBlocState extends Equatable {
         score,
         highScore,
         lives,
+        collectedLives,
         gameState,
         collectableWasteObjects,
         unpickedWasteObjects,

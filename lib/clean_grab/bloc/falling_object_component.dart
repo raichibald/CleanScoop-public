@@ -137,7 +137,8 @@ class FallingObjectComponent extends SvgComponent
     super.onTapDown(event);
 
     if (gameRef.paused) return;
-    if (bloc.state.collectableWasteObjects.contains(garbageObject)) {
+    if (garbageObject == GarbageObject.heart ||
+        bloc.state.collectableWasteObjects.contains(garbageObject)) {
       HapticFeedback.heavyImpact();
     } else {
       HapticFeedback.vibrate();

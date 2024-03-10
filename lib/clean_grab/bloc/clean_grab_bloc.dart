@@ -18,6 +18,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
             score: 0,
             highScore: 0,
             lives: 3,
+            collectedLives: 0,
             gameState: GameState.idle,
             collectableWasteObjects: [GarbageObject.randomObject],
             unpickedWasteObjects: GarbageObject.wasteObjects,
@@ -57,6 +58,18 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
       );
 
       _scoreRepository.setPlayerHighScore(previousScore);
+
+      return;
+    }
+
+    if (event.object == GarbageObject.heart && state.collectedLives < 3) {
+      print("???????? dafuq");
+      emit(
+        state.copyWith(
+          lives: state.lives + 1,
+          collectedLives: state.collectedLives + 1,
+        ),
+      );
 
       return;
     }
@@ -173,7 +186,6 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
       state.copyWith(
         score: 0,
         lives: 3,
-        // gameState: GameState.started,
         collectableWasteObjects: [GarbageObject.randomObject],
         unpickedWasteObjects: GarbageObject.values,
       ),

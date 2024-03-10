@@ -7,7 +7,9 @@ enum GarbageObject {
   plasticBottle(2),
   glassBottle(3),
   fruit(4),
-  poison(5);
+  cup(5),
+  heart(6),
+  poison(7);
 
   final int value;
 
@@ -27,9 +29,15 @@ enum GarbageObject {
   }
 
   static List<GarbageObject> get wasteObjects {
-    final resolvedObjects = GarbageObject.values.where(
-      (item) => item != GarbageObject.poison,
-    );
+    // final resolvedObjects = GarbageObject.values.where(
+    //   (item) => item != GarbageObject.poison && item != GarbageObject.heart,
+    // );
+    final resolvedObjects = [
+      GarbageObject.paper,
+      GarbageObject.plasticBottle,
+      GarbageObject.glassBottle,
+      GarbageObject.fruit,
+    ];
 
     return resolvedObjects.toList();
   }
@@ -53,6 +61,10 @@ enum GarbageObject {
         return icons.icoGlassBottle;
       case GarbageObject.fruit:
         return icons.icoApple;
+      case GarbageObject.cup:
+        return icons.icoCup;
+      case GarbageObject.heart:
+        return icons.icoHeartLarge;
       case GarbageObject.poison:
         return icons.icoMushroom;
     }
@@ -67,7 +79,10 @@ enum GarbageObject {
       case GarbageObject.poison:
         return 2;
       case GarbageObject.fruit:
+      case GarbageObject.cup:
         return 3;
+      case GarbageObject.heart:
+        return 4;
     }
   }
 }
