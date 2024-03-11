@@ -1,30 +1,9 @@
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
+import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
 import 'package:clean_scoop/game/models/environment_fact.dart';
 import 'package:clean_scoop/game/models/environment_impact_data_mapper.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:equatable/equatable.dart';
-
-class CollectedObjectData extends Equatable {
-  final int count;
-  final double weight;
-
-  const CollectedObjectData({
-    required this.count,
-    required this.weight,
-  });
-
-  CollectedObjectData copyWith({int? count, double? weight}) =>
-      CollectedObjectData(
-        count: count ?? this.count,
-        weight: weight ?? this.weight,
-      );
-
-  @override
-  List<Object?> get props => [
-        count,
-        weight,
-      ];
-}
 
 class CleanGrabBlocState extends Equatable {
   final int score;
