@@ -4,6 +4,7 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
 import 'package:clean_scoop/game/models/environment_fact.dart';
+import 'package:clean_scoop/game/models/environment_impact_data_mapper.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:clean_scoop/score/score_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,10 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
             collectableWasteObjects: [GarbageObject.randomObject],
             unpickedWasteObjects: GarbageObject.wasteObjects,
             selectedEnvironmentFact: EnvironmentFact.none,
+            collectedObjects: const {},
+            totalEnergySaved: 0,
+            totalWaterSaved: 0,
+            totalCO2Reduced: 0,
           ),
         ) {
     on<LoadHighScoreEvent>(_onLoadHighScoreEvent);
@@ -48,6 +53,36 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
 
   void _onUpdateScoreEvent(UpdateScoreEvent event, Emitter emit) {
     final previousScore = state.score;
+    final collectedObject = event.object;
+    final isObjective = state.collectableWasteObjects.contains(collectedObject);
+
+    if (isObjective) {
+      var collectedObjects =
+          Map<GarbageObject, CollectedObjectData>.from(state.collectedObjects);
+      final existingObjectValue = collectedObjects[collectedObject];
+      final weight = collectedObject.weightInKilograms ?? 0;
+
+      if (state.collectedObjects.containsKey(collectedObject) &&
+          existingObjectValue != null) {
+        collectedObjects.update(
+          collectedObject,
+          (value) {
+            final updatedCount = value.count + 1;
+            return value.copyWith(
+              count: updatedCount,
+              weight: weight * updatedCount,
+            );
+          },
+        );
+      } else if (!state.collectedObjects.containsKey(collectedObject)) {
+        collectedObjects[event.object] = CollectedObjectData(
+          count: 1,
+          weight: weight,
+        );
+      }
+
+      emit(state.copyWith(collectedObjects: collectedObjects));
+    }
 
     if (event.object == GarbageObject.poison) {
       emit(
@@ -63,7 +98,6 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     }
 
     if (event.object == GarbageObject.heart && state.collectedLives < 3) {
-      print("???????? dafuq");
       emit(
         state.copyWith(
           lives: state.lives + 1,
@@ -74,7 +108,6 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
       return;
     }
 
-    final isObjective = state.collectableWasteObjects.contains(event.object);
     final isLevelingUp = state.hasLeveledUp;
     final lives = state.lives;
     final updatedLives = isObjective || isLevelingUp ? lives : lives - 1;
@@ -162,6 +195,17 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     } else {
       emit(state.copyWith(gameState: gameState));
     }
+
+    if (gameState == GameState.ended) {
+      final impactMapper = WasteImpactMapper(state.collectedObjects);
+      emit(
+        state.copyWith(
+          totalEnergySaved: impactMapper.totalEnergySaved,
+          totalWaterSaved: impactMapper.totalWaterSaved,
+          totalCO2Reduced: impactMapper.totalCO2Reduced,
+        ),
+      );
+    }
   }
 
   void _onUpdateCollectableWasteObjectsEvent(
@@ -177,7 +221,8 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
           lives: 3,
           gameState: GameState.idle,
           collectableWasteObjects: [],
-          unpickedWasteObjects: GarbageObject.values,
+          unpickedWasteObjects: GarbageObject.wasteObjects,
+          collectedObjects: {},
         ),
       );
 
@@ -187,7 +232,8 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
         score: 0,
         lives: 3,
         collectableWasteObjects: [GarbageObject.randomObject],
-        unpickedWasteObjects: GarbageObject.values,
+        unpickedWasteObjects: GarbageObject.wasteObjects,
+        collectedObjects: {},
       ),
     );
 

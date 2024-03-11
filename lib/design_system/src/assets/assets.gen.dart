@@ -27,6 +27,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_dashed_line.svg
   String get icoDashedLine => 'assets/icons/ico_dashed_line.svg';
 
+  /// File path: assets/icons/ico_dashed_line_grey.svg
+  String get icoDashedLineGrey => 'assets/icons/ico_dashed_line_grey.svg';
+
+  /// File path: assets/icons/ico_emissions.svg
+  String get icoEmissions => 'assets/icons/ico_emissions.svg';
+
+  /// File path: assets/icons/ico_energy.svg
+  String get icoEnergy => 'assets/icons/ico_energy.svg';
+
   /// File path: assets/icons/ico_forest.svg
   String get icoForest => 'assets/icons/ico_forest.svg';
 
@@ -88,6 +97,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ico_star.svg
   String get icoStar => 'assets/icons/ico_star.svg';
 
+  /// File path: assets/icons/ico_water.svg
+  String get icoWater => 'assets/icons/ico_water.svg';
+
   /// List of all assets
   List<String> get values => [
         icoApple,
@@ -95,6 +107,9 @@ class $AssetsIconsGen {
         icoBackground,
         icoCup,
         icoDashedLine,
+        icoDashedLineGrey,
+        icoEmissions,
+        icoEnergy,
         icoForest,
         icoGameOverLogo,
         icoGamePausedLogo,
@@ -114,7 +129,8 @@ class $AssetsIconsGen {
         icoPlay,
         icoRestart,
         icoResume,
-        icoStar
+        icoStar,
+        icoWater
       ];
 }
 

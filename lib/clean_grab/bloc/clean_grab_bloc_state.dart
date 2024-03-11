@@ -1,7 +1,30 @@
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
 import 'package:clean_scoop/game/models/environment_fact.dart';
+import 'package:clean_scoop/game/models/environment_impact_data_mapper.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:equatable/equatable.dart';
+
+class CollectedObjectData extends Equatable {
+  final int count;
+  final double weight;
+
+  const CollectedObjectData({
+    required this.count,
+    required this.weight,
+  });
+
+  CollectedObjectData copyWith({int? count, double? weight}) =>
+      CollectedObjectData(
+        count: count ?? this.count,
+        weight: weight ?? this.weight,
+      );
+
+  @override
+  List<Object?> get props => [
+        count,
+        weight,
+      ];
+}
 
 class CleanGrabBlocState extends Equatable {
   final int score;
@@ -12,6 +35,10 @@ class CleanGrabBlocState extends Equatable {
   final List<GarbageObject> collectableWasteObjects;
   final List<GarbageObject> unpickedWasteObjects;
   final EnvironmentFact selectedEnvironmentFact;
+  final Map<GarbageObject, CollectedObjectData> collectedObjects;
+  final double totalEnergySaved;
+  final double totalWaterSaved;
+  final double totalCO2Reduced;
 
   const CleanGrabBlocState({
     required this.score,
@@ -22,6 +49,10 @@ class CleanGrabBlocState extends Equatable {
     required this.collectableWasteObjects,
     required this.unpickedWasteObjects,
     required this.selectedEnvironmentFact,
+    required this.collectedObjects,
+    required this.totalEnergySaved,
+    required this.totalWaterSaved,
+    required this.totalCO2Reduced,
   });
 
   bool get isPaused =>
@@ -51,6 +82,10 @@ class CleanGrabBlocState extends Equatable {
     List<GarbageObject>? collectableWasteObjects,
     List<GarbageObject>? unpickedWasteObjects,
     EnvironmentFact? selectedEnvironmentFact,
+    Map<GarbageObject, CollectedObjectData>? collectedObjects,
+    double? totalEnergySaved,
+    double? totalWaterSaved,
+    double? totalCO2Reduced,
   }) =>
       CleanGrabBlocState(
         score: score ?? this.score,
@@ -63,6 +98,10 @@ class CleanGrabBlocState extends Equatable {
         unpickedWasteObjects: unpickedWasteObjects ?? this.unpickedWasteObjects,
         selectedEnvironmentFact:
             selectedEnvironmentFact ?? this.selectedEnvironmentFact,
+        collectedObjects: collectedObjects ?? this.collectedObjects,
+        totalEnergySaved: totalEnergySaved ?? this.totalEnergySaved,
+        totalWaterSaved: totalWaterSaved ?? this.totalWaterSaved,
+        totalCO2Reduced: totalCO2Reduced ?? this.totalCO2Reduced,
       );
 
   @override
@@ -75,5 +114,9 @@ class CleanGrabBlocState extends Equatable {
         collectableWasteObjects,
         unpickedWasteObjects,
         selectedEnvironmentFact,
+        collectedObjects,
+        totalEnergySaved,
+        totalWaterSaved,
+        totalCO2Reduced,
       ];
 }

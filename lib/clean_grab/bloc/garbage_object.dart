@@ -85,4 +85,23 @@ enum GarbageObject {
         return 4;
     }
   }
+
+  double? get weightInKilograms {
+    switch (this) {
+      case GarbageObject.paper:
+        return 0.005;
+      case GarbageObject.plasticBottle:
+        return 0.012;
+      case GarbageObject.glassBottle:
+        return 0.2;
+      case GarbageObject.fruit:
+        return 0.085;
+      case GarbageObject.cup:
+        // TODO: Implement cup.
+        return 3;
+      case GarbageObject.poison:
+      case GarbageObject.heart:
+        return null;
+    }
+  }
 }

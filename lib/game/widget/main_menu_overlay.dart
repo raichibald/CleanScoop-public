@@ -211,8 +211,39 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
               ),
               CSCustomDialog(
                 animation: _alertAnimation,
-                title: 'Did you know?',
-                content: state.selectedEnvironmentFact.description,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Did you know?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        height: 0.7,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w800,
+                        decoration: TextDecoration.none,
+                        decorationColor: Colors.transparent,
+                        decorationThickness: 0.01,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      state.selectedEnvironmentFact.description,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        height: 1.2,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.none,
+                        decorationColor: Colors.transparent,
+                        decorationThickness: 0.01,
+                        // fontFamily: FontFamily.oi,
+                      ),
+                    ),
+                  ],
+                ),
                 onCloseTap: () async {
                   await _alertController.animateTo(
                     0,

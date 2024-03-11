@@ -9,6 +9,7 @@ import 'package:clean_scoop/design_system/src/widgets/cs_large_icon_button.dart'
 import 'package:clean_scoop/design_system/src/widgets/cs_large_text_button.dart';
 import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
+import 'package:clean_scoop/utils/extension/double_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -144,10 +145,11 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                               ],
                             ),
                           ),
-                          CSLargeTextButton(
-                            title: 'SEE YOUR IMPACT',
-                            onTap: () => _alertController.forward(),
-                          ),
+                          if (state.collectedObjects.isNotEmpty)
+                            CSLargeTextButton(
+                              title: 'SEE YOUR IMPACT',
+                              onTap: () => _alertController.forward(),
+                            ),
                         ],
                       ),
                     ),
@@ -200,19 +202,174 @@ class _GameOverOverlayState extends State<GameOverOverlay>
               ],
             ),
             CSCustomDialog(
-                animation: _alertAnimation,
-                title: 'Environmental impact',
-                content: EnvironmentalImpact.randomEnvironmentalMessage,
-                onCloseTap: () {
-                  _alertController.animateTo(
-                    0,
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.fastLinearToSlowEaseIn,
-                  );
-                }),
+              animation: _alertAnimation,
+              child: Column(
+                children: [
+                  const Text(
+                    'ENVIRONMENTAL\nIMPACT',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      height: 1.2,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800,
+                      decoration: TextDecoration.none,
+                      decorationColor: Colors.transparent,
+                      decorationThickness: 0.01,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Column(
+                    children: state.collectedObjects.entries
+                        .map(
+                          (item) => Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text(
+                                      item.value.count.toString(),
+                                      textAlign: TextAlign.right,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        height: 1.2,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                        decoration: TextDecoration.none,
+                                        decorationColor: Colors.transparent,
+                                        decorationThickness: 0.01,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  SvgPicture.asset(
+                                    item.key.icon,
+                                    height: 40,
+                                    width: 40,
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Text(
+                                      '${item.value.weight.formattedDouble}kg',
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        height: 1.2,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                        decoration: TextDecoration.none,
+                                        decorationColor: Colors.transparent,
+                                        decorationThickness: 0.01,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              SvgPicture.asset(icons.icoDashedLineGrey),
+                              const SizedBox(height: 16),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        if (state.totalEnergySaved > 0)
+                          _EnvironmentalImpactRow(
+                              icon: icons.icoEnergy,
+                              title: 'Energy Saved',
+                              value:
+                                  '${state.totalEnergySaved.formattedDouble} kWh'),
+                        const SizedBox(height: 8),
+                        if (state.totalWaterSaved > 0)
+                          _EnvironmentalImpactRow(
+                              icon: icons.icoWater,
+                              title: 'Water Saved',
+                              value:
+                                  '${state.totalWaterSaved.formattedDouble} liters'),
+                        const SizedBox(height: 8),
+                        if (state.totalCO2Reduced > 0)
+                          _EnvironmentalImpactRow(
+                              icon: icons.icoEmissions,
+                              title: 'CO2 Reduction',
+                              value:
+                                  '${state.totalCO2Reduced.formattedDouble} kg'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              onCloseTap: () {
+                _alertController.animateTo(
+                  0,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                );
+              },
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _EnvironmentalImpactRow extends StatelessWidget {
+  final String icon;
+  final String title;
+  final String value;
+
+  const _EnvironmentalImpactRow({
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SvgPicture.asset(icon),
+        const SizedBox(width: 16),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.2,
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+                decoration: TextDecoration.none,
+                decorationColor: Colors.transparent,
+                decorationThickness: 0.01,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.2,
+                color: Color(0xFF0BB458),
+                fontWeight: FontWeight.w700,
+                decoration: TextDecoration.none,
+                decorationColor: Colors.transparent,
+                decorationThickness: 0.01,
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }
@@ -252,6 +409,3 @@ class EnvironmentalImpact {
     10: "Batteries, paint, and chemicals should never go in regular recycling. Look for special disposal options to handle them safely."
   };
 }
-
-
-
