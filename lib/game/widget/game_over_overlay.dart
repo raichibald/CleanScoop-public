@@ -8,6 +8,7 @@ import 'package:clean_scoop/design_system/src/widgets/cs_large_text_button.dart'
 import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/utils/extension/double_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -73,11 +74,11 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     final gameRef = widget.game;
 
     return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
-      builder: (context, state) => Padding(
-        padding: const EdgeInsets.only(top: 100, bottom: 64),
-        child: Stack(
-          children: [
-            Column(
+      builder: (context, state) => Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 100, bottom: 64),
+            child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -200,9 +201,12 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                 ),
               ],
             ),
-            CSCustomDialog(
+          ),
+          Center(
+            child: CSCustomDialog(
               animation: _alertAnimation,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Text(
                     'ENVIRONMENTAL\nIMPACT',
@@ -315,8 +319,8 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                 );
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
