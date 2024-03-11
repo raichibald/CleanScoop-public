@@ -137,8 +137,9 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                                       .toList(),
                                 ),
                                 const Spacer(),
-                                const CSScoreText(
-                                  text: '300g',
+                                CSScoreText(
+                                  text:
+                                      '${state.totalWeightCollected.formattedDouble}kg',
                                   fontSize: 20,
                                   strokeWidth: 0,
                                 ),
@@ -281,20 +282,22 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                     padding: const EdgeInsets.all(12),
                     child: Column(
                       children: [
-                        if (state.totalEnergySaved > 0)
+                        if (state.totalEnergySaved > 0)...[
                           _EnvironmentalImpactRow(
                               icon: icons.icoEnergy,
                               title: 'Energy Saved',
                               value:
                                   '${state.totalEnergySaved.formattedDouble} kWh'),
                         const SizedBox(height: 8),
-                        if (state.totalWaterSaved > 0)
+                        ],
+                        if (state.totalWaterSaved > 0)...[
                           _EnvironmentalImpactRow(
                               icon: icons.icoWater,
                               title: 'Water Saved',
                               value:
                                   '${state.totalWaterSaved.formattedDouble} liters'),
                         const SizedBox(height: 8),
+                        ],
                         if (state.totalCO2Reduced > 0)
                           _EnvironmentalImpactRow(
                               icon: icons.icoEmissions,

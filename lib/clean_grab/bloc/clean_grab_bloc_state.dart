@@ -1,7 +1,6 @@
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
 import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
 import 'package:clean_scoop/game/models/environment_fact.dart';
-import 'package:clean_scoop/game/models/environment_impact_data_mapper.dart';
 import 'package:clean_scoop/game/models/game_state.dart';
 import 'package:equatable/equatable.dart';
 
@@ -18,6 +17,7 @@ class CleanGrabBlocState extends Equatable {
   final double totalEnergySaved;
   final double totalWaterSaved;
   final double totalCO2Reduced;
+  final double totalWeightCollected;
 
   const CleanGrabBlocState({
     required this.score,
@@ -32,6 +32,7 @@ class CleanGrabBlocState extends Equatable {
     required this.totalEnergySaved,
     required this.totalWaterSaved,
     required this.totalCO2Reduced,
+    required this.totalWeightCollected,
   });
 
   bool get isPaused =>
@@ -65,6 +66,7 @@ class CleanGrabBlocState extends Equatable {
     double? totalEnergySaved,
     double? totalWaterSaved,
     double? totalCO2Reduced,
+    double? totalWeightCollected,
   }) =>
       CleanGrabBlocState(
         score: score ?? this.score,
@@ -81,6 +83,7 @@ class CleanGrabBlocState extends Equatable {
         totalEnergySaved: totalEnergySaved ?? this.totalEnergySaved,
         totalWaterSaved: totalWaterSaved ?? this.totalWaterSaved,
         totalCO2Reduced: totalCO2Reduced ?? this.totalCO2Reduced,
+        totalWeightCollected: totalWeightCollected ?? this.totalWeightCollected,
       );
 
   @override
@@ -97,5 +100,6 @@ class CleanGrabBlocState extends Equatable {
         totalEnergySaved,
         totalWaterSaved,
         totalCO2Reduced,
+        totalWeightCollected,
       ];
 }

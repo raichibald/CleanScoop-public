@@ -29,6 +29,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
             totalEnergySaved: 0,
             totalWaterSaved: 0,
             totalCO2Reduced: 0,
+            totalWeightCollected: 0,
           ),
         ) {
     on<LoadHighScoreEvent>(_onLoadHighScoreEvent);
@@ -198,12 +199,20 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     }
 
     if (gameState == GameState.ended) {
-      final impactMapper = WasteImpactMapper(state.collectedObjects);
+      final collectedObjects = state.collectedObjects;
+      final impactMapper = WasteImpactMapper(collectedObjects);
+      final totalWeightCollected = collectedObjects.entries.fold(
+        0.0,
+        (initialValue, element) =>
+            initialValue + element.value.weight * element.value.count,
+      );
+
       emit(
         state.copyWith(
           totalEnergySaved: impactMapper.totalEnergySaved,
           totalWaterSaved: impactMapper.totalWaterSaved,
           totalCO2Reduced: impactMapper.totalCO2Reduced,
+          totalWeightCollected: totalWeightCollected,
         ),
       );
     }
