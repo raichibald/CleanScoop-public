@@ -45,13 +45,13 @@ class _GameOverOverlayState extends State<GameOverOverlay>
   );
 
   late final AnimationController _alertController = AnimationController(
-    duration: const Duration(milliseconds: 800),
+    duration: const Duration(milliseconds: 500),
     vsync: this,
   );
 
   late final Animation<double> _alertAnimation = CurvedAnimation(
     parent: _alertController,
-    curve: Curves.bounceOut,
+    curve: Curves.fastLinearToSlowEaseIn,
   );
 
   @override
