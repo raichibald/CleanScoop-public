@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
@@ -375,40 +373,4 @@ class _EnvironmentalImpactRow extends StatelessWidget {
       ],
     );
   }
-}
-
-// TODO: Temporary. Don't like this.
-class EnvironmentalImpact {
-  static get randomEnvironmentalMessage {
-    final random = Random();
-    final randomInt = random.nextInt(10) + 1;
-
-    return '\n ${environmentalImpact[randomInt]} \n\n ${recyclingTips[randomInt]}';
-  }
-
-  static const Map<int, String> environmentalImpact = {
-    1: "Equivalent Trees Planted: Planting {X} trees can absorb approximately {Y} kg of CO2 annually.",
-    2: "Water Saved by Recycling Paper: Recycling {X} kg of paper saves approximately {Y} liters of water.",
-    3: "Energy Conserved by Recycling: Recycling {X} kg of plastic saves {Y} kWh of energy.",
-    4: "Wildlife Protected by Reducing Plastic Waste: By collecting {X} plastic items, you've potentially saved {Y} marine animals from harm.",
-    5: "Landfill Space Saved: You've saved {X} cubic meters of landfill space.",
-    6: "Pollution Reduction from Recycling Metals: Recycling {X} kg of metal reduces air pollution by {Y} kg.",
-    7: "Energy Saved by Recycling Glass: Recycling {X} kg of glass saves {Y} kWh of energy.",
-    8: "Greenhouse Gas Emissions Avoided: You've avoided {Y} kg of greenhouse gas emissions by recycling {X} kg of waste.",
-    9: "Energy Saved by Recycling Aluminum: Recycling {X} aluminum cans saves {Y} kWh of energy.",
-    10: "Reduced Need for Raw Materials: Recycling {X} kg of materials reduces the need for {Y} kg of raw materials."
-  };
-
-  static const Map<int, String> recyclingTips = {
-    1: "Start a recycling station at home: Set up separate bins for paper, plastics, metals, and glass to make recycling easier and more efficient.",
-    2: "Familiarize yourself with local recycling rules to ensure you're recycling correctly and not contaminating the recycling stream.",
-    3: "Try to reduce waste and reuse items before recycling. It's the most effective way to minimize environmental impact.",
-    4: "Find local e-waste recycling programs for your old electronics. They contain valuable materials that can be reused.",
-    5: "Start composting at home to recycle kitchen scraps and yard waste, turning them into valuable fertilizer for your garden.",
-    6: "Share your knowledge and encourage friends and family to start recycling. Collective effort makes a big difference.",
-    7: "oin or organize local events to clean up neighborhoods, parks, and beaches, recycling what you collect.",
-    8: "Support the recycling industry and encourage the market for recycled goods by choosing them whenever possible.",
-    9: "Opt for reusable alternatives to single-use plastic items, which are often difficult to recycle and harmful to the environment.",
-    10: "Batteries, paint, and chemicals should never go in regular recycling. Look for special disposal options to handle them safely."
-  };
 }
