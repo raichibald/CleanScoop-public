@@ -13,12 +13,14 @@ import 'package:clean_scoop/score/score_repository.dart';
 import 'package:clean_scoop/shared_preferences_key_value_storage/shared_preferences_key_value_storage.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     final sharedPreferences = await SharedPreferences.getInstance();
     final storage = SharedPreferencesKeyValueStorage(
