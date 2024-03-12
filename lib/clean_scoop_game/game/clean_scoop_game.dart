@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc.dart';
-import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_event.dart';
-import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_state.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_event.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_state.dart';
 import 'package:clean_scoop/clean_scoop_game/bloc/falling_object_component.dart';
 import 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';

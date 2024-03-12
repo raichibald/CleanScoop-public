@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
-import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_event.dart';
-import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_state.dart';
+import 'package:clean_scoop/clean_scoop_game/models/collected_object_data.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_event.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/environment_fact.dart';
 import 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
