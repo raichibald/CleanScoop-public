@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
@@ -10,7 +11,6 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class TapGame extends FlameGame with HasCollisionDetection {
@@ -25,19 +25,24 @@ class TapGame extends FlameGame with HasCollisionDetection {
   late final FlameBlocProvider _blocProvider;
 
   @override
-  Color backgroundColor() => const Color(0xFF0BB458);
+  Color backgroundColor() => const Color(0xFFA3EBDE);
 
-  static final _cameraViewport = Vector2(592, 1024);
+  final rand = Random();
+
+  // @override
+  // void render(Canvas canvas) {
+  //   /// DEBUG
+  //   super.render(canvas);
+  //   // Draw a crosshair at the expected center of the screen
+  //   final paint = Paint()..color = Colors.white;
+  //   canvas.drawLine(Vector2(size.x / 2, 0).toOffset(),
+  //       Vector2(size.x / 2, size.y).toOffset(), paint);
+  //   canvas.drawLine(Vector2(0, size.y / 2).toOffset(),
+  //       Vector2(size.x, size.y / 2).toOffset(), paint);
+  // }
 
   @override
   FutureOr<void> onLoad() async {
-    if (kIsWeb) {
-      camera = CameraComponent.withFixedResolution(
-        width: _cameraViewport.x,
-        height: _cameraViewport.y,
-      )..world = world;
-    }
-
     _blocProvider = FlameBlocProvider<CleanGrabBloc, CleanGrabBlocState>.value(
       value: _bloc,
       children: [
@@ -103,7 +108,13 @@ class TapGame extends FlameGame with HasCollisionDetection {
     _blocProvider.add(_wasteObjectSpawner);
     _blocProvider.add(_lifeObjectSpawner);
 
+    // add(_wasteObjectSpawner);
+
+    // add(ScreenHitbox());
+    // overlays.add('GameOver');
     overlays.add('MainMenu');
+    // overlays.add('LevelUp');
+    // overlays.add('GameControls');
 
     return super.onLoad();
   }
