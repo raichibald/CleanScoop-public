@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc.dart';
 import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_event.dart';
 import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_state.dart';
-import 'package:clean_scoop/clean_scoop_game/bloc/falling_object_component.dart';
+import 'package:clean_scoop/clean_scoop_game/components/waste_object_component.dart';
 import 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
 import 'package:flame/components.dart';
@@ -40,7 +40,7 @@ class CleanScoopGame extends FlameGame with HasCollisionDetection {
 
     _wasteObjectSpawner = SpawnComponent.periodRange(
       factory: (index) {
-        return FallingObjectComponent(
+        return WasteObjectComponent(
           garbageObject: WasteObject.randomObject,
         );
       },
@@ -48,16 +48,16 @@ class CleanScoopGame extends FlameGame with HasCollisionDetection {
       maxPeriod: 0.9,
       autoStart: false,
       area: Rectangle.fromLTWH(
-        FallingObjectComponent.objSize / 2,
+        WasteObjectComponent.objSize / 2,
         size.y,
-        size.x - FallingObjectComponent.objSize,
+        size.x - WasteObjectComponent.objSize,
         0,
       ),
     );
 
     _poisonObjectSpawner = SpawnComponent.periodRange(
       factory: (index) {
-        return FallingObjectComponent(
+        return WasteObjectComponent(
           garbageObject: WasteObject.poison,
         );
       },
@@ -65,16 +65,16 @@ class CleanScoopGame extends FlameGame with HasCollisionDetection {
       maxPeriod: 20,
       autoStart: false,
       area: Rectangle.fromLTWH(
-        FallingObjectComponent.objSize / 2,
+        WasteObjectComponent.objSize / 2,
         size.y,
-        size.x - FallingObjectComponent.objSize,
+        size.x - WasteObjectComponent.objSize,
         0,
       ),
     );
 
     _lifeObjectSpawner = SpawnComponent.periodRange(
       factory: (index) {
-        return FallingObjectComponent(
+        return WasteObjectComponent(
           garbageObject: WasteObject.heart,
         );
       },
@@ -82,9 +82,9 @@ class CleanScoopGame extends FlameGame with HasCollisionDetection {
       maxPeriod: 10,
       autoStart: false,
       area: Rectangle.fromLTWH(
-        FallingObjectComponent.objSize / 2,
+        WasteObjectComponent.objSize / 2,
         size.y,
-        size.x - FallingObjectComponent.objSize,
+        size.x - WasteObjectComponent.objSize,
         0,
       ),
     );

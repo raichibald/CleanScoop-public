@@ -18,7 +18,7 @@ import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class FallingObjectComponent extends SvgComponent
+class WasteObjectComponent extends SvgComponent
     with
         CollisionCallbacks,
         TapCallbacks,
@@ -27,7 +27,7 @@ class FallingObjectComponent extends SvgComponent
   final double radius;
   final WasteObject garbageObject;
 
-  FallingObjectComponent({
+  WasteObjectComponent({
     super.position,
     this.radius = 30,
     required this.garbageObject,
@@ -76,37 +76,25 @@ class FallingObjectComponent extends SvgComponent
   void update(double dt) {
     super.update(dt);
 
-    final screenHeight = gameRef.size.y;
-    final screenWidth = gameRef.size.x;
+    final gameSize = gameRef.size;
+    final screenHeight = gameSize.y;
+    final screenWidth = gameSize.x;
 
-    // print("??????? ${position.y} -- ${screenHeight}");
-    // Increase the initial push upwards more significantly.
     final randomPos = rand.nextInt(251 - 200 + 1) + 200;
 
-    final velocityRatio = garbageObject.velocityRatio; //rand.nextInt(2) + 1;
-    // print("??????????? $velocityRatio");
+    // TODO: Check if generating random velocity ratio makes more sense.
+    final velocityRatio = garbageObject.velocityRatio;
     if (position.y == screenHeight) {
-      _velocity.y = -_gravity * velocityRatio -
-          randomPos; // Adjust this value to find the right balance.
+      _velocity.y = -_gravity * velocityRatio - randomPos;
     }
 
-    // Not letting object fall outside of the horizontal screen bounds.
     if (position.x < 35 || position.x > screenWidth - 35) {
       _velocity.x *= -1;
       position.x = position.x.clamp(25, screenWidth - 25);
     }
 
-    // Simplify or adjust the gravity effect
-    // This approach uses a constant gravity effect but starts with a stronger initial velocity.
     _velocity.y += _gravity * velocityRatio * dt;
-
-    // Update position with the velocity
     position += _velocity * dt;
-
-    // Optionally, invert velocity at the screen top for a bounce effect.
-    if (position.y <= 0) {
-      _velocity.y *= -0.5; // Adjust or remove as needed.
-    }
 
     if (!_hasStartedMovement && position.y + objSize < screenHeight) {
       _velocity.x = randomXPosInt / screenHeight * _velocity.y.abs();
@@ -115,18 +103,13 @@ class FallingObjectComponent extends SvgComponent
   }
 
   int get randomXPosInt {
-    var rand = Random();
+    final rand = Random();
     int randomNumber;
 
-    // Decide which range to use: 50% chance for each
     if (rand.nextBool()) {
-      // Generate a number from -40 to -20
-      randomNumber = rand.nextInt(61) -
-          100; // Generates a number from 0 to 20, then shifts it to -40 to -20
+      randomNumber = rand.nextInt(61) - 100;
     } else {
-      // Generate a number from 20 to 40
-      randomNumber = rand.nextInt(61) +
-          100; // Generates a number from 0 to 20, then shifts it to 20 to 40
+      randomNumber = rand.nextInt(61) + 100;
     }
 
     return randomNumber;
