@@ -80,9 +80,9 @@ flutter_native_splash:
 flutter_launcher_icons:
   # This package generates native code to customize app icon.
   # To generate new icon run `flutter pub run flutter_launcher_icons`.
-#  android: true
-#  adaptive_icon_background: "assets/icons/background.png"
-#  adaptive_icon_foreground: "assets/icons/foreground.png"
+  android: true
+  adaptive_icon_background: "assets/icons/adaptive_background.png"
+  adaptive_icon_foreground: "assets/icons/launcher_icon.png"
   remove_alpha_ios: true
   ios: true
   image_path: "assets/icons/launcher_icon.png"
