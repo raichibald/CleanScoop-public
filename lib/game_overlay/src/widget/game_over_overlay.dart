@@ -1,7 +1,4 @@
-import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc.dart';
-import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_event.dart';
-import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_state.dart';
-import 'package:clean_scoop/clean_scoop_game/game/clean_scoop_game.dart';
+import 'package:clean_scoop/clean_scoop_game/clean_scoop_game.dart';
 import 'package:clean_scoop/design_system/design_system.dart';
 import 'package:clean_scoop/utils/extension/double_extension.dart';
 import 'package:flutter/material.dart';

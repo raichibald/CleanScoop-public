@@ -1,7 +1,7 @@
-import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
 import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
-import 'package:clean_scoop/game_overlay/models/environment_fact.dart';
-import 'package:clean_scoop/game_overlay/models/game_state.dart';
+import 'package:clean_scoop/clean_scoop_game/models/environment_fact.dart';
+import 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
+import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
 import 'package:equatable/equatable.dart';
 
 class CleanGrabBlocState extends Equatable {
