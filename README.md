@@ -10,8 +10,10 @@ In order to keep app in sync with pubspec.yaml, `flutter clean && flutter pub ge
 (or run `run_clean.sh` in resources/scripts)
 
 ## Building project:
-`flutter run --release` (recommended for optimal performance)
+`flutter run --release` (recommended for optimal performance)\
 `flutter run` (debug)
+
+**Recommended** to run on an actual *iPhone* or *iOS simulator* (*Android* is fine also :P)
 
 ##### Attributions:
 *All used design resources are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and are free to use*
@@ -27,4 +29,3 @@ In order to keep app in sync with pubspec.yaml, `flutter clean && flutter pub ge
 - [Free Icon Pack](https://www.figma.com/community/file/886554014393250663/free-icon-pack-1700-icons) by [Leonid Tsvetkov](https://www.figma.com/@Leonid)
 
 - [Figma Shortcut Game](https://www.figma.com/community/file/1341904665105761312/figma-game-shortcut-master-yes-its-prototype?searchSessionId=ltopkdf9-avsw4q23m64) by [Krystian Kubicki](https://www.figma.com/@krystiankubicki)
-
