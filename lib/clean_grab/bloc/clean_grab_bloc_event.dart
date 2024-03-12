@@ -1,6 +1,6 @@
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
-import 'package:clean_scoop/game/models/environment_fact.dart';
-import 'package:clean_scoop/game/models/game_state.dart';
+import 'package:clean_scoop/game_overlay/models/environment_fact.dart';
+import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class CleanGrabBlocEvent extends Equatable {

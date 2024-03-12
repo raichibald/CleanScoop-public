@@ -4,9 +4,9 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
 import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
-import 'package:clean_scoop/game/models/environment_fact.dart';
-import 'package:clean_scoop/game/models/environment_impact_data_mapper.dart';
-import 'package:clean_scoop/game/models/game_state.dart';
+import 'package:clean_scoop/game_overlay/models/environment_fact.dart';
+import 'package:clean_scoop/game_overlay/models/environment_impact_data_mapper.dart';
+import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:clean_scoop/score/score_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

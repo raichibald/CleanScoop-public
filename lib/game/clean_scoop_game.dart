@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/falling_object_component.dart';
 import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
-import 'package:clean_scoop/game/models/game_state.dart';
+import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
@@ -26,20 +25,6 @@ class TapGame extends FlameGame with HasCollisionDetection {
 
   @override
   Color backgroundColor() => const Color(0xFFA3EBDE);
-
-  final rand = Random();
-
-  // @override
-  // void render(Canvas canvas) {
-  //   /// DEBUG
-  //   super.render(canvas);
-  //   // Draw a crosshair at the expected center of the screen
-  //   final paint = Paint()..color = Colors.white;
-  //   canvas.drawLine(Vector2(size.x / 2, 0).toOffset(),
-  //       Vector2(size.x / 2, size.y).toOffset(), paint);
-  //   canvas.drawLine(Vector2(0, size.y / 2).toOffset(),
-  //       Vector2(size.x, size.y / 2).toOffset(), paint);
-  // }
 
   @override
   FutureOr<void> onLoad() async {
