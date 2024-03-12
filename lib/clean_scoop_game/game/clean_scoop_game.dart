@@ -12,10 +12,10 @@ import 'package:flame/game.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
 
-class TapGame extends FlameGame with HasCollisionDetection {
+class CleanScoopGame extends FlameGame with HasCollisionDetection {
   final CleanGrabBloc _bloc;
 
-  TapGame({required CleanGrabBloc bloc}) : _bloc = bloc;
+  CleanScoopGame({required CleanGrabBloc bloc}) : _bloc = bloc;
 
   late final SpawnComponent _wasteObjectSpawner;
   late final SpawnComponent _poisonObjectSpawner;
@@ -130,7 +130,7 @@ class TapGame extends FlameGame with HasCollisionDetection {
 class CleanScoopGameWrapperComponent extends PositionComponent
     with
         FlameBlocListenable<CleanGrabBloc, CleanGrabBlocState>,
-        HasGameRef<TapGame> {
+        HasGameRef<CleanScoopGame> {
   var _hasSpawned = false;
   var _hasSpawnedLives = false;
 

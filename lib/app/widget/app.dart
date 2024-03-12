@@ -36,21 +36,21 @@ class _AppState extends State<App> with TickerProviderStateMixin {
         body: Stack(
           children: [
             GameWidget(
-              game: TapGame(bloc: _bloc),
+              game: CleanScoopGame(bloc: _bloc),
               overlayBuilderMap: {
                 'MainMenu': (context, game) => MainMenuOverlay(
-                      game: game as TapGame,
+                      game: game as CleanScoopGame,
                     ),
                 'GameControls': (context, game) => GameControlsOverlay.withBloc(
-                      game: game as TapGame,
+                      game: game as CleanScoopGame,
                       bloc: _bloc,
                     ),
                 'GamePaused': (context, game) => GamePausedOverlay.withBloc(
-                      game: game as TapGame,
+                      game: game as CleanScoopGame,
                       bloc: _bloc,
                     ),
                 'GameOver': (context, game) => GameOverOverlay.withBloc(
-                      game: game as TapGame,
+                      game: game as CleanScoopGame,
                       bloc: _bloc,
                     ),
               },

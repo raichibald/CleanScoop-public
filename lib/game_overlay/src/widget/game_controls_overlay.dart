@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GameControlsOverlay extends StatefulWidget {
-  final TapGame game;
+  final CleanScoopGame game;
 
   const GameControlsOverlay({super.key, required this.game});
 
@@ -16,7 +16,7 @@ class GameControlsOverlay extends StatefulWidget {
   State<GameControlsOverlay> createState() => _GameControlsOverlayState();
 
   static Widget withBloc({
-    required TapGame game,
+    required CleanScoopGame game,
     required CleanGrabBloc bloc,
   }) =>
       BlocProvider.value(

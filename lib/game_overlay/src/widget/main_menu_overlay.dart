@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainMenuOverlay extends StatefulWidget {
-  final TapGame game;
+  final CleanScoopGame game;
 
   const MainMenuOverlay({super.key, required this.game});
 

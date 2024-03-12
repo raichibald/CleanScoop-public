@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GamePausedOverlay extends StatefulWidget {
-  final TapGame game;
+  final CleanScoopGame game;
 
   const GamePausedOverlay({super.key, required this.game});
 
@@ -13,7 +13,7 @@ class GamePausedOverlay extends StatefulWidget {
   State<GamePausedOverlay> createState() => _GamePausedOverlayState();
 
   static Widget withBloc({
-    required TapGame game,
+    required CleanScoopGame game,
     required CleanGrabBloc bloc,
   }) =>
       BlocProvider.value(

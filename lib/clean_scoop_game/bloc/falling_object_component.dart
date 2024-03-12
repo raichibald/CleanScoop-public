@@ -22,7 +22,7 @@ class FallingObjectComponent extends SvgComponent
     with
         CollisionCallbacks,
         TapCallbacks,
-        HasGameRef<TapGame>,
+        HasGameRef<CleanScoopGame>,
         FlameBlocListenable<CleanGrabBloc, CleanGrabBlocState> {
   final double radius;
   final WasteObject garbageObject;
