@@ -4,7 +4,7 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/falling_object_component.dart';
-import 'package:clean_scoop/game/models/garbage_object.dart';
+import 'package:clean_scoop/game/models/waste_object.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
@@ -41,7 +41,7 @@ class TapGame extends FlameGame with HasCollisionDetection {
     _wasteObjectSpawner = SpawnComponent.periodRange(
       factory: (index) {
         return FallingObjectComponent(
-          garbageObject: GarbageObject.randomObject,
+          garbageObject: WasteObject.randomObject,
         );
       },
       minPeriod: 0.45,
@@ -58,7 +58,7 @@ class TapGame extends FlameGame with HasCollisionDetection {
     _poisonObjectSpawner = SpawnComponent.periodRange(
       factory: (index) {
         return FallingObjectComponent(
-          garbageObject: GarbageObject.poison,
+          garbageObject: WasteObject.poison,
         );
       },
       minPeriod: 10,
@@ -75,7 +75,7 @@ class TapGame extends FlameGame with HasCollisionDetection {
     _lifeObjectSpawner = SpawnComponent.periodRange(
       factory: (index) {
         return FallingObjectComponent(
-          garbageObject: GarbageObject.heart,
+          garbageObject: WasteObject.heart,
         );
       },
       minPeriod: 5,

@@ -1,4 +1,4 @@
-import 'package:clean_scoop/game/models/garbage_object.dart';
+import 'package:clean_scoop/game/models/waste_object.dart';
 import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
 import 'package:clean_scoop/game_overlay/models/environment_fact.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
@@ -10,10 +10,10 @@ class CleanGrabBlocState extends Equatable {
   final int lives;
   final int collectedLives;
   final GameState gameState;
-  final List<GarbageObject> collectableWasteObjects;
-  final List<GarbageObject> unpickedWasteObjects;
+  final List<WasteObject> collectableWasteObjects;
+  final List<WasteObject> unpickedWasteObjects;
   final EnvironmentFact selectedEnvironmentFact;
-  final Map<GarbageObject, CollectedObjectData> collectedObjects;
+  final Map<WasteObject, CollectedObjectData> collectedObjects;
   final double totalEnergySaved;
   final double totalWaterSaved;
   final double totalCO2Reduced;
@@ -59,10 +59,10 @@ class CleanGrabBlocState extends Equatable {
     int? lives,
     int? collectedLives,
     GameState? gameState,
-    List<GarbageObject>? collectableWasteObjects,
-    List<GarbageObject>? unpickedWasteObjects,
+    List<WasteObject>? collectableWasteObjects,
+    List<WasteObject>? unpickedWasteObjects,
     EnvironmentFact? selectedEnvironmentFact,
-    Map<GarbageObject, CollectedObjectData>? collectedObjects,
+    Map<WasteObject, CollectedObjectData>? collectedObjects,
     double? totalEnergySaved,
     double? totalWaterSaved,
     double? totalCO2Reduced,

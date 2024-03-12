@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
-import 'package:clean_scoop/game/models/garbage_object.dart';
+import 'package:clean_scoop/game/models/waste_object.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/collisions.dart';
@@ -25,7 +25,7 @@ class FallingObjectComponent extends SvgComponent
         HasGameRef<TapGame>,
         FlameBlocListenable<CleanGrabBloc, CleanGrabBlocState> {
   final double radius;
-  final GarbageObject garbageObject;
+  final WasteObject garbageObject;
 
   FallingObjectComponent({
     super.position,
@@ -137,7 +137,7 @@ class FallingObjectComponent extends SvgComponent
     super.onTapDown(event);
 
     if (gameRef.paused) return;
-    if (garbageObject == GarbageObject.heart ||
+    if (garbageObject == WasteObject.heart ||
         bloc.state.collectableWasteObjects.contains(garbageObject)) {
       HapticFeedback.heavyImpact();
     } else {

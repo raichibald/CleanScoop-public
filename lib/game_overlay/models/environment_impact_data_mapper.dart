@@ -1,4 +1,4 @@
-import 'package:clean_scoop/game/models/garbage_object.dart';
+import 'package:clean_scoop/game/models/waste_object.dart';
 import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
 
 enum WasteType { plastic, paper, glass, organic }
@@ -12,14 +12,14 @@ class ImpactData {
 }
 
 class WasteImpactMapper {
-  final Map<GarbageObject, CollectedObjectData> collectedAmounts;
+  final Map<WasteObject, CollectedObjectData> collectedAmounts;
 
   // Predefined impact data per kg of waste
-  static const Map<GarbageObject, ImpactData> _impactPerKg = {
-    GarbageObject.plasticBottle: ImpactData(energy: 5.6, co2: 1.6),
-    GarbageObject.paper: ImpactData(energy: 4, water: 26, co2: 1.7),
-    GarbageObject.glassBottle: ImpactData(energy: 1, co2: 0.3),
-    GarbageObject.fruit: ImpactData(co2: 0.25),
+  static const Map<WasteObject, ImpactData> _impactPerKg = {
+    WasteObject.plasticBottle: ImpactData(energy: 5.6, co2: 1.6),
+    WasteObject.paper: ImpactData(energy: 4, water: 26, co2: 1.7),
+    WasteObject.glassBottle: ImpactData(energy: 1, co2: 0.3),
+    WasteObject.fruit: ImpactData(co2: 0.25),
   };
 
   WasteImpactMapper(this.collectedAmounts);

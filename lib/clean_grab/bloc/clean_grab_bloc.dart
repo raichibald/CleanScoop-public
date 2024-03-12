@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
-import 'package:clean_scoop/game/models/garbage_object.dart';
+import 'package:clean_scoop/game/models/waste_object.dart';
 import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
 import 'package:clean_scoop/game_overlay/models/environment_fact.dart';
 import 'package:clean_scoop/game_overlay/models/environment_impact_data_mapper.dart';
@@ -22,8 +22,8 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
             lives: 3,
             collectedLives: 0,
             gameState: GameState.idle,
-            collectableWasteObjects: [GarbageObject.randomObject],
-            unpickedWasteObjects: GarbageObject.wasteObjects,
+            collectableWasteObjects: [WasteObject.randomObject],
+            unpickedWasteObjects: WasteObject.wasteObjects,
             selectedEnvironmentFact: EnvironmentFact.none,
             collectedObjects: const {},
             totalEnergySaved: 0,
@@ -60,7 +60,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
 
     if (isObjective) {
       var collectedObjects =
-          Map<GarbageObject, CollectedObjectData>.from(state.collectedObjects);
+          Map<WasteObject, CollectedObjectData>.from(state.collectedObjects);
       final existingObjectValue = collectedObjects[collectedObject];
       final weight = collectedObject.weightInKilograms ?? 0;
 
@@ -86,7 +86,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
       emit(state.copyWith(collectedObjects: collectedObjects));
     }
 
-    if (event.object == GarbageObject.poison) {
+    if (event.object == WasteObject.poison) {
       emit(
         state.copyWith(
           lives: 0,
@@ -99,7 +99,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
       return;
     }
 
-    if (event.object == GarbageObject.heart && state.collectedLives < 3) {
+    if (event.object == WasteObject.heart && state.collectedLives < 3) {
       emit(
         state.copyWith(
           lives: state.lives + 1,
@@ -147,7 +147,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
       emit(state.copyWith(gameState: GameState.levelUp));
 
       if (currentCollectibles.length == 3) {
-        currentCollectibles = GarbageObject.threeRandomObjects;
+        currentCollectibles = WasteObject.threeRandomObjects;
       } else {
         final random = Random();
         final randomInt = random.nextInt(unpickedCollectibles.length);
@@ -221,7 +221,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
     UpdateCollectableWasteObjectsEvent event,
     Emitter emit,
   ) {
-    emit(state.copyWith(collectableWasteObjects: [GarbageObject.randomObject]));
+    emit(state.copyWith(collectableWasteObjects: [WasteObject.randomObject]));
   }
 
   void _onResetGameStateEvent(ResetGameStateEvent event, Emitter emit) => emit(
@@ -230,7 +230,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
           lives: 3,
           gameState: GameState.idle,
           collectableWasteObjects: [],
-          unpickedWasteObjects: GarbageObject.wasteObjects,
+          unpickedWasteObjects: WasteObject.wasteObjects,
           collectedObjects: {},
         ),
       );
@@ -240,8 +240,8 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
       state.copyWith(
         score: 0,
         lives: 3,
-        collectableWasteObjects: [GarbageObject.randomObject],
-        unpickedWasteObjects: GarbageObject.wasteObjects,
+        collectableWasteObjects: [WasteObject.randomObject],
+        unpickedWasteObjects: WasteObject.wasteObjects,
         collectedObjects: {},
       ),
     );

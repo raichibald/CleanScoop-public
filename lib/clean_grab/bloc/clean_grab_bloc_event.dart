@@ -1,4 +1,4 @@
-import 'package:clean_scoop/game/models/garbage_object.dart';
+import 'package:clean_scoop/game/models/waste_object.dart';
 import 'package:clean_scoop/game_overlay/models/environment_fact.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:equatable/equatable.dart';
@@ -15,7 +15,7 @@ final class LoadHighScoreEvent extends CleanGrabBlocEvent {
 }
 
 final class UpdateScoreEvent extends CleanGrabBlocEvent {
-  final GarbageObject object;
+  final WasteObject object;
 
   const UpdateScoreEvent(this.object);
 
@@ -24,7 +24,7 @@ final class UpdateScoreEvent extends CleanGrabBlocEvent {
 }
 
 final class UpdateLivesEvent extends CleanGrabBlocEvent {
-  final GarbageObject object;
+  final WasteObject object;
 
   const UpdateLivesEvent(this.object);
 
