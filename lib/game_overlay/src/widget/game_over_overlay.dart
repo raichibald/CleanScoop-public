@@ -1,8 +1,8 @@
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_event.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_state.dart';
+import 'package:clean_scoop/clean_scoop_game/game/clean_scoop_game.dart';
 import 'package:clean_scoop/design_system/design_system.dart';
-import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/utils/extension/double_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -279,21 +279,21 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                     padding: const EdgeInsets.all(12),
                     child: Column(
                       children: [
-                        if (state.totalEnergySaved > 0)...[
+                        if (state.totalEnergySaved > 0) ...[
                           _EnvironmentalImpactRow(
                               icon: icons.icoEnergy,
                               title: 'Energy Saved',
                               value:
                                   '${state.totalEnergySaved.formattedDouble} kWh'),
-                        const SizedBox(height: 8),
+                          const SizedBox(height: 8),
                         ],
-                        if (state.totalWaterSaved > 0)...[
+                        if (state.totalWaterSaved > 0) ...[
                           _EnvironmentalImpactRow(
                               icon: icons.icoWater,
                               title: 'Water Saved',
                               value:
                                   '${state.totalWaterSaved.formattedDouble} liters'),
-                        const SizedBox(height: 8),
+                          const SizedBox(height: 8),
                         ],
                         if (state.totalCO2Reduced > 0)
                           _EnvironmentalImpactRow(

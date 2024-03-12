@@ -1,6 +1,5 @@
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
+import 'package:clean_scoop/clean_scoop_game/clean_scoop_game.dart';
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
-import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game_overlay/game_overlay.dart';
 import 'package:clean_scoop/score/score_repository.dart';
 import 'package:flame/game.dart';

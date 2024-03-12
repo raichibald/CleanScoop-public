@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
-import 'package:clean_scoop/game/models/waste_object.dart';
-import 'package:clean_scoop/game/clean_scoop_game.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_event.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_state.dart';
+import 'package:clean_scoop/clean_scoop_game/game/clean_scoop_game.dart';
+import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';

@@ -1,8 +1,8 @@
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_event.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_state.dart';
+import 'package:clean_scoop/clean_scoop_game/game/clean_scoop_game.dart';
 import 'package:clean_scoop/design_system/design_system.dart';
-import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -138,7 +138,8 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
                             );
 
                             _bloc.add(
-                                const UpdateGameStateEvent(GameState.active));
+                              const UpdateGameStateEvent(GameState.active),
+                            );
                             gameRef.overlays.remove('GamePaused');
                           },
                         ),

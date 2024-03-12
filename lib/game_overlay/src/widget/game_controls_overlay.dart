@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
-import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
-import 'package:clean_scoop/game/clean_scoop_game.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_event.dart';
+import 'package:clean_scoop/clean_scoop_game/bloc/clean_grab_bloc_state.dart';
+import 'package:clean_scoop/clean_scoop_game/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:clean_scoop/utils/widget_state/app_lifecycle_observer_mixin.dart';
 import 'package:flutter/material.dart';
@@ -296,11 +296,7 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
 
     final gameRef = widget.game;
     gameRef.overlays.add('GamePaused');
-    _bloc.add(
-      const UpdateGameStateEvent(
-        GameState.paused,
-      ),
-    );
+    _bloc.add(const UpdateGameStateEvent(GameState.paused));
 
     await _controller.animateTo(
       0,
@@ -349,7 +345,9 @@ class _PlayerLivesBlockState extends State<_PlayerLivesBlock>
     super.didUpdateWidget(oldWidget);
 
     final completedAnimation = !_controller.isAnimating;
-    final shouldShake = completedAnimation && widget.lives > 0 && widget.lives < oldWidget.lives;
+    final shouldShake = completedAnimation &&
+        widget.lives > 0 &&
+        widget.lives < oldWidget.lives;
 
     if (!shouldShake) return;
 

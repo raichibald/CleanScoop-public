@@ -1,4 +1,4 @@
-import 'package:clean_scoop/game/models/waste_object.dart';
+import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
 import 'package:clean_scoop/game_overlay/models/environment_fact.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:equatable/equatable.dart';
