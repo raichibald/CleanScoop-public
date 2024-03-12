@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
 
-enum WasteObject {
+enum SpawnObject {
   paper(1),
   plasticBottle(2),
   glassBottle(3),
@@ -13,29 +13,29 @@ enum WasteObject {
 
   final int value;
 
-  const WasteObject(this.value);
+  const SpawnObject(this.value);
 
-  factory WasteObject.fromRawValue(int rawValue) =>
-      WasteObject.values.firstWhere(
+  factory SpawnObject.fromRawValue(int rawValue) =>
+      SpawnObject.values.firstWhere(
         (item) => item.value == rawValue,
-        orElse: () => WasteObject.paper,
+        orElse: () => SpawnObject.paper,
       );
 
-  static WasteObject get randomObject {
+  static SpawnObject get randomObject {
     final random = Random();
     final randomInt = random.nextInt(4) + 1;
 
-    return WasteObject.fromRawValue(randomInt);
+    return SpawnObject.fromRawValue(randomInt);
   }
 
-  static List<WasteObject> get wasteObjects => [
-        WasteObject.paper,
-        WasteObject.plasticBottle,
-        WasteObject.glassBottle,
-        WasteObject.fruit,
+  static List<SpawnObject> get wasteObjects => [
+        SpawnObject.paper,
+        SpawnObject.plasticBottle,
+        SpawnObject.glassBottle,
+        SpawnObject.fruit,
       ];
 
-  static List<WasteObject> get threeRandomObjects {
+  static List<SpawnObject> get threeRandomObjects {
     var objects = wasteObjects.toList();
     objects.shuffle();
 
@@ -46,54 +46,54 @@ enum WasteObject {
     const icons = Assets.icons;
 
     switch (this) {
-      case WasteObject.paper:
+      case SpawnObject.paper:
         return icons.icoPaperBall;
-      case WasteObject.plasticBottle:
+      case SpawnObject.plasticBottle:
         return icons.icoPlasticBottle;
-      case WasteObject.glassBottle:
+      case SpawnObject.glassBottle:
         return icons.icoGlassBottle;
-      case WasteObject.fruit:
+      case SpawnObject.fruit:
         return icons.icoApple;
-      case WasteObject.cup:
+      case SpawnObject.cup:
         return icons.icoCup;
-      case WasteObject.heart:
+      case SpawnObject.heart:
         return icons.icoHeartLarge;
-      case WasteObject.poison:
+      case SpawnObject.poison:
         return icons.icoMushroom;
     }
   }
 
   int get velocityRatio {
     switch (this) {
-      case WasteObject.paper:
+      case SpawnObject.paper:
         return 1;
-      case WasteObject.plasticBottle:
-      case WasteObject.glassBottle:
-      case WasteObject.poison:
+      case SpawnObject.plasticBottle:
+      case SpawnObject.glassBottle:
+      case SpawnObject.poison:
         return 2;
-      case WasteObject.fruit:
-      case WasteObject.cup:
+      case SpawnObject.fruit:
+      case SpawnObject.cup:
         return 3;
-      case WasteObject.heart:
+      case SpawnObject.heart:
         return 4;
     }
   }
 
   double? get weightInKilograms {
     switch (this) {
-      case WasteObject.paper:
+      case SpawnObject.paper:
         return 0.005;
-      case WasteObject.plasticBottle:
+      case SpawnObject.plasticBottle:
         return 0.012;
-      case WasteObject.glassBottle:
+      case SpawnObject.glassBottle:
         return 0.2;
-      case WasteObject.fruit:
+      case SpawnObject.fruit:
         return 0.085;
-      case WasteObject.cup:
+      case SpawnObject.cup:
         // TODO: Implement cup.
         return 3;
-      case WasteObject.poison:
-      case WasteObject.heart:
+      case SpawnObject.poison:
+      case SpawnObject.heart:
         return null;
     }
   }

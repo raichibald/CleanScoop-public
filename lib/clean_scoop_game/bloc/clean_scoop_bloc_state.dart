@@ -10,10 +10,10 @@ class CleanScoopBlocState extends Equatable {
   final int lives;
   final int collectedLives;
   final GameState gameState;
-  final List<WasteObject> collectableWasteObjects;
-  final List<WasteObject> unpickedWasteObjects;
+  final List<SpawnObject> collectableWasteObjects;
+  final List<SpawnObject> unpickedWasteObjects;
   final EnvironmentFact selectedEnvironmentFact;
-  final Map<WasteObject, CollectedObjectData> collectedObjects;
+  final Map<SpawnObject, CollectedObjectData> collectedObjects;
   final double totalEnergySaved;
   final double totalWaterSaved;
   final double totalCO2Reduced;
@@ -59,10 +59,10 @@ class CleanScoopBlocState extends Equatable {
     int? lives,
     int? collectedLives,
     GameState? gameState,
-    List<WasteObject>? collectableWasteObjects,
-    List<WasteObject>? unpickedWasteObjects,
+    List<SpawnObject>? collectableWasteObjects,
+    List<SpawnObject>? unpickedWasteObjects,
     EnvironmentFact? selectedEnvironmentFact,
-    Map<WasteObject, CollectedObjectData>? collectedObjects,
+    Map<SpawnObject, CollectedObjectData>? collectedObjects,
     double? totalEnergySaved,
     double? totalWaterSaved,
     double? totalCO2Reduced,

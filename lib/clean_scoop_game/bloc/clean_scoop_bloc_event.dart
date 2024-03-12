@@ -15,7 +15,7 @@ final class LoadHighScoreEvent extends CleanScoopBlocEvent {
 }
 
 final class UpdateScoreEvent extends CleanScoopBlocEvent {
-  final WasteObject object;
+  final SpawnObject object;
 
   const UpdateScoreEvent(this.object);
 
@@ -24,7 +24,7 @@ final class UpdateScoreEvent extends CleanScoopBlocEvent {
 }
 
 final class UpdateLivesEvent extends CleanScoopBlocEvent {
-  final WasteObject object;
+  final SpawnObject object;
 
   const UpdateLivesEvent(this.object);
 

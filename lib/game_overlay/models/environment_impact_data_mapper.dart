@@ -12,14 +12,14 @@ class ImpactData {
 }
 
 class WasteImpactMapper {
-  final Map<WasteObject, CollectedObjectData> collectedAmounts;
+  final Map<SpawnObject, CollectedObjectData> collectedAmounts;
 
   // Predefined impact data per kg of waste
-  static const Map<WasteObject, ImpactData> _impactPerKg = {
-    WasteObject.plasticBottle: ImpactData(energy: 5.6, co2: 1.6),
-    WasteObject.paper: ImpactData(energy: 4, water: 26, co2: 1.7),
-    WasteObject.glassBottle: ImpactData(energy: 1, co2: 0.3),
-    WasteObject.fruit: ImpactData(co2: 0.25),
+  static const Map<SpawnObject, ImpactData> _impactPerKg = {
+    SpawnObject.plasticBottle: ImpactData(energy: 5.6, co2: 1.6),
+    SpawnObject.paper: ImpactData(energy: 4, water: 26, co2: 1.7),
+    SpawnObject.glassBottle: ImpactData(energy: 1, co2: 0.3),
+    SpawnObject.fruit: ImpactData(co2: 0.25),
   };
 
   WasteImpactMapper(this.collectedAmounts);

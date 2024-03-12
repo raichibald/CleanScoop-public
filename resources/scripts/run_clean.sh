@@ -2,4 +2,4 @@
 
 # navigate to repo root from /resources/scripts
 cd ../..
-sh ./resources/scripts/clean.sh
+sh ./resources/scripts/logic/clean.sh

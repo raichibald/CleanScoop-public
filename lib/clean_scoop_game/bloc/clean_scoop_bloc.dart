@@ -22,8 +22,8 @@ class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
             lives: 3,
             collectedLives: 0,
             gameState: GameState.idle,
-            collectableWasteObjects: [WasteObject.randomObject],
-            unpickedWasteObjects: WasteObject.wasteObjects,
+            collectableWasteObjects: [SpawnObject.randomObject],
+            unpickedWasteObjects: SpawnObject.wasteObjects,
             selectedEnvironmentFact: EnvironmentFact.none,
             collectedObjects: const {},
             totalEnergySaved: 0,
@@ -60,7 +60,7 @@ class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
 
     if (isObjective) {
       var collectedObjects =
-          Map<WasteObject, CollectedObjectData>.from(state.collectedObjects);
+          Map<SpawnObject, CollectedObjectData>.from(state.collectedObjects);
       final existingObjectValue = collectedObjects[collectedObject];
       final weight = collectedObject.weightInKilograms ?? 0;
 
@@ -86,7 +86,7 @@ class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
       emit(state.copyWith(collectedObjects: collectedObjects));
     }
 
-    if (event.object == WasteObject.poison) {
+    if (event.object == SpawnObject.poison) {
       emit(
         state.copyWith(
           lives: 0,
@@ -99,7 +99,7 @@ class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
       return;
     }
 
-    if (event.object == WasteObject.heart && state.collectedLives < 3) {
+    if (event.object == SpawnObject.heart && state.collectedLives < 3) {
       emit(
         state.copyWith(
           lives: state.lives + 1,
@@ -147,7 +147,7 @@ class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
       emit(state.copyWith(gameState: GameState.levelUp));
 
       if (currentCollectibles.length == 3) {
-        currentCollectibles = WasteObject.threeRandomObjects;
+        currentCollectibles = SpawnObject.threeRandomObjects;
       } else {
         final random = Random();
         final randomInt = random.nextInt(unpickedCollectibles.length);
@@ -221,7 +221,7 @@ class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
     UpdateCollectableWasteObjectsEvent event,
     Emitter emit,
   ) {
-    emit(state.copyWith(collectableWasteObjects: [WasteObject.randomObject]));
+    emit(state.copyWith(collectableWasteObjects: [SpawnObject.randomObject]));
   }
 
   void _onResetGameStateEvent(ResetGameStateEvent event, Emitter emit) => emit(
@@ -230,7 +230,7 @@ class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
           lives: 3,
           gameState: GameState.idle,
           collectableWasteObjects: [],
-          unpickedWasteObjects: WasteObject.wasteObjects,
+          unpickedWasteObjects: SpawnObject.wasteObjects,
           collectedObjects: {},
         ),
       );
@@ -240,8 +240,8 @@ class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
       state.copyWith(
         score: 0,
         lives: 3,
-        collectableWasteObjects: [WasteObject.randomObject],
-        unpickedWasteObjects: WasteObject.wasteObjects,
+        collectableWasteObjects: [SpawnObject.randomObject],
+        unpickedWasteObjects: SpawnObject.wasteObjects,
         collectedObjects: {},
       ),
     );

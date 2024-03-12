@@ -1,7 +1,7 @@
 export 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc.dart';
 export 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_event.dart';
 export 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_state.dart';
-export 'package:clean_scoop/clean_scoop_game/components/waste_object_component.dart';
+export 'package:clean_scoop/clean_scoop_game/components/spawn_object_component.dart';
 export 'package:clean_scoop/clean_scoop_game/game/clean_scoop_game.dart';
 export 'package:clean_scoop/clean_scoop_game/models/collected_object_data.dart';
 export 'package:clean_scoop/clean_scoop_game/models/environment_fact.dart';

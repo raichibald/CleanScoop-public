@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc.dart';
 import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_event.dart';
 import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_state.dart';
-import 'package:clean_scoop/clean_scoop_game/components/waste_object_component.dart';
+import 'package:clean_scoop/clean_scoop_game/components/spawn_object_component.dart';
 import 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
 import 'package:flame/components.dart';
@@ -28,7 +28,15 @@ class CleanScoopGame extends FlameGame with HasCollisionDetection {
 
   @override
   FutureOr<void> onLoad() async {
-    _blocProvider = FlameBlocProvider<CleanScoopBloc, CleanScoopBlocState>.value(
+    final spawnArea = Rectangle.fromLTWH(
+      SpawnObjectComponent.objSize / 2,
+      size.y,
+      size.x - SpawnObjectComponent.objSize,
+      0,
+    );
+
+    _blocProvider =
+        FlameBlocProvider<CleanScoopBloc, CleanScoopBlocState>.value(
       value: _bloc,
       children: [
         ScreenHitbox(),
@@ -39,67 +47,40 @@ class CleanScoopGame extends FlameGame with HasCollisionDetection {
     add(_blocProvider);
 
     _wasteObjectSpawner = SpawnComponent.periodRange(
-      factory: (index) {
-        return WasteObjectComponent(
-          garbageObject: WasteObject.randomObject,
-        );
-      },
-      minPeriod: 0.45,
-      maxPeriod: 0.9,
-      autoStart: false,
-      area: Rectangle.fromLTWH(
-        WasteObjectComponent.objSize / 2,
-        size.y,
-        size.x - WasteObjectComponent.objSize,
-        0,
+      factory: (index) => SpawnObjectComponent(
+        garbageObject: SpawnObject.randomObject,
       ),
+      minPeriod: 0.35,
+      maxPeriod: 0.5,
+      autoStart: false,
+      area: spawnArea,
     );
 
     _poisonObjectSpawner = SpawnComponent.periodRange(
-      factory: (index) {
-        return WasteObjectComponent(
-          garbageObject: WasteObject.poison,
-        );
-      },
-      minPeriod: 10,
-      maxPeriod: 20,
-      autoStart: false,
-      area: Rectangle.fromLTWH(
-        WasteObjectComponent.objSize / 2,
-        size.y,
-        size.x - WasteObjectComponent.objSize,
-        0,
+      factory: (index) => SpawnObjectComponent(
+        garbageObject: SpawnObject.poison,
       ),
-    );
-
-    _lifeObjectSpawner = SpawnComponent.periodRange(
-      factory: (index) {
-        return WasteObjectComponent(
-          garbageObject: WasteObject.heart,
-        );
-      },
       minPeriod: 5,
       maxPeriod: 10,
       autoStart: false,
-      area: Rectangle.fromLTWH(
-        WasteObjectComponent.objSize / 2,
-        size.y,
-        size.x - WasteObjectComponent.objSize,
-        0,
+      area: spawnArea,
+    );
+
+    _lifeObjectSpawner = SpawnComponent.periodRange(
+      factory: (index) => SpawnObjectComponent(
+        garbageObject: SpawnObject.heart,
       ),
+      minPeriod: 5,
+      maxPeriod: 10,
+      autoStart: false,
+      area: spawnArea,
     );
 
     _blocProvider.add(_poisonObjectSpawner);
     _blocProvider.add(_wasteObjectSpawner);
     _blocProvider.add(_lifeObjectSpawner);
 
-    // add(_wasteObjectSpawner);
-
-    // add(ScreenHitbox());
-    // overlays.add('GameOver');
     overlays.add('MainMenu');
-    // overlays.add('LevelUp');
-    // overlays.add('GameControls');
 
     return super.onLoad();
   }

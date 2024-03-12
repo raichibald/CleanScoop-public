@@ -18,16 +18,16 @@ import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class WasteObjectComponent extends SvgComponent
+class SpawnObjectComponent extends SvgComponent
     with
         CollisionCallbacks,
         TapCallbacks,
         HasGameRef<CleanScoopGame>,
         FlameBlocListenable<CleanScoopBloc, CleanScoopBlocState> {
   final double radius;
-  final WasteObject garbageObject;
+  final SpawnObject garbageObject;
 
-  WasteObjectComponent({
+  SpawnObjectComponent({
     super.position,
     this.radius = 30,
     required this.garbageObject,
@@ -120,12 +120,13 @@ class WasteObjectComponent extends SvgComponent
     super.onTapDown(event);
 
     if (gameRef.paused) return;
-    if (garbageObject == WasteObject.heart ||
+    if (garbageObject == SpawnObject.heart ||
         bloc.state.collectableWasteObjects.contains(garbageObject)) {
       HapticFeedback.heavyImpact();
     } else {
       HapticFeedback.vibrate();
     }
+
     bloc.add(UpdateScoreEvent(garbageObject));
 
     removeFromParent();
