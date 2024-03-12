@@ -61,7 +61,7 @@ class _CSCustomDialogState extends State<CSCustomDialog> {
               Positioned(
                 top: 0,
                 right: 24,
-                child: _AlertCloseButton(
+                child: _CloseButton(
                   onTap: widget.onCloseTap,
                 ),
               ),
@@ -73,16 +73,16 @@ class _CSCustomDialogState extends State<CSCustomDialog> {
   }
 }
 
-class _AlertCloseButton extends StatefulWidget {
+class _CloseButton extends StatefulWidget {
   final VoidCallback onTap;
 
-  const _AlertCloseButton({required this.onTap});
+  const _CloseButton({required this.onTap});
 
   @override
-  State<_AlertCloseButton> createState() => _AlertCloseButtonState();
+  State<_CloseButton> createState() => _CloseButtonState();
 }
 
-class _AlertCloseButtonState extends State<_AlertCloseButton> {
+class _CloseButtonState extends State<_CloseButton> {
   var _isPressed = false;
 
   @override

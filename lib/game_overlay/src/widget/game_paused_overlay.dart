@@ -143,7 +143,6 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
                         CSLargeIconButton(
                           icon: icons.icoHome,
                           onTap: () async {
-                            // TODO: Check if need to add animation.
                             gameRef.overlays.remove('GamePaused');
                             gameRef.overlays.remove('GameControls');
                             gameRef.overlays.add('MainMenu');
