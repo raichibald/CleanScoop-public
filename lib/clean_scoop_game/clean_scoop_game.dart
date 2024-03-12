@@ -5,5 +5,7 @@ export 'package:clean_scoop/clean_scoop_game/components/spawn_object_component.d
 export 'package:clean_scoop/clean_scoop_game/game/clean_scoop_game.dart';
 export 'package:clean_scoop/clean_scoop_game/models/collected_object_data.dart';
 export 'package:clean_scoop/clean_scoop_game/models/environment_fact.dart';
+export 'package:clean_scoop/clean_scoop_game/models/environmental_impact_data.dart';
 export 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
 export 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
+export 'package:clean_scoop/clean_scoop_game/utils/environment_impact_data_mapper.dart';

@@ -6,7 +6,7 @@ import 'package:clean_scoop/clean_scoop_game/bloc/clean_scoop_bloc_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/environment_fact.dart';
 import 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
-import 'package:clean_scoop/game_overlay/models/environment_impact_data_mapper.dart';
+import 'package:clean_scoop/clean_scoop_game/utils/environment_impact_data_mapper.dart';
 import 'package:clean_scoop/score/score_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
