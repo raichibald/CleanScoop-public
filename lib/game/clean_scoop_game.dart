@@ -4,7 +4,7 @@ import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
 import 'package:clean_scoop/clean_grab/bloc/falling_object_component.dart';
-import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
+import 'package:clean_scoop/game/models/garbage_object.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';

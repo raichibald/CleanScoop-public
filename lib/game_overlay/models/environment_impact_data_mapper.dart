@@ -1,4 +1,4 @@
-import 'package:clean_scoop/clean_grab/bloc/garbage_object.dart';
+import 'package:clean_scoop/game/models/garbage_object.dart';
 import 'package:clean_scoop/clean_grab/models/collected_object_data.dart';
 
 enum WasteType { plastic, paper, glass, organic }

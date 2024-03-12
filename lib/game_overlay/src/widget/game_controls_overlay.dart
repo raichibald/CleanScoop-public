@@ -3,14 +3,13 @@ import 'dart:math';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
-import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
-import 'package:clean_scoop/design_system/src/widgets/cs_score_text.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
 import 'package:clean_scoop/utils/widget_state/app_lifecycle_observer_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:clean_scoop/design_system/design_system.dart';
 
 class GameControlsOverlay extends StatefulWidget {
   final TapGame game;

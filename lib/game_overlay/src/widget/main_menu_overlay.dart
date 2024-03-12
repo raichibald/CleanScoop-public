@@ -1,9 +1,7 @@
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_event.dart';
 import 'package:clean_scoop/clean_grab/bloc/clean_grab_bloc_state.dart';
-import 'package:clean_scoop/design_system/src/assets/assets.gen.dart';
-import 'package:clean_scoop/design_system/src/widgets/cs_custom_dialog.dart';
-import 'package:clean_scoop/design_system/src/widgets/cs_large_icon_button.dart';
+import 'package:clean_scoop/design_system/design_system.dart';
 import 'package:clean_scoop/game/clean_scoop_game.dart';
 import 'package:clean_scoop/game_overlay/models/environment_fact.dart';
 import 'package:clean_scoop/game_overlay/models/game_state.dart';
