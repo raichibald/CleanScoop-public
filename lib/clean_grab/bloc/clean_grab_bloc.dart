@@ -203,8 +203,7 @@ class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
       final impactMapper = WasteImpactMapper(collectedObjects);
       final totalWeightCollected = collectedObjects.entries.fold(
         0.0,
-        (initialValue, element) =>
-            initialValue + element.value.weight * element.value.count,
+        (initialValue, element) => initialValue + element.value.weight,
       );
 
       emit(

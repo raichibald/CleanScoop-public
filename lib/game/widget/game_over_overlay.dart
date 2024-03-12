@@ -125,10 +125,10 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                             child: Row(
                               children: [
                                 Row(
-                                  children: state.collectableWasteObjects
+                                  children: state.collectedObjects.entries
                                       .map(
                                         (item) => SvgPicture.asset(
-                                          item.icon,
+                                          item.key.icon,
                                           height: 40,
                                           width: 40,
                                         ),
