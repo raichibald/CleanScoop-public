@@ -6,7 +6,7 @@
 `3.19.3`
 
 ## Clean app & sync dependencies:
-In order to keep app in sync with pubspec.yaml, `flutter clean && flutter pub get` should be called from root
+In order to keep app in sync with pubspec.yaml, `flutter clean && flutter pub get` should be called from root\
 (or run `run_clean.sh` in resources/scripts)
 
 ## Building project:
