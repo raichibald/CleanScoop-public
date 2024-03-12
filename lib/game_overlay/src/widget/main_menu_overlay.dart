@@ -15,7 +15,7 @@ class MainMenuOverlay extends StatefulWidget {
 
 class _MainMenuOverlayState extends State<MainMenuOverlay>
     with TickerProviderStateMixin {
-  late final CleanGrabBloc _bloc;
+  late final CleanScoopBloc _bloc;
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 800),
@@ -40,7 +40,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
   @override
   void initState() {
     super.initState();
-    _bloc = context.read<CleanGrabBloc>();
+    _bloc = context.read<CleanScoopBloc>();
     _controller.forward();
   }
 
@@ -54,7 +54,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
   Widget build(BuildContext context) {
     const icons = Assets.icons;
 
-    return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
+    return BlocBuilder<CleanScoopBloc, CleanScoopBlocState>(
       builder: (context, state) {
         final isFactDisplayed = state.isEnvironmentFactDisplayed;
 

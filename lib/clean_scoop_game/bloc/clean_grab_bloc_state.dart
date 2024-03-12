@@ -4,7 +4,7 @@ import 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
 import 'package:equatable/equatable.dart';
 
-class CleanGrabBlocState extends Equatable {
+class CleanScoopBlocState extends Equatable {
   final int score;
   final int highScore;
   final int lives;
@@ -19,7 +19,7 @@ class CleanGrabBlocState extends Equatable {
   final double totalCO2Reduced;
   final double totalWeightCollected;
 
-  const CleanGrabBlocState({
+  const CleanScoopBlocState({
     required this.score,
     required this.highScore,
     required this.lives,
@@ -53,7 +53,7 @@ class CleanGrabBlocState extends Equatable {
 
   bool get canSpawnLives => lives < 3 && collectedLives < 3;
 
-  CleanGrabBlocState copyWith({
+  CleanScoopBlocState copyWith({
     int? score,
     int? highScore,
     int? lives,
@@ -68,7 +68,7 @@ class CleanGrabBlocState extends Equatable {
     double? totalCO2Reduced,
     double? totalWeightCollected,
   }) =>
-      CleanGrabBlocState(
+      CleanScoopBlocState(
         score: score ?? this.score,
         highScore: highScore ?? this.highScore,
         lives: lives ?? this.lives,

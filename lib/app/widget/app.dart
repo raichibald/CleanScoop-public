@@ -13,7 +13,7 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 
   static Widget withBloc() => BlocProvider(
-        create: (context) => CleanGrabBloc(
+        create: (context) => CleanScoopBloc(
           scoreRepository: context.read<ScoreRepository>(),
         ),
         child: const App(),
@@ -21,12 +21,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with TickerProviderStateMixin {
-  late final CleanGrabBloc _bloc;
+  late final CleanScoopBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    _bloc = context.read<CleanGrabBloc>();
+    _bloc = context.read<CleanScoopBloc>();
   }
 
   @override

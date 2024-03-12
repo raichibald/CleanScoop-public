@@ -10,13 +10,13 @@ import 'package:clean_scoop/game_overlay/models/environment_impact_data_mapper.d
 import 'package:clean_scoop/score/score_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CleanGrabBloc extends Bloc<CleanGrabBlocEvent, CleanGrabBlocState> {
+class CleanScoopBloc extends Bloc<CleanScoopBlocEvent, CleanScoopBlocState> {
   final ScoreRepository _scoreRepository;
 
-  CleanGrabBloc({required ScoreRepository scoreRepository})
+  CleanScoopBloc({required ScoreRepository scoreRepository})
       : _scoreRepository = scoreRepository,
         super(
-          CleanGrabBlocState(
+          CleanScoopBlocState(
             score: 0,
             highScore: 0,
             lives: 3,

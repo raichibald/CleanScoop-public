@@ -14,7 +14,7 @@ class GamePausedOverlay extends StatefulWidget {
 
   static Widget withBloc({
     required CleanScoopGame game,
-    required CleanGrabBloc bloc,
+    required CleanScoopBloc bloc,
   }) =>
       BlocProvider.value(
         value: bloc,
@@ -24,7 +24,7 @@ class GamePausedOverlay extends StatefulWidget {
 
 class _GamePausedOverlayState extends State<GamePausedOverlay>
     with TickerProviderStateMixin {
-  late final CleanGrabBloc _bloc;
+  late final CleanScoopBloc _bloc;
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 800),
@@ -51,7 +51,7 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
     super.initState();
     _controller.forward();
     _backdropController.forward();
-    _bloc = context.read<CleanGrabBloc>();
+    _bloc = context.read<CleanScoopBloc>();
   }
 
   @override
@@ -67,7 +67,7 @@ class _GamePausedOverlayState extends State<GamePausedOverlay>
 
     final gameRef = widget.game;
 
-    return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
+    return BlocBuilder<CleanScoopBloc, CleanScoopBlocState>(
       builder: (context, state) => AnimatedBuilder(
         animation: _backdropController,
         builder: (context, child) {

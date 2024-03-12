@@ -3,18 +3,18 @@ import 'package:clean_scoop/clean_scoop_game/models/game_state.dart';
 import 'package:clean_scoop/clean_scoop_game/models/waste_object.dart';
 import 'package:equatable/equatable.dart';
 
-sealed class CleanGrabBlocEvent extends Equatable {
-  const CleanGrabBlocEvent();
+sealed class CleanScoopBlocEvent extends Equatable {
+  const CleanScoopBlocEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-final class LoadHighScoreEvent extends CleanGrabBlocEvent {
+final class LoadHighScoreEvent extends CleanScoopBlocEvent {
   const LoadHighScoreEvent();
 }
 
-final class UpdateScoreEvent extends CleanGrabBlocEvent {
+final class UpdateScoreEvent extends CleanScoopBlocEvent {
   final WasteObject object;
 
   const UpdateScoreEvent(this.object);
@@ -23,7 +23,7 @@ final class UpdateScoreEvent extends CleanGrabBlocEvent {
   List<Object?> get props => [object];
 }
 
-final class UpdateLivesEvent extends CleanGrabBlocEvent {
+final class UpdateLivesEvent extends CleanScoopBlocEvent {
   final WasteObject object;
 
   const UpdateLivesEvent(this.object);
@@ -32,7 +32,7 @@ final class UpdateLivesEvent extends CleanGrabBlocEvent {
   List<Object?> get props => [object];
 }
 
-final class UpdateGameStateEvent extends CleanGrabBlocEvent {
+final class UpdateGameStateEvent extends CleanScoopBlocEvent {
   final GameState state;
 
   const UpdateGameStateEvent(this.state);
@@ -41,19 +41,19 @@ final class UpdateGameStateEvent extends CleanGrabBlocEvent {
   List<Object?> get props => [state];
 }
 
-final class UpdateCollectableWasteObjectsEvent extends CleanGrabBlocEvent {
+final class UpdateCollectableWasteObjectsEvent extends CleanScoopBlocEvent {
   const UpdateCollectableWasteObjectsEvent();
 }
 
-final class ResetGameStateEvent extends CleanGrabBlocEvent {
+final class ResetGameStateEvent extends CleanScoopBlocEvent {
   const ResetGameStateEvent();
 }
 
-final class RestartGameStateEvent extends CleanGrabBlocEvent {
+final class RestartGameStateEvent extends CleanScoopBlocEvent {
   const RestartGameStateEvent();
 }
 
-final class SetSelectedEnvironmentFactEvent extends CleanGrabBlocEvent {
+final class SetSelectedEnvironmentFactEvent extends CleanScoopBlocEvent {
   final EnvironmentFact fact;
 
   const SetSelectedEnvironmentFactEvent(this.fact);

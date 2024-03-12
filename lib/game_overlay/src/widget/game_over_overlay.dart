@@ -15,7 +15,7 @@ class GameOverOverlay extends StatefulWidget {
 
   static Widget withBloc({
     required CleanScoopGame game,
-    required CleanGrabBloc bloc,
+    required CleanScoopBloc bloc,
   }) =>
       BlocProvider.value(
         value: bloc,
@@ -25,7 +25,7 @@ class GameOverOverlay extends StatefulWidget {
 
 class _GameOverOverlayState extends State<GameOverOverlay>
     with TickerProviderStateMixin {
-  late final CleanGrabBloc _bloc;
+  late final CleanScoopBloc _bloc;
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 800),
@@ -51,7 +51,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
   void initState() {
     super.initState();
     _controller.forward();
-    _bloc = context.read<CleanGrabBloc>();
+    _bloc = context.read<CleanScoopBloc>();
   }
 
   @override
@@ -65,7 +65,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     const icons = Assets.icons;
     final gameRef = widget.game;
 
-    return BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
+    return BlocBuilder<CleanScoopBloc, CleanScoopBlocState>(
       builder: (context, state) => Stack(
         children: [
           Padding(

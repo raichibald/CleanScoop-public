@@ -17,7 +17,7 @@ class GameControlsOverlay extends StatefulWidget {
 
   static Widget withBloc({
     required CleanScoopGame game,
-    required CleanGrabBloc bloc,
+    required CleanScoopBloc bloc,
   }) =>
       BlocProvider.value(
         value: bloc,
@@ -27,14 +27,14 @@ class GameControlsOverlay extends StatefulWidget {
 
 class _GameControlsOverlayState extends State<GameControlsOverlay>
     with TickerProviderStateMixin, AppLifecycleObserverMixin {
-  late final CleanGrabBloc _bloc;
+  late final CleanScoopBloc _bloc;
 
   late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _bloc = context.read<CleanGrabBloc>();
+    _bloc = context.read<CleanScoopBloc>();
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 800),
@@ -50,7 +50,7 @@ class _GameControlsOverlayState extends State<GameControlsOverlay>
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<CleanGrabBloc, CleanGrabBlocState>(
+      BlocBuilder<CleanScoopBloc, CleanScoopBlocState>(
         builder: (context, state) {
           final score = state.score.toString();
           final highScore = state.highScore;

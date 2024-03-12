@@ -13,9 +13,9 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
 
 class CleanScoopGame extends FlameGame with HasCollisionDetection {
-  final CleanGrabBloc _bloc;
+  final CleanScoopBloc _bloc;
 
-  CleanScoopGame({required CleanGrabBloc bloc}) : _bloc = bloc;
+  CleanScoopGame({required CleanScoopBloc bloc}) : _bloc = bloc;
 
   late final SpawnComponent _wasteObjectSpawner;
   late final SpawnComponent _poisonObjectSpawner;
@@ -28,7 +28,7 @@ class CleanScoopGame extends FlameGame with HasCollisionDetection {
 
   @override
   FutureOr<void> onLoad() async {
-    _blocProvider = FlameBlocProvider<CleanGrabBloc, CleanGrabBlocState>.value(
+    _blocProvider = FlameBlocProvider<CleanScoopBloc, CleanScoopBlocState>.value(
       value: _bloc,
       children: [
         ScreenHitbox(),
@@ -129,13 +129,13 @@ class CleanScoopGame extends FlameGame with HasCollisionDetection {
 
 class CleanScoopGameWrapperComponent extends PositionComponent
     with
-        FlameBlocListenable<CleanGrabBloc, CleanGrabBlocState>,
+        FlameBlocListenable<CleanScoopBloc, CleanScoopBlocState>,
         HasGameRef<CleanScoopGame> {
   var _hasSpawned = false;
   var _hasSpawnedLives = false;
 
   @override
-  void onNewState(CleanGrabBlocState state) async {
+  void onNewState(CleanScoopBlocState state) async {
     super.onNewState(state);
 
     if (state.isActive && !_hasSpawned) {

@@ -23,7 +23,7 @@ class FallingObjectComponent extends SvgComponent
         CollisionCallbacks,
         TapCallbacks,
         HasGameRef<CleanScoopGame>,
-        FlameBlocListenable<CleanGrabBloc, CleanGrabBlocState> {
+        FlameBlocListenable<CleanScoopBloc, CleanScoopBlocState> {
   final double radius;
   final WasteObject garbageObject;
 
@@ -165,7 +165,7 @@ class FallingObjectComponent extends SvgComponent
   }
 
   @override
-  void onNewState(CleanGrabBlocState state) {
+  void onNewState(CleanScoopBlocState state) {
     super.onNewState(state);
 
     if (state.isIdle) {
